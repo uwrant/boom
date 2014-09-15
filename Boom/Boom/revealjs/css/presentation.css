@@ -1,0 +1,107 @@
+
+* {
+    box-sizing: initial;
+}
+
+html.bg-dornier body {
+    background: url("../images/presentation/lake_large.jpg");
+}
+span.zuehlke-header:before {
+    content: "Team Web - Vortrag - ";
+    font-weight: normal;
+    color: #dddddd;
+}
+
+
+html.zuehlke-bg-parallax body {
+    background-image: url("../images/presentation/sidney_night.jpg");
+}
+
+/* Style for print parallax */
+body.print-pdf section.zuehlke-bg-parallax{
+    /*Make sure paralax background is visible when print mode is active*/
+    background: url("../../images/presentation/sidney_night.jpg");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+}
+
+table.voting-table {
+    border-collapse: collapse;
+    font-size: 55%;
+}
+
+table.voting-table thead tr th {
+    color: #FE6100;
+    border-bottom: 1px solid #dddddd;
+    font-size: 110%;
+}
+
+table.voting-table td.voting-table-title {
+    width: 520px;
+}
+
+table.voting-table td.voting-table-vote {
+    text-align: right;
+}
+
+table.voting-table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dddddd;
+}
+table.voting-table td input, 
+table.voting-table td textarea{
+    height: 50px;
+    width: 100%;
+    font-size: 100%;
+    vertical-align: middle;
+}
+
+table.voting-table td input.votes {
+    width: 50px;
+    text-align: right;
+}
+
+div.voting-option {
+    height: 100px;
+    line-height: 100px;
+    vertical-align: middle;
+    margin-bottom: 50px;
+}
+
+table.voting-table tr.disabled span {
+    text-decoration: line-through;
+    color: #ddd;
+}
+table.voting-table tr button {
+    margin: 5px;
+}
+
+@keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+        -moz-box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+        box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+    }
+    
+    50% {
+        -webkit-box-shadow: 0px 0px 33px 16px rgba(152,91,156,1);
+        -moz-box-shadow: 0px 0px 33px 16px rgba(152,91,156,1);
+        box-shadow: 0px 0px 33px 16px rgba(152,91,156,1);
+    }
+    
+    100% {
+        -webkit-box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+        -moz-box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+        box-shadow: 0px 0px 33px 3px rgba(152,91,156,1);
+    }
+}
+
+span.highlight {
+    color: #985b9c;
+}
+
+section.scrollable {
+    overflow-y: auto;
+    height: 500px;
+}

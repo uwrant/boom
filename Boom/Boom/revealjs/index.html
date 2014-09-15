@@ -1,0 +1,210 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>.: Zuehlke BU Vortrag Abstimmung :.</title>
+
+    <meta name="description" content="A DEMO Presentation with a zuehlke Template and the reveal.js presentation framework">
+    <meta name="author" content="Type your name here">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/theme/zuehlke.css" id="theme">
+    <link rel="stylesheet" href="css/bootstrap-3.2.0-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-3.2.0-dist/css/bootstrap-theme.css">
+
+    <link rel="stylesheet" href="css/presentation.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+        if (window.location.search.match(/print-pdf/gi)) {
+            var defaultStylesheet = createStylesheetLink('css/print/pdf.css'),
+                zuehlkeStylesheet = createStylesheetLink('css/print/pdf-zuehlke.css');
+
+            document.getElementsByTagName('head')[0].appendChild(defaultStylesheet);
+            document.getElementsByTagName('head')[0].appendChild(zuehlkeStylesheet);
+        }
+
+        function createStylesheetLink(href) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = href;
+
+            return link;
+        }
+    </script>
+    
+    
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="js/app.js"></script>
+
+    <!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body ng-app="vortrag">
+
+    <div class="reveal">
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <span id="zuehlke-header" class="zuehlke-header hide"></span>
+            <section>
+                <div class="zuehlke-center" style="margin-top: 30px;">
+                    <div class="zuehlke-zuerfel"></div>
+                    <div style="margin-top: 40px; font-weight: bold; letter-spacing: 0.2em;">Team Vortrag für Oktober</div>
+                    <div style="margin-top: 10px; font-size: 0.6em">Team Web</div>
+                </div>
+            </section>
+            
+
+            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Vorträge sammeln">
+                <table class="table voting-table">
+                    <thead>
+                        <tr>
+                            <th>Präsentator/In</th>
+                            <th>Titel</th>
+                            <th width="120px">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="presentation in presentations track by $index" ng-class="{disabled: presentation.disabled}">
+                            <td><span>{{presentation.speaker}}</span></td>
+                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
+                            <td><a ng-click="removePresentation(presentation)">Löschen</a> /
+                                <a type="button" ng-click="notNowPresentation(presentation)" ng-hide="presentation.disabled">Nicht jetzt</a>
+                                <a type="button" ng-click="nowPresentation(presentation)" ng-show="presentation.disabled">Jetzt</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Präsentator/In" ng-model="newPresentation.speaker" id="speaker" /></td>
+                            <td><textarea ng-model="newPresentation.title" id="title" ></textarea></td>
+                            <td><button type="button" class="btn" ng-click="addPresentation()">Hinzufügen</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section>
+                <section data-title="Regeln" class='left'>
+                    <h2>Die Regeln</h2>
+                    <ol>
+                        <li>Jeder bekommt <span class="highlight">zwei Stimmen</span></li>
+                        <li>Die beiden Stimmen müssen <span class="highlight">auf verschiedene Vorträge aufgeteilt</span> werden</li>
+                        <li>Stimmenthaltung gibt es im Team Web nicht</li>
+                    </ol>
+                </section>
+            </section>
+
+            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Abstimmung">
+                <table class="table voting-table">
+                    <thead>
+                        <tr>
+                            <th>Präsentator/In</th>
+                            <th>Titel</th>
+                            <th width="100px">Stimmen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="presentation in presentations | orderBy:'votes':true | filter:{disabled:false} track by $index">
+                            <td><span>{{presentation.speaker}}</span></td>
+                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
+                            <td class="voting-table-vote"><input class="votes" type="number" ng-model="presentation.newVotes" ng-blur="updateVotes(presentation)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+        // Full list of configuration options available here:
+         // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+            transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'images/presentation/sidney_night.jpg',
+            // parallaxBackgroundSize: '5241px 1116px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [{
+                src: 'lib/js/classList.js',
+                condition: function() {
+                    return !document.body.classList;
+                }
+            }, {
+                src: 'plugin/markdown/marked.js',
+                condition: function() {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            }, {
+                src: 'plugin/markdown/markdown.js',
+                condition: function() {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            }, {
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function() {
+                    hljs.initHighlightingOnLoad();
+                }
+            }, {
+                src: 'plugin/zoom-js/zoom.js',
+                async: true,
+                condition: function() {
+                    return !!document.body.classList;
+                }
+            }, {
+                src: 'plugin/notes/notes.js',
+                async: true,
+                condition: function() {
+                    return !!document.body.classList;
+                }
+            }, {
+                src: 'plugin/zuehlke/zuehlke.js',
+                condition: function() {
+                    return true;
+                }
+            }, {
+                src: 'plugin/chart/chart.js',
+                async: false,
+                condition: function() {
+                    return true;
+                }
+            }, {
+                src: 'js/presentation.js',
+                async: false,
+                condition: function() {
+                    return true;
+                }
+            }]
+        });
+    </script>
+
+</body>
+
+</html>
