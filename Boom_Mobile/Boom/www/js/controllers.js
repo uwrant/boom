@@ -14,5 +14,11 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope) {
 })
 
-.controller('SurveysCtrl', function($scope) {
+.controller('SurveysCtrl', function($scope, SurveyRest) {
+        $scope.surveys = SurveyRest.allOpen();
+
+})
+
+.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest) {
+    $scope.survey = SurveyRest.get($stateParams.surveyId);
 });

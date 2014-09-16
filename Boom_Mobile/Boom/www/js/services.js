@@ -25,18 +25,35 @@ angular.module('starter.services', [])
   }
 })
 .factory('SurveyRest', function() {
+        var surveys = [
+            {
+                Id: 1,
+                Name: 'FirstSurvey'
+            },
+            {
+                Id: 2,
+                Name: 'SecondSurvey'
+            }
+        ];
+
         return {
-            allOpen: allOpen
+            allOpen: allOpen,
+            get: get
         };
-        
+
         function allOpen() {
-            return [
-                {
-                    name: 'FirstSurvey'
-                },
-                {
-                    name: 'SecondSurvey'
+            return surveys;
+        }
+
+        function get(id) {
+            var index;
+            for(index in surveys) {
+                var survey = surveys[index];
+                if(survey.Id == id) {
+                    return survey;
                 }
-            ];
+            }
+
+            throw "Survey not found!";
         }
     });

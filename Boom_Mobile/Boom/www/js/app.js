@@ -46,6 +46,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
               }
           }
       })
+      .state('tab.survey-detail', {
+          url: '/survey/:surveyId',
+          views: {
+              'tab-friends': {
+                  templateUrl: 'templates/survey-detail.html',
+                  controller: 'SurveyDetailCtrl'
+              }
+          }})
 
     .state('tab.dash', {
       url: '/dash',
