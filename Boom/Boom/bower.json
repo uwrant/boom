@@ -1,0 +1,14 @@
+{
+  "name": "Boom",
+  "version": "0.0.1",
+  "homepage": "https://github.com/izzappel/boom",
+  "authors": [
+    "Team Web"
+  ],
+  "description": "The best Survey Tool",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.2.24"
+  }
+}
