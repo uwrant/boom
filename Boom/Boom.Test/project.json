@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "Xunit.KRunner": ""
+  },
+  "commands": {
+    "test": "Xunit.KRunner"
+  },
+  "frameworks": {
+    "net45": {},
+    "aspnetcore50": {}
+  }
+}
