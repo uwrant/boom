@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Boom.Domain
 {
-    public class Vote
+    public class Vote : EntityBase
     {
-        public Option[] Options { get; set; }
+        public IList<SurveyOption> Options { get; set; }
 
         public Participant Participant { get; set; }
     }

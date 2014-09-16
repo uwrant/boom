@@ -3,7 +3,7 @@
 namespace Boom.Domain
 {
 
-    public class BacklogOption
+    public class BacklogOption : EntityBase
     {
         public Backlog Backlog { get; set; }
 

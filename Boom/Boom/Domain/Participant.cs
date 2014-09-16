@@ -2,7 +2,7 @@
 
 namespace Boom.Domain
 {
-    public class Participant
+    public class Participant : EntityBase
     {
         public Survey Survey { get; set; }
 
