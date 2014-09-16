@@ -23,4 +23,20 @@ angular.module('starter.services', [])
       return friends[friendId];
     }
   }
-});
+})
+.factory('SurveyRest', function() {
+        return {
+            allOpen: allOpen
+        };
+        
+        function allOpen() {
+            return [
+                {
+                    name: 'FirstSurvey'
+                },
+                {
+                    name: 'SecondSurvey'
+                }
+            ];
+        }
+    });
