@@ -28,11 +28,49 @@ angular.module('starter.services', [])
         var surveys = [
             {
                 Id: 1,
-                Name: 'FirstSurvey'
+                Name: 'FirstSurvey',
+                MaxNumberOfOptions: 3,
+                Options: [
+                    {
+                        Id: 1,
+                        Name: "Paintball"
+                    },
+                    {
+                        Id: 2,
+                        Name: "Kart"
+                    },
+                    {
+                        Id: 3,
+                        Name: "Counter Strike Evening"
+                    },
+                    {
+                        Id: 4,
+                        Name: "Climbing"
+                    },
+                    {
+                        Id: 5,
+                        Name: "Blaming friends"
+                    }
+                ]
             },
             {
                 Id: 2,
-                Name: 'SecondSurvey'
+                Name: 'SecondSurvey',
+                MaxNumberOfOptions: 1,
+                Options: [
+                    {
+                        Id: 1,
+                        Name: "Cooking"
+                    },
+                    {
+                        Id: 2,
+                        Name: "Coding"
+                    },
+                    {
+                        Id: 3,
+                        Name: "Cinema"
+                    }
+                ]
             }
         ];
 

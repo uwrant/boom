@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
         $scope.participate = function (participant) {
             $scope.participant = participant;
             $scope.participant.Id = 5;
-           console.log(participant.Nickname + " joined the survey " + $scope.survey.Name);
+            console.log(participant.Nickname + " joined the survey " + $scope.survey.Name);
         };
 
         $scope.hasJoined = function(){
