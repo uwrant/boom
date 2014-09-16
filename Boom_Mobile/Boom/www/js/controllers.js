@@ -15,10 +15,12 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SurveysCtrl', function($scope, SurveyRest) {
-        $scope.surveys = SurveyRest.allOpen();
-
+        SurveyRest.allOpen($scope.surveys, function success(response){
+            $scope.surveys = response;
+        }, function error(error){
+        });
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest) {
-    $scope.survey = SurveyRest.get($stateParams.surveyId);
+    // $scope.survey = SurveyRest.get($stateParams.surveyId);
 });

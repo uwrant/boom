@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['jet.commons'])
 
 /**
  * A simple example service that returns some data.
@@ -24,36 +24,14 @@ angular.module('starter.services', [])
     }
   }
 })
-.factory('SurveyRest', function() {
-        var surveys = [
-            {
-                Id: 1,
-                Name: 'FirstSurvey'
+.factory('SurveyRest', function(smartResource) {
+        return smartResource('/surveys', {}, {
+            get: {
+                method: 'GET'
             },
-            {
-                Id: 2,
-                Name: 'SecondSurvey'
+            allOpen: {
+                method: 'GET',
+                isArray: true
             }
-        ];
-
-        return {
-            allOpen: allOpen,
-            get: get
-        };
-
-        function allOpen() {
-            return surveys;
-        }
-
-        function get(id) {
-            var index;
-            for(index in surveys) {
-                var survey = surveys[index];
-                if(survey.Id == id) {
-                    return survey;
-                }
-            }
-
-            throw "Survey not found!";
-        }
+        });
     });

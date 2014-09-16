@@ -14,7 +14,7 @@ namespace Boom.Controllers
             backlog.Name = "TestBacklog";
             backlog.Id = 1234;
 
-            return this.Json(new[] { new { Name = "Team Presentation" }, new { Name = "Team Event" } });
+            return this.Json(new[] { new { Id = 0, Name = "Team Presentation" }, new { Id = 1, Name = "Team Event" } });
         }
 
         // GET: /surveys/{id}
