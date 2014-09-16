@@ -12,4 +12,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
+})
+
+.controller('SurveysCtrl', function($scope) {
 });
