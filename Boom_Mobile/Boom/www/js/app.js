@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       .state('tab.survey-detail', {
           url: '/survey/:surveyId',
           views: {
-              'tab-friends': {
+              'tab-surveys': {
                   templateUrl: 'templates/survey-detail.html',
                   controller: 'SurveyDetailCtrl'
               }
