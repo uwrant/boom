@@ -77,6 +77,7 @@ namespace Boom
 
             });
 
+            DbHelper.DropDatabase("BoomDb");
             DbHelper.EnsureDbCreated(app);
         }
     }
