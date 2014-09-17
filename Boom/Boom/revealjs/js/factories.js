@@ -1,4 +1,5 @@
 ﻿(function () {
+    "use strict";
     var app = angular.module('boom');
 
     app.factory("presentationStorage", function () {
