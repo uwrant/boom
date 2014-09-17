@@ -1,11 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
-})
-
-.controller('AccountCtrl', function($scope) {
-})
-
 .controller('SurveysCtrl', function($scope, SurveyRest) {
     $scope.surveys = SurveyRest.allOpen();
 })

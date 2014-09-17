@@ -58,16 +58,6 @@
                         }
                     }})
 
-                .state('tab.dash', {
-                    url: '/dash',
-                    views: {
-                        'tab-dash': {
-                            templateUrl: 'templates/tab-dash.html',
-                            controller: 'DashCtrl'
-                        }
-                    }
-                })
-
                 .state('tab.friends', {
                     url: '/results',
                     views: {
@@ -83,16 +73,6 @@
                         'tab-results': {
                             templateUrl: 'js/surveyResults/surveyResult.html',
                             controller: 'SurveyResultCtrl'
-                        }
-                    }
-                })
-
-                .state('tab.account', {
-                    url: '/account',
-                    views: {
-                        'tab-account': {
-                            templateUrl: 'templates/tab-account.html',
-                            controller: 'AccountCtrl'
                         }
                     }
                 });
