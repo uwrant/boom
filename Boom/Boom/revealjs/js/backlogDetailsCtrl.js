@@ -2,13 +2,21 @@
 (function () {
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService) {
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService, surveyService) {
 
         var vm = this;
 
         var OptionsService = OptionsServiceMock
 
-        vm.options = OptionsService.query({backlogId: 1});
+        $scope.$on("slidechanged:BacklogContentSlide", function () {
+            // TODO: check preconditions
+            var selectedBacklog = backlogService.getSelectedBacklog();
+            vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
+        });
+
+        $scope.$watch("vm.options", function () {
+            surveyService.setOptions(vm.options);
+        });
 
         vm.newOption = { Name: '', disabled: false };
         vm.disabledFilter = { disabled: true };
