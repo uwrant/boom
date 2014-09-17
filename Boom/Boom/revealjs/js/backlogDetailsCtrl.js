@@ -1,25 +1,32 @@
-﻿(function () {
+﻿'use strict';
+(function () {
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService) {
-        'use strict';
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService) {
 
         var vm = this;
 
-        vm.options = OptionsService.query();
+        var OptionsService = OptionsServiceMock
+
+        vm.options = OptionsService.query({backlogId: 1});
 
         vm.newOption = { Name: '', disabled: false };
         vm.disabledFilter = { disabled: true };
 
-        vm.addOptions = function () {
+        vm.addOption = function () {
             var newOption = vm.newOption;
-            if (!newOption.Name.length) {
+
+            if (vm.isNewOptionValid == false) {
                 return;
             }
 
             vm.options.push(newOption);
 
-            vm.newOption = { speaker: "", title: "", disabled: false };
+            vm.newOption = { Name: "", disabled: false };
+        }
+
+        vm.isNewOptionValid = function () {
+            return vm.newOption.Name.length;
         }
 
         vm.removeOption = function (option) {
