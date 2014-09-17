@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.AspNet.Routing;
+using Microsoft.Framework.ConfigurationModel;
 
 namespace Boom
 {
@@ -8,6 +9,9 @@ namespace Boom
     {
         public void Configure(IBuilder app)
         {
+            var configuration = new Configuration();
+            configuration.AddJsonFile("config.json");
+
             app.UseStaticFiles();
 
             app.UseServices(services =>

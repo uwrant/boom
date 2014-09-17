@@ -7,6 +7,7 @@ using System.Net;
 
 namespace Boom.Controllers
 {
+    [AccessControlAllowOrigin("*")]
     public class BacklogsController : Controller
     {
         // GET: /backlogs/
@@ -28,7 +29,14 @@ namespace Boom.Controllers
         }
 
         // PUT: /backlogs/{id}
-        public IActionResult Put(long id, [FromBody] string backlog)
+        public IActionResult Put(long id, [FromBody] Backlog backlog)
+        {
+            // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
+            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+        }
+
+        // POST: /backlogs/{id}
+        public IActionResult Post([FromBody] Backlog backlog)
         {
             // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
             return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
