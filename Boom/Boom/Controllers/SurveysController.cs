@@ -21,11 +21,17 @@ namespace Boom.Controllers
         // GET: /surveys/{id}
         public IActionResult Get(long id)
         {
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = id;
-
-            return this.Json(backlog);
+            return this.Json(new {
+                Id = 0,
+                Name = "Team Presentation",
+                NumberOfAllowedVotes = 3,
+                Options = new[] {
+                        new { Id = 0, Name = "Pizza" },
+                        new { Id = 1, Name = "Pasta" },
+                        new { Id = 2, Name = "Pommes" },
+                        new { Id = 3, Name = "Schoggi" },
+                        new { Id = 4, Name = "Fleisch" }
+                    } });
         }
     }
 }

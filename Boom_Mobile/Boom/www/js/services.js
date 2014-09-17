@@ -25,7 +25,7 @@ angular.module('starter.services', ['jet.commons'])
   }
 })
 .factory('SurveyRest', function(smartResource) {
-        return smartResource('/surveys', {}, {
+        return smartResource('/surveys/:surveyId', { surveyId:'@id' }, {
             get: {
                 method: 'GET'
             },
