@@ -7,6 +7,7 @@ using System.Net;
 
 namespace Boom.Controllers
 {
+    [AccessControlAllowOrigin("*")]
     public class BacklogsController : Controller
     {
         // GET: /backlogs/
