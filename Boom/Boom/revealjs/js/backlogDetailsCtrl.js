@@ -15,8 +15,9 @@
         });
 
         $scope.$watch("ctrl.options", function () {
-            debugger;
-            surveyService.setOptions(vm.options);
+            var blub = undefined;
+
+            surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
         }, true);
 
         vm.newOption = { Name: '', disabled: false };
