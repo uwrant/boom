@@ -1,5 +1,5 @@
-﻿'use strict';
-(function () {
+﻿(function () {
+    'use strict';
     var app = angular.module('boom');
 
     app.factory("BacklogsService", function ($resource) {
