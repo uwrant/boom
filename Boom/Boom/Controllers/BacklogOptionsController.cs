@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 
-// TODO: routing
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]

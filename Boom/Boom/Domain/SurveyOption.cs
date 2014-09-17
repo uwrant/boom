@@ -7,6 +7,8 @@ namespace Boom.Domain
     {
         public Survey Survey { get; set; }
 
+        public long SurveyId { get; set; }
+
 	    public string Description { get; set; }
     }
 }
