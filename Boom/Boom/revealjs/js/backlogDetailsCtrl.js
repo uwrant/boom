@@ -5,18 +5,21 @@
     app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService, surveyService) {
 
         var vm = this;
+        vm.options = {}; 
 
         var OptionsService = OptionsServiceMock
 
         $scope.$on("slidechanged:BacklogContentSlide", function () {
             // TODO: check preconditions
             var selectedBacklog = backlogService.getSelectedBacklog();
+            console.log('backlogid: ' + selectedBacklog.Id);
             vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
+
+            // TODO ozu: check if digest call is necessarry when calling the real service
+            $scope.$digest();
         });
 
         $scope.$watch("ctrl.options", function () {
-            var blub = undefined;
-
             surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
         }, true);
 
