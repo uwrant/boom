@@ -80,6 +80,7 @@ namespace Boom
                     template:  "{controller}/{id?}");
             });
 
+            DbHelper.DropDatabase("BoomDb");
             DbHelper.EnsureDbCreated(app);
         }
     }

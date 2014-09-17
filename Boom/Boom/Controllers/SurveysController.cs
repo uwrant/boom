@@ -53,6 +53,13 @@ namespace Boom.Controllers
         {
             this.boomContext.Add(survey);
 
+            foreach (var option in survey.Options)
+            {
+                option.Survey = survey;
+                option.SurveyId = survey.Id;
+                this.boomContext.Add(option);
+            }
+
             this.boomContext.SaveChanges();
 
             return this.Json(survey);
