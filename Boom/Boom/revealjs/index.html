@@ -4,23 +4,22 @@
 <head>
     <meta charset="utf-8">
 
-    <title>.: Zuehlke BU Vortrag Abstimmung :.</title>
-
-    <meta name="description" content="A DEMO Presentation with a zuehlke Template and the reveal.js presentation framework">
-    <meta name="author" content="Type your name here">
+    <title>.: Boom :.</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/reveal.css">
 
     <link rel="icon" href="images/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/theme/zuehlke.css" id="theme">
     <link rel="stylesheet" href="css/bootstrap-3.2.0-dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-3.2.0-dist/css/bootstrap-theme.css">
+
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
 
     <link rel="stylesheet" href="css/presentation.css" id="theme">
 
@@ -50,9 +49,15 @@
     
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="../bower_components/qrcode/lib/qrcode.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-qr/angular-qr.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
-    <script src="js/BacklogCtrl.js"></script>
+    <script src="js/factories.js"></script>
+	<script src="js/backlogService.js"></script>
+    <script src="js/backlogCtrl.js"></script>
+    <script src="js/backlogDetailsCtrl.js"></script>
+    <script src="js/surveyCtrl.js"></script>
 
     <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -69,13 +74,38 @@
             <section>
                 <div class="zuehlke-center" style="margin-top: 30px;">
                     <div class="zuehlke-zuerfel"></div>
-                    <div style="margin-top: 40px; font-weight: bold; letter-spacing: 0.2em;">Team Vortrag für Oktober</div>
+                    <div style="margin-top: 40px; font-weight: bold; letter-spacing: 0.2em;">Boom</div>
                     <div style="margin-top: 10px; font-size: 0.6em">Team Web</div>
                 </div>
             </section>
 
-            <section ng-cloak ng-controller="BacklogCtrl as ctrl" class="scrollable" data-title="Backlogs verwalten" data-slide-name="BacklogSlide">
-                <table class="table">
+            <!-- Backlog Slide -->
+            <section ng-cloak ng-controller="BacklogCtrl as ctrl" class="scrollable" data-title="Backlogs" data-slide-name="BacklogSlide">
+                <table class="table boom-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th width="50px">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="backlog in ctrl.backlogs" ng-click="ctrl.selectBacklog(backlog)" ng-class="{selected: ctrl.isBacklogSelected(backlog)}">
+                            <td><span>{{backlog.Name}}</span></td>
+                            <td>
+                                <a ng-click="ctrl.removeBacklog(backlog)"><span class="fa fa-trash"></span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()"><span class="fa fa-plus"></span></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Backlog Details Slide -->
+            <section ng-cloak ng-controller="BacklogDetailCtrl as ctrl" class="scrollable" data-title="Backlog Content">
+                <table class="table boom-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -83,41 +113,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="backlog in ctrl.backlogs">
-                            <td><span>{{backlog.Name}}</span></td>
+                        <tr ng-repeat="option in ctrl.options track by $index" ng-class="{disabled: option.disabled}">
+                            <td class="voting-table-title"><span>{{option.Name}}</span></td>
                             <td>
-                                <a ng-click="ctrl.removeBacklog(backlog)">Löschen</a>
+                                <a ng-click="ctrl.removeOption(option)">Löschen</a> /
+                                <a type="button" ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
+                                <a type="button" ng-click="ctrl.nowOption(option)" ng-show="option.disabled">Jetzt</a>
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()">Hinzufügen</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Vorträge sammeln">
-                <table class="table voting-table">
-                    <thead>
-                        <tr>
-                            <th>Präsentator/In</th>
-                            <th>Titel</th>
-                            <th width="120px">&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="presentation in presentations track by $index" ng-class="{disabled: presentation.disabled}">
-                            <td><span>{{presentation.speaker}}</span></td>
-                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
-                            <td><a ng-click="removePresentation(presentation)">Löschen</a> /
-                                <a type="button" ng-click="notNowPresentation(presentation)" ng-hide="presentation.disabled">Nicht jetzt</a>
-                                <a type="button" ng-click="nowPresentation(presentation)" ng-show="presentation.disabled">Jetzt</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" placeholder="Präsentator/In" ng-model="newPresentation.speaker" id="speaker" /></td>
-                            <td><textarea ng-model="newPresentation.title" id="title" ></textarea></td>
-                            <td><button type="button" class="btn" ng-click="addPresentation()">Hinzufügen</button></td>
+                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Name" /></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addOption()">Hinzufügen</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -134,23 +140,25 @@
                 </section>
             </section>
 
-            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Abstimmung">
-                <table class="table voting-table">
+            <section ng-cloak ng-controller="SurveyCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyStartSlide">
+                <table class="table boom-table">
                     <thead>
                         <tr>
-                            <th>Präsentator/In</th>
-                            <th>Titel</th>
-                            <th width="100px">Stimmen</th>
+                            <th>Teilnehmer</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="presentation in presentations | orderBy:'votes':true | filter:{disabled:false} track by $index">
-                            <td><span>{{presentation.speaker}}</span></td>
-                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
-                            <td class="voting-table-vote"><input class="votes" type="number" ng-model="presentation.newVotes" ng-blur="updateVotes(presentation)"></td>
+                        <tr ng-repeat="participant in ctrl.participants">
+                            <td><span>{{participant.Name}}</span></td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div>
+                    <qr text="ctrl.qrCodeText"></qr>
+                </div>
+
+                <button type="button" class="btn" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
             </section>
         </div>
 

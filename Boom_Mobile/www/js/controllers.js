@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest) {
-        $scope.survey = SurveyRest.get($stateParams.surveyId);
+        $scope.survey = SurveyRest.get({ id: $stateParams.surveyId });
 
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
