@@ -1,6 +1,7 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Net;
 
 // TODO: routing
@@ -9,34 +10,25 @@ namespace Boom.Controllers
     [AccessControlAllowOrigin("*")]
     public class BacklogOptionsController : Controller
     {
-        // GET: /backlogs/{backlogId}/options
-        public IActionResult Get()
+        private BoomContext boomContext;
+
+        public BacklogOptionsController(BoomContext boomContext)
         {
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = 1234;
+            this.boomContext = boomContext;
+        }
 
-            var option = new BacklogOption();
-            option.Description = "TestBacklogOption";
-            option.Backlog = backlog;
-
-            backlog.Options = new[] { option };
-            return this.Json(backlog.Options);
+        // GET: /backlogs/{backlogId}/options
+        public IActionResult Get(long backlogId)
+        {
+            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId);
+            return this.Json(options);
         }
 
         // GET: /backlogs/{backlogId}/options/{id}
-        public IActionResult Get(long id)
+        public IActionResult Get(long backlogId, long id)
         {
+            var option = this.boomContext.BacklogOptions.SingleOrDefault(o => o.Id == id);
             // TODO assert backlogId
-
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = 1234;
-
-            var option = new BacklogOption();
-            option.Description = "TestBacklogOption";
-            option.Backlog = backlog;
-
             return this.Json(option);
         }
 
