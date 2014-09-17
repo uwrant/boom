@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyServiceMock, backlogService) {
+    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyServiceMock, backlogService, surveyService, revealService, toaster) {
         'use strict';
 
         var SurveyService = SurveyServiceMock;
@@ -10,14 +10,15 @@
         vm.qrCodeText = "''";
 
         var checkPreConditions = function () {
-            var selectedBacklog = backlogService.getSelectedBacklog();
-            if (typeof selectedBacklog == 'undefined') {
-                console.error("Please select a backlog!");
+            if (typeof backlogService.getSelectedBacklog() === 'undefined') {
+                toaster.pop('error', "", "Please select a backlog!", 10000);
+                revealService.navigateToSlide("BacklogSlide");
                 return false;
             }
-            
-            if (selectedBacklog.Options == null || typeof selectedBacklog.Options === 'undefined') {
-                console.error("Please enter at least one option.");
+
+            if (surveyService.getOptions() == null || typeof surveyService.getOptions() === 'undefined') {
+                toaster.pop('error', "", "Please select at least one option for the survey!", 10000);
+                revealService.navigateToSlide("BacklogContentSlide");
                 return false;
             }
 
@@ -30,9 +31,7 @@
             vm.survey = SurveyService.create({
                 CreationDate: new Date(),
                 StartDate: new Date(),
-                Options: selectedBacklog.Options.filter(function(option) {
-                    return !option.disabled;
-                })
+                Options: surveyService.getOptions()
             }, function (data) {
                 createQrCodeText();
             });

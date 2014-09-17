@@ -66,6 +66,11 @@ namespace Boom
                   defaults: new { controller = "SurveyOptions" });
 
                 routes.MapRoute(
+                  name: "SurveyParticipantsRoute",
+                  template: "survey/{surveyId}/participants",
+                  defaults: new { controller = "SurveyParticipants" });
+
+                routes.MapRoute(
                     name:  "ApiRoute", 
                     template:  "{controller}/{id?}");
 
