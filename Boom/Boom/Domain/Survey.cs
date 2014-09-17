@@ -5,6 +5,11 @@ namespace Boom.Domain
 {
     public class Survey : EntityBase
     {
+        public Survey()
+        {
+            this.Options = new List<SurveyOption>();
+        }
+
         public DateTime CreationDate { get; set; }
 
         public DateTime StartDate { get; set; }
