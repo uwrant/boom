@@ -32,7 +32,7 @@
         };
 
         vm.removeBacklog = function (backlog) {
-            Backlogs.remove(backlog, function () {
+            Backlogs.delete({ id: backlog.Id },  function() {
                 var index = vm.backlogs.indexOf(backlog);
                 if (index > -1) {
                     vm.backlogs.splice(index, 1);

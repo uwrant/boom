@@ -6,7 +6,7 @@
 
         return $resource("/backlogs/:id", {}, {
             save: { method: 'PUT' },
-            create: { method: 'POST' },
+            create: { method: 'POST' }
         });
     });
 
