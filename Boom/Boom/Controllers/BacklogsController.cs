@@ -47,21 +47,17 @@ namespace Boom.Controllers
 
         // POST: /backlogs/{id}
         // BODY: {"name":"backlogName"}
-        public IActionResult Post()
+        public IActionResult Post([FromBody] Backlog backlog)
         {
             // TODO: unique name
             // TODO: read input
 
-            var backlog = new Backlog
-            {
-                Name = "test",
-                Options = new List<BacklogOption>()
-            };
-
+            backlog.Options = new List<BacklogOption>();
+            
             this.boomContext.Add(backlog);
             this.boomContext.SaveChanges();
 
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+            return Json(backlog);
         }
 
         // DELETE: /backlogs/{id}
