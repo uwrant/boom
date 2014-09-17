@@ -25,10 +25,15 @@ angular.module('starter.controllers', [])
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
             $scope.participant = participant;
+<<<<<<< HEAD
             ParticipantsRest.create({
                 surveyId: $scope.survey.Id,
                 participant: $scope.participant
             });
+            console.log(participant + " joined the survey " + $scope.survey.Name);
+=======
+            $scope.participant.Id = 5;
+>>>>>>> ca9a49588920f8020e0afcefac18d3460d2aa4e7
         };
 
         $scope.hasJoined = function(){
