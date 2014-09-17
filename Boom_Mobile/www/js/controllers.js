@@ -19,14 +19,17 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest) {
+.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest) {
         $scope.survey = SurveyRest.get({ id: $stateParams.surveyId });
 
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
             $scope.participant = participant;
-            $scope.participant.Id = 5;
-            console.log(participant.Nickname + " joined the survey " + $scope.survey.Name);
+            ParticipantsRest.create({
+                surveyId: $scope.survey.Id,
+                participant: $scope.participant
+            });
+            console.log(participant + " joined the survey " + $scope.survey.Name);
         };
 
         $scope.hasJoined = function(){
