@@ -1,7 +1,7 @@
 ﻿{
     "Data": {
         "DefaultConnection": { 
-            "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=BoomDb;Trusted_Connection=True;"
+            "ConnectionString": "Server=tcp:fzuq7hanv9.database.windows.net,1433;Database=boom_db;User ID=leh@fzuq7hanv9;Password=boom-1234;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;"
         }
     }
 }
