@@ -31,7 +31,8 @@ angular.module('starter.services', ['jet.commons'])
             },
             allOpen: {
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                params: { open: true }
             }
         });
     })
