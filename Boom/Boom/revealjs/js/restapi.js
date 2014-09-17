@@ -28,4 +28,14 @@
             }
         }
     })
+
+    app.factory("SurveyService", function ($resource) {
+        'use strict';
+
+        return $resource("/surveys/:id", {}, {
+            save: { method: 'PUT' },
+            create: { method: 'POST' }
+        });
+    });
+
 })();

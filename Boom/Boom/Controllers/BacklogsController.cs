@@ -1,31 +1,41 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
     public class BacklogsController : Controller
     {
+        private BoomContext boomContext;
+
+        public BacklogsController(BoomContext boomContext)
+        {
+            this.boomContext = boomContext;
+        }
+
         // GET: /backlogs/
         public IActionResult Get()
         {
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = 1234;
-            return this.Json(new[] { backlog });
+            var backlogs = boomContext.Backlogs.ToList();
+            return this.Json(backlogs);
         }
 
         // GET: /backlogs/{id}
         public IActionResult Get(long id)
         {
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = id;
-            return this.Json(backlog);
+            var backlog = boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
+            if (backlog != null)
+            {
+                return this.Json(backlog);
+            }
+            else
+            {
+                return this.HttpNotFound();
+            }
         }
 
         // PUT: /backlogs/{id}
@@ -36,9 +46,21 @@ namespace Boom.Controllers
         }
 
         // POST: /backlogs/{id}
-        public IActionResult Post([FromBody] Backlog backlog)
+        // BODY: {"name":"backlogName"}
+        public IActionResult Post()
         {
-            // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
+            // TODO: unique name
+            // TODO: read input
+
+            var backlog = new Backlog
+            {
+                Name = "test",
+                Options = new List<BacklogOption>()
+            };
+
+            this.boomContext.Add(backlog);
+            this.boomContext.SaveChanges();
+
             return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
         }
 
