@@ -34,4 +34,12 @@ angular.module('starter.services', ['jet.commons'])
                 isArray: true
             }
         });
-    });
+    })
+.factory('ParticipantsRest', function(smartResource) {
+        return smartResource('/surveys/:surveyId/participants', { surveyId:'@surveyId' }, {
+            create:{
+                method: 'POST'
+            }
+        })
+    }
+);
