@@ -40,12 +40,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       .state('tab.surveys', {
           url: '/surveys',
           views: {
-              'tab-dash': {
+              'tab-surveys': {
                   templateUrl: 'templates/tab-surveys.html',
                   controller: 'SurveysCtrl'
               }
           }
       })
+      .state('tab.survey-detail', {
+          url: '/survey/:surveyId',
+          views: {
+              'tab-surveys': {
+                  templateUrl: 'templates/survey-detail.html',
+                  controller: 'SurveyDetailCtrl'
+              }
+          }})
 
     .state('tab.dash', {
       url: '/dash',
@@ -87,7 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/surveys');
 
 });
 

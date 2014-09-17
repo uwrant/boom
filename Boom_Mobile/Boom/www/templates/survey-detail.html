@@ -1,0 +1,15 @@
+<ion-view title="{{survey.Name}}">
+    <ion-content has-header="true" padding="true">
+        <div ng-hide="hasJoined()">
+            <form>
+                <label class="item item-input">
+                    <span class="input-label">Nickname</span>
+                    <input type="text" required placeholder="your nickname" ng-model="participant.Nickname"/>
+                </label>
+                <button type="submit" class="button" ng-click="participate(participant)">
+                    Participate
+                </button>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

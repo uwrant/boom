@@ -9,6 +9,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "~1.2.24"
+    "angular": "~1.2.24",
+    "angular-resource":  "~1.2.13"
   }
 }

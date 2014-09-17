@@ -49,14 +49,17 @@
     
     
     <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/restapi.js"></script>
+    <script src="js/BacklogCtrl.js"></script>
 
     <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 </head>
 
-<body ng-app="vortrag">
+<body ng-app="boom">
 
     <div class="reveal">
 
@@ -70,7 +73,31 @@
                     <div style="margin-top: 10px; font-size: 0.6em">Team Web</div>
                 </div>
             </section>
-            
+
+            <section ng-cloak ng-controller="BacklogCtrl as ctrl" class="scrollable" data-title="Backlogs verwalten" data-slide-name="BacklogSlide">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th width="120px">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="backlog in ctrl.backlogs">
+                            <td><span>{{backlog.Name}}</span></td>
+                            <td>
+                                <a ng-click="ctrl.removeBacklog(backlog)">Löschen</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()">Hinzufügen</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn" ng-click="fireBroadcastEvent()">Fire Broadcast Event</button>
+            </section>
 
             <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Vorträge sammeln">
                 <table class="table voting-table">

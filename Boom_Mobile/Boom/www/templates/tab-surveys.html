@@ -1,1 +1,9 @@
-<h1>Survey List</h1>
+<ion-view title="Surveys">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="survey in surveys" type="item-text-wrap" href="#/tab/survey/{{survey.Id}}">
+                {{survey.Name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

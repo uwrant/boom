@@ -25,18 +25,73 @@ angular.module('starter.services', [])
   }
 })
 .factory('SurveyRest', function() {
+        var surveys = [
+            {
+                Id: 1,
+                Name: 'FirstSurvey',
+                MaxNumberOfOptions: 3,
+                Options: [
+                    {
+                        Id: 1,
+                        Name: "Paintball"
+                    },
+                    {
+                        Id: 2,
+                        Name: "Kart"
+                    },
+                    {
+                        Id: 3,
+                        Name: "Counter Strike Evening"
+                    },
+                    {
+                        Id: 4,
+                        Name: "Climbing"
+                    },
+                    {
+                        Id: 5,
+                        Name: "Blaming friends"
+                    }
+                ]
+            },
+            {
+                Id: 2,
+                Name: 'SecondSurvey',
+                MaxNumberOfOptions: 1,
+                Options: [
+                    {
+                        Id: 1,
+                        Name: "Cooking"
+                    },
+                    {
+                        Id: 2,
+                        Name: "Coding"
+                    },
+                    {
+                        Id: 3,
+                        Name: "Cinema"
+                    }
+                ]
+            }
+        ];
+
         return {
-            allOpen: allOpen
+            allOpen: allOpen,
+            get: get
         };
-        
+
         function allOpen() {
-            return [
-                {
-                    name: 'FirstSurvey'
-                },
-                {
-                    name: 'SecondSurvey'
+            return surveys;
+        }
+
+        function get(id) {
+            var index;
+            for(index in surveys) {
+                var survey = surveys[index];
+                if(survey.Id == id) {
+                    return survey;
                 }
-            ];
+            }
+
+            throw "Survey not found!";
         }
     });
