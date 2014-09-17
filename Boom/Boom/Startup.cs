@@ -55,10 +55,15 @@ namespace Boom
                     name: "Default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                //routes.MapRoute(
-                //    name: "BacklogOptionsRoute",
-                //    template: "backlogs/{backlogid}/options/{id?}",
-                //    new { controller = "BacklogOptionsController" }),
+                routes.MapRoute(
+                    name: "BacklogOptionsRoute",
+                    template: "backlogs/{backlogId}/options/{id?}",
+                    defaults: new { controller = "BacklogOptions" });
+
+                routes.MapRoute(
+                  name: "SurveyOptionsRoute",
+                  template: "survey/{surveyId}/options/{id?}",
+                  defaults: new { controller = "SurveyOptions" });
 
                 routes.MapRoute(
                     name:  "ApiRoute", 

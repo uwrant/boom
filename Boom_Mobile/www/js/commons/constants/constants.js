@@ -1,6 +1,5 @@
-'use strict';
-
-var AppConstants = angular.module('jet.commons.constants');
+(function() {
+    'use strict';
 
 // choose one of the following:
 // -Mac
@@ -24,3 +23,6 @@ switch(backend) {
 
         break;
 }
+
+})();
+

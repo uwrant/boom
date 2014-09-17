@@ -1,35 +1,61 @@
 using Boom.Domain;
 using Microsoft.AspNet.Mvc;
+using System;
+using System.Linq;
 
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
     public class SurveysController : Controller
     {
+        private BoomContext boomContext;
+
+        public SurveysController(BoomContext boomContext)
+        {
+            this.boomContext = boomContext;
+        }
+
         // GET: /surveys/
         public IActionResult Get()
         {
-            var backlog = new Backlog();
-            backlog.Name = "TestBacklog";
-            backlog.Id = 1234;
+            var surveys = this.boomContext.Surveys.ToList();
+            return this.Json(surveys);
+        }
 
-            return this.Json(new[] { new { Id = 0, Name = "Team Presentation" }, new { Id = 1, Name = "Team Event" } });
+        // GET: /surveys/?open=true
+        public IActionResult Get(bool open)
+        {
+            var surveys = this.boomContext.Surveys.AsQueryable();
+
+            if (open)
+            {
+                surveys = surveys.Where(s => s.EndDate < DateTime.Now && s.EndDate > s.StartDate);
+            }
+
+            return this.Json(surveys);
         }
 
         // GET: /surveys/{id}
         public IActionResult Get(long id)
         {
-            return this.Json(new {
-                Id = 0,
-                Name = "Team Presentation",
-                NumberOfAllowedVotes = 3,
-                Options = new[] {
-                        new { Id = 0, Name = "Pizza" },
-                        new { Id = 1, Name = "Pasta" },
-                        new { Id = 2, Name = "Pommes" },
-                        new { Id = 3, Name = "Schoggi" },
-                        new { Id = 4, Name = "Fleisch" }
-                    } });
+            var survey = this.boomContext.Surveys.SingleOrDefault(s => s.Id == id);
+
+            if (survey == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            return this.Json(survey);
+        }
+
+        // POST: /surveys/
+        public IActionResult Post([FromBody] Survey survey)
+        {
+            this.boomContext.Add(survey);
+
+            this.boomContext.SaveChanges();
+
+            return this.Json(survey);
         }
     }
 }

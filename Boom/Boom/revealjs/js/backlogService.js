@@ -1,9 +1,9 @@
 (function () {
+    "use strict";
     var app = angular.module('boom');
 
     app.factory("backlogService", function () {
-        'use strict';
-
+        
         var selectedBacklog = undefined;
 
         return {

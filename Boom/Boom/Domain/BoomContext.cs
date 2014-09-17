@@ -27,6 +27,8 @@ namespace Boom
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Backlog -> BacklogOption
+
             builder.Entity<BacklogOption>()
                 .ForeignKeys(o =>
                 {
@@ -38,6 +40,36 @@ namespace Boom
             var backlogFk = backlogOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "BacklogId"));
             backlog.AddNavigation(new Navigation(backlogFk, "Options", pointsToPrincipal: false));
             backlogOption.AddNavigation(new Navigation(backlogFk, "Backlog", pointsToPrincipal: true));
+
+
+
+            // Survey -> SurveyOption
+
+            builder.Entity<SurveyOption>()
+                .ForeignKeys(o =>
+                {
+                    o.ForeignKey<Survey>(s => s.SurveyId);
+                });
+
+            var survey = builder.Model.GetEntityType(typeof(Survey));
+            var surveyOption = builder.Model.GetEntityType(typeof(SurveyOption));
+            var surveyOptionFk = surveyOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
+            survey.AddNavigation(new Navigation(surveyOptionFk, "Options", pointsToPrincipal: false));
+            surveyOption.AddNavigation(new Navigation(surveyOptionFk, "Survey", pointsToPrincipal: true));
+
+
+            // Survey -> Participant
+
+            builder.Entity<Participant>()
+                .ForeignKeys(p =>
+                {
+                    p.ForeignKey<Survey>(s => s.SurveyId);
+                });
+
+            var surveyParticipant = builder.Model.GetEntityType(typeof(Participant));
+            var surveyParticipantFk = surveyOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
+            survey.AddNavigation(new Navigation(surveyParticipantFk, "Participants", pointsToPrincipal: false));
+            surveyOption.AddNavigation(new Navigation(surveyParticipantFk, "Participant", pointsToPrincipal: true));
         }
     }
 

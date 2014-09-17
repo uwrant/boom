@@ -40,6 +40,7 @@ namespace Boom.Controllers
         }
 
         // PUT: /backlogs/{id}
+        // BODY: {"Name":"backlogName"}
         public IActionResult Put(long id, [FromBody] Backlog backlog)
         {
             var persistedBacklog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
@@ -49,7 +50,7 @@ namespace Boom.Controllers
         }
 
         // POST: /backlogs/{id}
-        // BODY: {"name":"backlogName"}
+        // BODY: {"Name":"backlogName"}
         public IActionResult Post([FromBody] Backlog backlog)
         {
             // TODO: unique name
@@ -63,6 +64,9 @@ namespace Boom.Controllers
         // DELETE: /backlogs/{id}
         public IActionResult Delete(long id)
         {
+            var backlog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
+            this.boomContext.Delete(backlog);
+            this.boomContext.SaveChanges();
             return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
         }
     }

@@ -1,5 +1,5 @@
-﻿'use strict';
-(function () {
+﻿(function () {
+    'use strict';
     var app = angular.module('boom');
 
     app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService, surveyService) {
@@ -14,9 +14,11 @@
             vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
         });
 
-        $scope.$watch("vm.options", function () {
-            surveyService.setOptions(vm.options);
-        });
+        $scope.$watch("ctrl.options", function () {
+            var blub = undefined;
+
+            surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
+        }, true);
 
         vm.newOption = { Name: '', disabled: false };
         vm.disabledFilter = { disabled: true };
