@@ -1,11 +1,28 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService) {
+    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyServiceMock, backlogService) {
         'use strict';
+
+        var SurveyService = SurveyServiceMock;
 
         var vm = this;
         vm.qrCodeText = "''";
+
+        var checkPreConditions = function () {
+            var selectedBacklog = backlogService.getSelectedBacklog();
+            if (typeof selectedBacklog == 'undefined') {
+                console.error("Please select a backlog!");
+                return false;
+            }
+            
+            if (selectedBacklog.Options == null || typeof selectedBacklog.Options === 'undefined') {
+                console.error("Please enter at least one option.");
+                return false;
+            }
+
+            return true;
+        }
 
         var createNewSurveyFromSelectedBacklog = function () {
             var selectedBacklog = backlogService.getSelectedBacklog();
@@ -26,7 +43,9 @@
         };
 
         $scope.$on("slidechanged:SurveyStartSlide", function (event, data) {
-            createNewSurveyFromSelectedBacklog();
+            if (checkPreConditions()) {
+                createNewSurveyFromSelectedBacklog();
+            }
         });
 
         vm.startSurvey = function () {

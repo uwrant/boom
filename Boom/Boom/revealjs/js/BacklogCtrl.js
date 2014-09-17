@@ -46,7 +46,11 @@
 
         vm.isBacklogSelected = function (backlog) {
             var selectedBacklog = backlogService.getSelectedBacklog();
-            return backlog.Id === selectedBacklog.Id;
+            if (typeof selectedBacklog !== 'undefined') {
+                return backlog.Id === selectedBacklog.Id;
+            }
+
+            return false;
         };
     });
 })();

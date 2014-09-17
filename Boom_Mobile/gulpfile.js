@@ -59,6 +59,9 @@ gulp.task('lint', function () {
             },
             env:{
                 browser:true
+            },
+            rules:{
+                "quotes": [1, "single"]
             }
         }))
         .pipe(eslint.format());

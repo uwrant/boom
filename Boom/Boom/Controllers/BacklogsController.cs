@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Boom.Controllers
 {
@@ -41,27 +42,22 @@ namespace Boom.Controllers
         // PUT: /backlogs/{id}
         public IActionResult Put(long id, [FromBody] Backlog backlog)
         {
-            // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+            var persistedBacklog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
+            persistedBacklog.Name = backlog.Name;
+            this.boomContext.SaveChanges();
+            return this.Json(persistedBacklog);
         }
 
         // POST: /backlogs/{id}
         // BODY: {"name":"backlogName"}
-        public IActionResult Post()
+        public IActionResult Post([FromBody] Backlog backlog)
         {
             // TODO: unique name
-            // TODO: read input
-
-            var backlog = new Backlog
-            {
-                Name = "test",
-                Options = new List<BacklogOption>()
-            };
 
             this.boomContext.Add(backlog);
             this.boomContext.SaveChanges();
 
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+            return this.Json(backlog);
         }
 
         // DELETE: /backlogs/{id}

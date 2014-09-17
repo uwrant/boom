@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function() {
 })
 
 .controller('FriendsCtrl', function($scope, Friends) {
@@ -11,7 +11,7 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function() {
 })
 
 .controller('SurveysCtrl', function($scope, SurveyRest) {
@@ -26,7 +26,6 @@ angular.module('starter.controllers', [])
         $scope.participate = function (participant) {
             $scope.participant = participant;
             $scope.participant.Id = 5;
-            console.log(participant.Nickname + " joined the survey " + $scope.survey.Name);
         };
 
         $scope.hasJoined = function(){
@@ -41,5 +40,5 @@ angular.module('starter.controllers', [])
                 }
             });
             return optSelected;
-        }
+        };
 });
