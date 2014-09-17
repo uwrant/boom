@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['jet.commons'])
 
 /**
  * A simple example service that returns some data.
@@ -24,74 +24,14 @@ angular.module('starter.services', [])
     }
   }
 })
-.factory('SurveyRest', function() {
-        var surveys = [
-            {
-                Id: 1,
-                Name: 'FirstSurvey',
-                MaxNumberOfOptions: 3,
-                Options: [
-                    {
-                        Id: 1,
-                        Name: "Paintball"
-                    },
-                    {
-                        Id: 2,
-                        Name: "Kart"
-                    },
-                    {
-                        Id: 3,
-                        Name: "Counter Strike Evening"
-                    },
-                    {
-                        Id: 4,
-                        Name: "Climbing"
-                    },
-                    {
-                        Id: 5,
-                        Name: "Blaming friends"
-                    }
-                ]
+.factory('SurveyRest', function(smartResource) {
+        return smartResource('/surveys', {}, {
+            get: {
+                method: 'GET'
             },
-            {
-                Id: 2,
-                Name: 'SecondSurvey',
-                MaxNumberOfOptions: 1,
-                Options: [
-                    {
-                        Id: 1,
-                        Name: "Cooking"
-                    },
-                    {
-                        Id: 2,
-                        Name: "Coding"
-                    },
-                    {
-                        Id: 3,
-                        Name: "Cinema"
-                    }
-                ]
+            allOpen: {
+                method: 'GET',
+                isArray: true
             }
-        ];
-
-        return {
-            allOpen: allOpen,
-            get: get
-        };
-
-        function allOpen() {
-            return surveys;
-        }
-
-        function get(id) {
-            var index;
-            for(index in surveys) {
-                var survey = surveys[index];
-                if(survey.Id == id) {
-                    return survey;
-                }
-            }
-
-            throw "Survey not found!";
-        }
+        });
     });
