@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 /*!
  * reveal.js
@@ -32,6 +32,11 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+}
+
+.reveal .fa {
+  font-family: 'FontAwesome';
+  font-style: normal;
 }
 
 .reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
