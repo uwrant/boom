@@ -1,4 +1,5 @@
 ﻿{
+    "version": "1.0.0-*",
     "dependencies": {
         "Kestrel": "1.0.0-alpha3",
         "Microsoft.AspNet.Diagnostics": "1.0.0-alpha3",
@@ -13,7 +14,7 @@
         "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5004"
     },
     "frameworks": {
-        "net45": {},
-        "k10": {}
+        "net45": { },
+        "k10": { }
     }
 }
