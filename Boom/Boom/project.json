@@ -8,14 +8,16 @@
         "Microsoft.AspNet.Server.IIS": "1.0.0-alpha3",
         "Microsoft.AspNet.StaticFiles": "1.0.0-alpha3",
         "Microsoft.AspNet.Mvc": "6.0.0-alpha3",
-        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-alpha3"
+        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-alpha3",
+        "EntityFramework.SqlServer": "7.0.0-alpha3",
+        "EntityFramework.InMemory": "7.0.0-alpha3"
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5001",
         "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5004"
     },
     "frameworks": {
-        "net45": { },
+        "net451": { },
         "k10": { }
     }
 }
