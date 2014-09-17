@@ -1,48 +1,40 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, presentationStorage) {
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService) {
         'use strict';
 
-        var presentations = $scope.presentations = presentationStorage.get();
+        var vm = this;
 
-        $scope.newPresentation = { speaker: "", title: "", disabled: false };
-        $scope.disabledFilter = { disabled: true };
+        vm.options = OptionsService.query();
 
-        $scope.$watch('presentations', function (newValue, oldValue) {
-            if (newValue !== oldValue) { // This prevents unneeded calls to the local storage
-                presentationStorage.put(presentations);
-            }
-        }, true);
+        vm.newOption = { Name: '', disabled: false };
+        vm.disabledFilter = { disabled: true };
 
-        $scope.addPresentation = function () {
-            var newPresentation = $scope.newPresentation;
-            if (!newPresentation.speaker.length || !newPresentation.title.length) {
+        vm.addOptions = function () {
+            var newOption = vm.newOption;
+            if (!newOption.Name.length) {
                 return;
             }
 
-            presentations.push(newPresentation);
+            vm.options.push(newOption);
 
-            $scope.newPresentation = { speaker: "", title: "", disabled: false };
+            vm.newOption = { speaker: "", title: "", disabled: false };
         }
 
-        $scope.removePresentation = function (presentation) {
-            var index = presentations.indexOf(presentation);
+        vm.removeOption = function (option) {
+            var index = vm.options.indexOf(option);
             if (index > -1) {
-                presentations.splice(index, 1);
+                vm.options.splice(index, 1);
             }
         }
 
-        $scope.notNowPresentation = function (presentation) {
-            presentation.disabled = true;
+        vm.notNowOption = function (option) {
+            option.disabled = true;
         }
 
-        $scope.nowPresentation = function (presentation) {
-            presentation.disabled = false;
-        }
-
-        $scope.updateVotes = function (presentation) {
-            presentation.votes = presentation.newVotes;
+        vm.nowOption = function (option) {
+            option.disabled = false;
         }
     });
 })();

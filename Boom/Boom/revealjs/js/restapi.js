@@ -10,7 +10,7 @@
         });
     });
 
-    app.factory("Options", function ($resource) {
+    app.factory("OptionsService", function ($resource) {
         'use strict';
 
         return $resource("/backlogs/:backlogId/options/:optionId", {}, {
