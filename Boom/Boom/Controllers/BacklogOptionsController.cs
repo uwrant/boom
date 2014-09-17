@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 
-// TODO: routing
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
@@ -20,36 +19,67 @@ namespace Boom.Controllers
         // GET: /backlogs/{backlogId}/options
         public IActionResult Get(long backlogId)
         {
-            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId);
+            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId && o.BacklogId == backlogId).ToList();
             return this.Json(options);
         }
 
         // GET: /backlogs/{backlogId}/options/{id}
         public IActionResult Get(long backlogId, long id)
         {
-            var option = this.boomContext.BacklogOptions.SingleOrDefault(o => o.Id == id);
-            // TODO assert backlogId
+            var option = this.boomContext.BacklogOptions.SingleOrDefault(o => o.Id == id && o.BacklogId == backlogId);
+            if (option == null)
+            {
+                return this.HttpNotFound();
+            }
+            return this.Json(option);
+        }
+
+        // POST:  /backlogs/{backlogId}/options/{id}
+        // BODY: {"Description":"Option Description"}
+        public IActionResult Post(long backlogId, [FromBody] BacklogOption option)
+        {
+            var backlog = boomContext.Backlogs.SingleOrDefault(b => b.Id == backlogId);
+            if (backlog == null)
+            {
+                return HttpNotFound();
+            }
+
+            boomContext.Add(option);
+
+            backlog.Options.Add(option);
+            option.Backlog = backlog;
+            option.BacklogId = backlogId;
+
+            boomContext.SaveChanges();
             return this.Json(option);
         }
 
         // PUT: /backlogs/{backlogId}/options/{id}
-        public IActionResult Put(long id, [FromBody] Backlog backlog)
+        // BODY: {"Description":"Option Description"}
+        public IActionResult Put(long backlogId, long id, [FromBody] BacklogOption option)
         {
-            // TODO assert backlogId
-            // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
-        }
+            var persistedOption = this.boomContext.BacklogOptions.SingleOrDefault(o => o.Id == id && o.BacklogId == backlogId);
+            if (persistedOption == null)
+            {
+                return this.HttpNotFound();
+            }
 
-        // POST:  /backlogs/{backlogId}/options/{id}
-        public IActionResult Post([FromBody] Backlog backlog)
-        {
-            // Backlog update = JsonConvert.DeserializeObject<Backlog>(backlog);
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+            persistedOption.Description = option.Description;
+
+            this.boomContext.SaveChanges();
+            return this.Json(option);
         }
 
         // DELETE: /backlogs/{backlogId}/options/{id}
-        public IActionResult Delete(long id)
+        public IActionResult Delete(long backlogId, long id)
         {
+            var option = this.boomContext.BacklogOptions.SingleOrDefault(o => o.Id == id && o.BacklogId == backlogId);
+            if (option == null)
+            {
+                return this.HttpNotFound();
+            }
+            this.boomContext.Delete(option);
+            this.boomContext.SaveChanges();
             return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
         }
     }
