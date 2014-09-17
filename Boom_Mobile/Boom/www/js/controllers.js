@@ -15,12 +15,21 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SurveysCtrl', function($scope, SurveyRest) {
-        SurveyRest.allOpen($scope.surveys, function success(response){
-            $scope.surveys = response;
-        }, function error(error){
-        });
+        $scope.surveys = SurveyRest.allOpen();
+
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest) {
-    // $scope.survey = SurveyRest.get($stateParams.surveyId);
+        $scope.survey = SurveyRest.get($stateParams.surveyId);
+
+        $scope.participant = {Id: undefined};
+        $scope.participate = function (participant) {
+            $scope.participant = participant;
+            $scope.participant.Id = 5;
+            console.log(participant.Nickname + " joined the survey " + $scope.survey.Name);
+        };
+
+        $scope.hasJoined = function(){
+            return $scope.participant.Id !== undefined;
+        };
 });
