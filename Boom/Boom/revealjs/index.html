@@ -79,6 +79,7 @@
                 </div>
             </section>
 
+            <!-- Backlog Slide -->
             <section ng-cloak ng-controller="BacklogCtrl as ctrl" class="scrollable" data-title="Backlogs" data-slide-name="BacklogSlide">
                 <table class="table boom-table">
                     <thead>
@@ -102,6 +103,7 @@
                 </table>
             </section>
 
+            <!-- Backlog Details Slide -->
             <section ng-cloak ng-controller="BacklogDetailCtrl as ctrl" class="scrollable" data-title="Backlog Content">
                 <table class="table boom-table">
                     <thead>
@@ -111,17 +113,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="presentation in ctrl.presentations track by $index" ng-class="{disabled: presentation.disabled}">
-                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
-                                <a ng-click="ctrl.removePresentation(presentation)">Löschen</a> /
-                                <a type="button" ng-click="ctrl.notNowPresentation(presentation)" ng-hide="ctrl.presentation.disabled">Nicht jetzt</a>
-                                <a type="button" ng-click="ctrl.nowPresentation(presentation)" ng-show="ctrl.presentation.disabled">Jetzt</a>
+                        <tr ng-repeat="option in ctrl.options track by $index" ng-class="{disabled: option.disabled}">
+                            <td class="voting-table-title"><span>{{option.Name}}</span></td>
+                            <td>
+                                <a ng-click="ctrl.removeOption(option)">Löschen</a> /
+                                <a type="button" ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
+                                <a type="button" ng-click="ctrl.nowOption(option)" ng-show="option.disabled">Jetzt</a>
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Präsentator/In" ng-model="ctrl.newPresentation.speaker" id="speaker" /></td>
-                            <td><textarea ng-model="ctrl.newPresentation.title" id="title"></textarea></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addPresentation()">Hinzufügen</button></td>
+                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Name" /></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addOption()">Hinzufügen</button></td>
                         </tr>
                     </tbody>
                 </table>
