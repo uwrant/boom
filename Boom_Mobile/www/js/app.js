@@ -81,8 +81,8 @@
                     url: '/results/:friendId',
                     views: {
                         'tab-results': {
-                            templateUrl: 'templates/friend-detail.html',
-                            controller: 'FriendDetailCtrl'
+                            templateUrl: 'js/surveyResults/surveyResult.html',
+                            controller: 'SurveyResultCtrl'
                         }
                     }
                 })
