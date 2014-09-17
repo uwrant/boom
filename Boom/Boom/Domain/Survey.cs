@@ -10,11 +10,13 @@ namespace Boom.Domain
             this.Options = new List<SurveyOption>();
         }
 
+        public string Name { get;set; } 
+
         public DateTime CreationDate { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public IList<SurveyOption> Options { get; set; }
     }
