@@ -27,6 +27,8 @@ namespace Boom
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Backlog -> BacklogOption
+
             builder.Entity<BacklogOption>()
                 .ForeignKeys(o =>
                 {
@@ -38,6 +40,22 @@ namespace Boom
             var backlogFk = backlogOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "BacklogId"));
             backlog.AddNavigation(new Navigation(backlogFk, "Options", pointsToPrincipal: false));
             backlogOption.AddNavigation(new Navigation(backlogFk, "Backlog", pointsToPrincipal: true));
+
+
+
+            // Survey -> SurveyOption
+
+            builder.Entity<SurveyOption>()
+                .ForeignKeys(o =>
+                {
+                    o.ForeignKey<Survey>(b => b.SurveyId);
+                });
+
+            var survey = builder.Model.GetEntityType(typeof(Survey));
+            var surveyOption = builder.Model.GetEntityType(typeof(SurveyOption));
+            var surveyFk = surveyOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
+            survey.AddNavigation(new Navigation(surveyFk, "Options", pointsToPrincipal: false));
+            surveyOption.AddNavigation(new Navigation(surveyFk, "Survey", pointsToPrincipal: true));
         }
     }
 
