@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "Xunit.KRunner": "",
+    "Boom": "1.0.0-*"
+  },
+  "commands": {
+    "test": "Xunit.KRunner"
+  },
+  "frameworks": {
+    "net45": {},
+    "aspnetcore50": {}
+  }
+}
