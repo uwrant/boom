@@ -69,18 +69,18 @@
                 })
 
                 .state('tab.friends', {
-                    url: '/friends',
+                    url: '/results',
                     views: {
-                        'tab-friends': {
-                            templateUrl: 'templates/tab-friends.html',
-                            controller: 'FriendsCtrl'
+                        'tab-results': {
+                            templateUrl: 'js/surveyResults/surveyResults.html',
+                            controller: 'SurveyResultsCtrl'
                         }
                     }
                 })
                 .state('tab.friend-detail', {
-                    url: '/friend/:friendId',
+                    url: '/results/:friendId',
                     views: {
-                        'tab-friends': {
+                        'tab-results': {
                             templateUrl: 'templates/friend-detail.html',
                             controller: 'FriendDetailCtrl'
                         }
