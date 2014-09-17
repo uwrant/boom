@@ -8,6 +8,7 @@ namespace Boom.Domain
         public Survey()
         {
             this.Options = new List<SurveyOption>();
+            this.Participants = new List<Participant>();
         }
 
         public DateTime CreationDate { get; set; }
@@ -17,5 +18,7 @@ namespace Boom.Domain
         public DateTime EndDate { get; set; }
 
         public IList<SurveyOption> Options { get; set; }
+
+        public IList<Participant> Participants { get; set; }
     }
 }
