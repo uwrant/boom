@@ -5,6 +5,7 @@ using Microsoft.AspNet.Mvc;
 
 namespace Boom.Controllers
 {
+    [AccessControlAllowOrigin("*")]
     public class SurveysController : Controller
     {
         // GET: /surveys/
