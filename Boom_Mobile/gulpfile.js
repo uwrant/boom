@@ -48,3 +48,21 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+var eslint = require('gulp-eslint');
+
+gulp.task('lint', function () {
+    gulp.src(['www/js/**/*.js'])
+        .pipe(eslint({
+            globals: {
+                'angular':false
+            },
+            env:{
+                browser:true
+            },
+            rules:{
+                "quotes": [1, "single"]
+            }
+        }))
+        .pipe(eslint.format());
+});

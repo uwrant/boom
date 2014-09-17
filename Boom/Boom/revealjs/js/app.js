@@ -1,5 +1,6 @@
 (function (global) {
-    var app = angular.module('boom', ['ngResource', 'ja.qr']);
+    "use strict";
+    var app = angular.module('boom', ['ngResource', 'ja.qr', 'toaster']);
     
     app.run(function ($rootScope) {
         global.$rootScope = $rootScope;

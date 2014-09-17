@@ -49,14 +49,32 @@ namespace Boom
                 );
             });
 
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "Default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute("ApiRoute", "{controller}/{id?}");
+                routes.MapRoute(
+                    name: "BacklogOptionsRoute",
+                    template: "backlogs/{backlogId}/options/{id?}",
+                    defaults: new { controller = "BacklogOptions" });
+
+                routes.MapRoute(
+                  name: "SurveyOptionsRoute",
+                  template: "survey/{surveyId}/options/{id?}",
+                  defaults: new { controller = "SurveyOptions" });
+
+                routes.MapRoute(
+                  name: "SurveyParticipantsRoute",
+                  template: "survey/{surveyId}/participants",
+                  defaults: new { controller = "SurveyParticipants" });
+
+                routes.MapRoute(
+                    name:  "ApiRoute", 
+                    template:  "{controller}/{id?}");
+
+
             });
 
             DbHelper.EnsureDbCreated(app);

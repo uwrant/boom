@@ -1,5 +1,5 @@
-﻿'use strict';
-(function () {
+﻿(function () {
+    'use strict';
     var app = angular.module('boom');
 
     app.factory("BacklogsService", function ($resource) {
@@ -30,12 +30,18 @@
     })
 
     app.factory("SurveyService", function ($resource) {
-        'use strict';
-
         return $resource("/surveys/:id", {}, {
             save: { method: 'PUT' },
             create: { method: 'POST' }
         });
+    });
+
+    app.factory("SurveyServiceMock", function ($resource) {
+        return {
+            create: function (data, successCallback) {
+                successCallback();
+            }
+        }
     });
 
 })();

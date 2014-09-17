@@ -22,7 +22,7 @@ angular.module('starter.services', ['jet.commons'])
       // Simple index lookup
       return friends[friendId];
     }
-  }
+  };
 })
 .factory('SurveyRest', function(smartResource) {
         return smartResource('/surveys/:surveyId', { surveyId:'@id' }, {
@@ -34,4 +34,12 @@ angular.module('starter.services', ['jet.commons'])
                 isArray: true
             }
         });
-    });
+    })
+.factory('ParticipantsRest', function(smartResource) {
+        return smartResource('/surveys/:surveyId/participants', { surveyId:'@surveyId' }, {
+            create:{
+                method: 'POST'
+            }
+        })
+    }
+);
