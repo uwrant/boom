@@ -71,10 +71,13 @@ namespace Boom
                   defaults: new { controller = "SurveyParticipants" });
 
                 routes.MapRoute(
+                  name: "SurveyVotesRoute",
+                  template: "survey/{surveyId}/votes",
+                  defaults: new { controller = "SurveyVotes" });
+
+                routes.MapRoute(
                     name:  "ApiRoute", 
                     template:  "{controller}/{id?}");
-
-
             });
 
             DbHelper.EnsureDbCreated(app);
