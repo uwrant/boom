@@ -32,4 +32,14 @@ angular.module('starter.controllers', [])
         $scope.hasJoined = function(){
             return $scope.participant.Id !== undefined;
         };
+
+        $scope.hasOptionsSelected = function(){
+            var optSelected = false;
+            angular.forEach($scope.survey.Options, function(option){
+                if(option.selected){
+                    optSelected = true;
+                }
+            });
+            return optSelected;
+        }
 });

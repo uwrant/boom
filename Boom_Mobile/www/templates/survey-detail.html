@@ -14,12 +14,12 @@
             <ion-list>
                 <ion-item ng-repeat="option in survey.Options" type="item-text-wrap">
                     <label class="checkbox">
-                        <input type="checkbox" ng-model="option.Selected">
+                        <input type="checkbox" ng-model="option.selected">
                     </label>
                     {{option.Name}}
                 </ion-item>
             </ion-list>
-            <div>
+            <div ng-show="hasOptionsSelected()">
                 <button class="button button-block button-positive">
                     Vote
                 </button>
