@@ -141,24 +141,50 @@
             </section>
 
             <section ng-cloak ng-controller="SurveyCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyStartSlide">
-                <table class="table boom-table">
-                    <thead>
-                        <tr>
-                            <th>Teilnehmer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="participant in ctrl.participants">
-                            <td><span>{{participant.Name}}</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-md-6">
 
-                <div>
-                    <qr text="ctrl.qrCodeText"></qr>
+                        <div class="row">
+                            <h2>Teilnehmer</h2>
+                        </div>
+                        
+
+                        <!--<ul ng-repeat="participant in ctrl.participants">
+                            <li>{{participant.Name}}</li>
+                        </ul>-->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                ozu
+                            </div>
+                            <div class="col-md-6">
+                                iszu
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                sdf
+                            </div>
+                            <div class="col-md-6">
+                                ssdf
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                hsf
+                            </div>
+                            <div class="col-md-6">
+                                drfh
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <qr text="ctrl.qrCodeText"></qr>
+                        <br />
+                        <button type="button" class="punch" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
+                    </div>
                 </div>
-
-                <button type="button" class="btn" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
             </section>
         </div>
 
