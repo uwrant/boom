@@ -1,15 +1,23 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("BacklogCtrl", function BacklogCtrl($scope, Backlogs) {
+    app.controller("BacklogCtrl", function BacklogCtrl($scope, Backlogs, backlogService) {
         'use strict';
 
         var vm = this;
 
+        var selectFirstBacklog = function () {
+            if (vm.backlogs.length != 0) {
+                backlogService.setSelectedBacklog(vm.backlogs[0]);
+            }
+        };
+
         vm.newBacklog = { Name: "" };
 
         $scope.$on("slidechanged:BacklogSlide", function (event, data) {
-            vm.backlogs = Backlogs.query();
+            vm.backlogs = Backlogs.query(function (data) {
+                selectFirstBacklog();
+            });
         });
 
         vm.addBacklog = function () {
@@ -30,6 +38,12 @@
                     vm.backlogs.splice(index, 1);
                 }
             });
+        };
+
+        vm.selectBacklog = function (backlog) {
+            backlogService.setSelectedBacklog(backlog);
+
+            Reveal.next();
         };
     });
 })();

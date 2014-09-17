@@ -51,6 +51,7 @@
     <script src="../bower_components/angular-resource/angular-resource.js"></script>
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
+    <script src="js/backlogService.js"></script>
     <script src="js/BacklogCtrl.js"></script>
 
     <!--[if lt IE 9]>
@@ -85,7 +86,8 @@
                         <tr ng-repeat="backlog in ctrl.backlogs">
                             <td><span>{{backlog.Name}}</span></td>
                             <td>
-                                <a ng-click="ctrl.removeBacklog(backlog)"><span class="fa fa-trash"></span></a>
+                                <a ng-click="ctrl.removeBacklog(backlog)"><span class="fa fa-trash"></span></a>&nbsp;
+                                <a ng-click="ctrl.selectBacklog(backlog)"><span class="fa fa-arrow-right"></span></a>
                             </td>
                         </tr>
                         <tr>
