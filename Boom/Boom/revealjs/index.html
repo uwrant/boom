@@ -49,12 +49,15 @@
     
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="../bower_components/qrcode/lib/qrcode.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-qr/angular-qr.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
     <script src="js/factories.js"></script>
 	<script src="js/backlogService.js"></script>
     <script src="js/backlogCtrl.js"></script>
     <script src="js/backlogDetailsCtrl.js"></script>
+    <script src="js/surveyCtrl.js"></script>
 
     <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -135,23 +138,25 @@
                 </section>
             </section>
 
-            <section ng-cloak ng-controller="BacklogDetailCtrl" class="scrollable" data-title="Abstimmung">
+            <section ng-cloak ng-controller="SurveyCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyStartSlide">
                 <table class="table boom-table">
                     <thead>
                         <tr>
-                            <th>Präsentator/In</th>
-                            <th>Titel</th>
-                            <th width="100px">Stimmen</th>
+                            <th>Teilnehmer</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="presentation in presentations | orderBy:'votes':true | filter:{disabled:false} track by $index">
-                            <td><span>{{presentation.speaker}}</span></td>
-                            <td class="voting-table-title"><span>{{presentation.title}}</span></td>
-                            <td class="voting-table-vote"><input class="votes" type="number" ng-model="presentation.newVotes" ng-blur="updateVotes(presentation)"></td>
+                        <tr ng-repeat="participant in ctrl.participants">
+                            <td><span>{{participant.Name}}</span></td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div>
+                    <qr text="ctrl.qrCodeText"></qr>
+                </div>
+
+                <button type="button" class="btn" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
             </section>
         </div>
 
