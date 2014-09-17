@@ -12,7 +12,6 @@ span.zuehlke-header:before {
     color: #dddddd;
 }
 
-
 html.zuehlke-bg-parallax body {
     background-image: url("../images/presentation/sidney_night.jpg");
 }
@@ -68,6 +67,10 @@ table.boom-table tr.disabled span {
 }
 table.boom-table tr button {
     margin: 5px;
+}
+
+table.boom-table tr.selected {
+    background-color: #eee;
 }
 
 span.highlight {

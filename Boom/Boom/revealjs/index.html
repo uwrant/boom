@@ -52,6 +52,7 @@
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
     <script src="js/factories.js"></script>
+	<script src="js/backlogService.js"></script>
     <script src="js/backlogCtrl.js"></script>
     <script src="js/backlogDetailsCtrl.js"></script>
 
@@ -81,11 +82,11 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th width="120px">&nbsp;</th>
+                            <th width="50px">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="backlog in ctrl.backlogs">
+                        <tr ng-repeat="backlog in ctrl.backlogs" ng-click="ctrl.selectBacklog(backlog)" ng-class="{selected: ctrl.isBacklogSelected(backlog)}">
                             <td><span>{{backlog.Name}}</span></td>
                             <td>
                                 <a ng-click="ctrl.removeBacklog(backlog)"><span class="fa fa-trash"></span></a>
