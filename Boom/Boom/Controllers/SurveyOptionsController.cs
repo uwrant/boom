@@ -16,10 +16,10 @@ namespace Boom.Controllers
             this.boomContext = boomContext;
         }
 
-        // GET: /backlogs/{surveyId}/options
+        // GET: /surveys/{surveyId}/options
         public IActionResult Get(long surveyId)
         {
-            var options = this.boomContext.SurveyOptions.Where(o => o.Survey.Id == surveyId && o.SurveyId == surveyId).ToList();
+            var options = this.boomContext.SurveyOptions.Where(o => o.SurveyId == surveyId).ToList();
             return this.Json(options);
         }
 
@@ -38,7 +38,7 @@ namespace Boom.Controllers
         // BODY: {"Description":"Option Description"}
         public IActionResult Post(long surveyId, [FromBody] SurveyOption option)
         {
-            var survey = boomContext.Surveys.SingleOrDefault(b => b.Id == surveyId);
+            var survey = boomContext.Surveys.SingleOrDefault(s => s.Id == surveyId);
             if (survey == null)
             {
                 return HttpNotFound();
