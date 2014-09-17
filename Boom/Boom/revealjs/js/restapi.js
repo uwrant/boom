@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.factory("Backlogs", function ($resource) {
+    app.factory("BacklogsService", function ($resource) {
         'use strict';
 
         return $resource("/backlogs/:id", {}, {
