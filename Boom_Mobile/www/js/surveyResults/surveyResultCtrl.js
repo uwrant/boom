@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
 
-.controller('SurveyResultCtrl', function($scope, $stateParams, Friends) {
-    $scope.friend = Friends.get($stateParams.friendId);
+.controller('SurveyResultCtrl', function($scope, $stateParams, SurveyResults) {
+    $scope.friend = SurveyResults.get($stateParams.friendId);
 })
