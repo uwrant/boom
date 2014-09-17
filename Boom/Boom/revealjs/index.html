@@ -52,7 +52,9 @@
     <script src="../bower_components/angular-resource/angular-resource.js"></script>
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
-    <script src="js/BacklogCtrl.js"></script>
+    <script src="js/factories.js"></script>
+    <script src="js/backlogCtrl.js"></script>
+    <script src="js/backlogDetailsCtrl.js"></script>
 
     <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -97,27 +99,28 @@
                 </table>
             </section>
 
-            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Vorträge sammeln">
+            <section ng-cloak ng-controller="BacklogDetailCtrl as ctrl" class="scrollable" data-title="Backlog Content">
                 <table class="table voting-table">
                     <thead>
                         <tr>
-                            <th>Präsentator/In</th>
-                            <th>Titel</th>
+                            <th>Name</th>
                             <th width="120px">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="presentation in presentations track by $index" ng-class="{disabled: presentation.disabled}">
+                        <tr ng-repeat="presentation in ctrl.presentations track by $index" ng-class="{disabled: presentation.disabled}">
                             <td><span>{{presentation.speaker}}</span></td>
                             <td class="voting-table-title"><span>{{presentation.title}}</span></td>
-                            <td><a ng-click="removePresentation(presentation)">Löschen</a> /
-                                <a type="button" ng-click="notNowPresentation(presentation)" ng-hide="presentation.disabled">Nicht jetzt</a>
-                                <a type="button" ng-click="nowPresentation(presentation)" ng-show="presentation.disabled">Jetzt</a></td>
+                            <td>
+                                <a ng-click="ctrl.removePresentation(presentation)">Löschen</a> /
+                                <a type="button" ng-click="ctrl.notNowPresentation(presentation)" ng-hide="ctrl.presentation.disabled">Nicht jetzt</a>
+                                <a type="button" ng-click="ctrl.nowPresentation(presentation)" ng-show="ctrl.presentation.disabled">Jetzt</a>
+                            </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Präsentator/In" ng-model="newPresentation.speaker" id="speaker" /></td>
-                            <td><textarea ng-model="newPresentation.title" id="title" ></textarea></td>
-                            <td><button type="button" class="btn" ng-click="addPresentation()">Hinzufügen</button></td>
+                            <td><input type="text" placeholder="Präsentator/In" ng-model="ctrl.newPresentation.speaker" id="speaker" /></td>
+                            <td><textarea ng-model="ctrl.newPresentation.title" id="title"></textarea></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addPresentation()">Hinzufügen</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -134,7 +137,7 @@
                 </section>
             </section>
 
-            <section ng-cloak ng-controller="VortragCtrl" class="scrollable" data-title="Abstimmung">
+            <section ng-cloak ng-controller="BacklogDetailCtrl" class="scrollable" data-title="Abstimmung">
                 <table class="table voting-table">
                     <thead>
                         <tr>
