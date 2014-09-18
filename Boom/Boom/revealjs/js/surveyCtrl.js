@@ -38,7 +38,7 @@
         };
 
         var createQrCodeText = function () {
-            vm.qrCodeText = "'http://" + $location.host() + ":" + $location.port() + "/survey/" + vm.survey.Id + "'";
+            vm.qrCodeText = "http://" + $location.host() + ":" + $location.port() + "/surveys/" + vm.survey.Id;
         };
 
         $scope.$on("slidechanged:SurveyStartSlide", function (event, data) {
