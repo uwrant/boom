@@ -2,22 +2,30 @@
     'use strict';
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService, backlogService, surveyService, toaster) {
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService, backlogService, revealService, SurveyOptionsService, toaster) {
 
         var vm = this;
-        vm.options = {}; 
+        vm.options = {};
+
+        var checkPreConditions = function () {
+            if (typeof backlogService.getSelectedBacklog() === 'undefined') {
+                toaster.pop('error', "", "Please select a backlog!", 10000);
+                revealService.navigateToSlide("BacklogSlide");
+                return false;
+            }
+
+            return true;
+        }
 
         $scope.$on("slidechanged:BacklogContentSlide", function () {
-            // TODO: check preconditions
-            var selectedBacklog = backlogService.getSelectedBacklog();
-            vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
-
-            // TODO ozu: check if digest call is necessarry when calling the real service
-            $scope.$digest();
+            if (checkPreConditions()) {
+                var selectedBacklog = backlogService.getSelectedBacklog();
+                vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
+            }
         });
 
         $scope.$watch("ctrl.options", function () {
-            surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
+            SurveyOptionsService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
         }, true);
 
         vm.newOption = { Description: '', disabled: false };

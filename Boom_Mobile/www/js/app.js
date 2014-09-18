@@ -10,7 +10,7 @@
     // 'starter.controllers' is found in controllers.js
     angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults'])
 
-        .run(function($ionicPlatform) {
+        .run(function($ionicPlatform, pushNotifications) {
             $ionicPlatform.ready(function() {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -21,6 +21,8 @@
                     // org.apache.cordova.statusbar required
                     window.StatusBar.styleDefault();
                 }
+
+                pushNotifications.init();
             });
         })
 
@@ -80,5 +82,4 @@
             // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/tab/surveys');
         });
-
 })(window, angular);

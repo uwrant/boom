@@ -81,6 +81,19 @@ namespace Boom.Controllers
             return this.JsonSerialized(survey);
         }
 
+        // PATCH: /surveys/id
+        public IActionResult Patch(long id, [FromBody] Survey survey)
+        {
+            var startDate = survey.StartDate;
+
+            var surveyEntity = this.boomContext.Surveys.SingleOrDefault(s => s.Id == id);
+            surveyEntity.StartDate = startDate;
+
+            this.boomContext.SaveChanges();
+
+            return this.JsonSerialized(survey);
+        }
+
         // POST: /surveys/id/participants
         public IActionResult Post(long id, [FromBody] string name)
         {
