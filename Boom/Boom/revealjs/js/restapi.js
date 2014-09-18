@@ -13,6 +13,9 @@
         return $resource("/backlogs/:backlogId/options/:optionId", {}, {
             update: {
                 method: 'PUT'
+            },
+            create: {
+                method: 'POST'
             }
         });
     });
