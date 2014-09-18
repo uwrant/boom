@@ -78,7 +78,7 @@
             $interval.cancel(participantsQueryIntervalPromise);
 
             vm.survey.StartDate = new Date(); //Started
-            SurveyService.start({ id: vm.survey.Id }, { StartDate: vm.survey.StartDate }, function () { }, function () {
+            SurveyService.patch({ id: vm.survey.Id }, { StartDate: vm.survey.StartDate }, function () { }, function () {
                 toaster.pop('error', "", "Error starting the survey!", 10000);
             });
         };

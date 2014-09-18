@@ -155,9 +155,11 @@
                         <div class="row">
                             <h2>Teilnehmer</h2>
                         </div>
-
+                        <div class="row">
+                            <span class="highlight">Anzahl Teilnehmer: {{ctrl.participants.length}}</span>
+                        </div>
                         <div class="row" ng-repeat="participant in ctrl.participants">
-                            <div class="col-md-6">
+                            <div class="col-sm-6">
                                 {{participant.Name}}
                             </div>
                         </div>
@@ -170,11 +172,10 @@
                         iszu
                     </div>
                 </div>-->
-                        Anzahl Teilnehmer: {{ctrl.participants.length}}
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <qr text="ctrl.qrCodeText"></qr>
                         <br />
                         <button type="button" class="punch" ng-click="ctrl.startSurvey()" ng-disabled="ctrl.survey.StartDate !== null">Abstimmung starten</button>
@@ -189,7 +190,7 @@
                 </div>
 
                 <div class="row" ng-repeat="vote in ctrl.votes">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         {{vote.Participant.Name}}
                     </div>
                 </div>

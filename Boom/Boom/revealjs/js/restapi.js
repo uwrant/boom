@@ -29,7 +29,7 @@
         return $resource("/surveys/:id", {}, {
             save: { method: 'PUT' },
             create: { method: 'POST' },
-            start: { method: 'PATCH' }
+            patch: { method: 'PATCH' }
         });
     });
 

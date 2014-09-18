@@ -85,9 +85,18 @@ namespace Boom.Controllers
         public IActionResult Patch(long id, [FromBody] Survey survey)
         {
             var startDate = survey.StartDate;
+            var endDate = survey.EndDate;
 
             var surveyEntity = this.boomContext.Surveys.SingleOrDefault(s => s.Id == id);
-            surveyEntity.StartDate = startDate;
+
+            if (startDate != null)
+            {
+                surveyEntity.StartDate = startDate;
+            }
+            else if(endDate != null)
+            {
+                surveyEntity.EndDate = endDate;
+            }
 
             this.boomContext.SaveChanges();
 
