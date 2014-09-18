@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("BacklogCtrl", function BacklogCtrl($scope, BacklogsService, backlogService) {
+    app.controller("BacklogCtrl", function BacklogCtrl($scope, BacklogsService, backlogService, toaster) {
         'use strict';
 
         var vm = this;
@@ -26,6 +26,8 @@
 
             BacklogsService.create(newBacklog, function (data) {
                 vm.backlogs.push(data);
+            }, function () {
+                toaster.pop('error', "", "Error creating a new backlog entry!", 10000);
             });
 
             vm.newBacklog = { Name: "", Id: 0 };
@@ -37,6 +39,8 @@
                 if (index > -1) {
                     vm.backlogs.splice(index, 1);
                 }
+            }, function () {
+                toaster.pop('error', "", "Error deleting the backlog entry '" + backlog.Name + "'!", 10000);
             });
         };
 

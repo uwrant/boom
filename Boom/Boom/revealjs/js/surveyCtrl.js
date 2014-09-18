@@ -1,10 +1,8 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyServiceMock, backlogService, surveyService, revealService, toaster) {
+    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, surveyService, revealService, toaster, $location) {
         'use strict';
-
-        var SurveyService = SurveyServiceMock;
 
         var vm = this;
         vm.qrCodeText = "''";
@@ -16,7 +14,7 @@
                 return false;
             }
 
-            if (surveyService.getOptions() == null || typeof surveyService.getOptions() === 'undefined') {
+            if (surveyService.getOptions() == null || typeof surveyService.getOptions() === 'undefined' || surveyService.getOptions().length == 0) {
                 toaster.pop('error', "", "Please select at least one option for the survey!", 10000);
                 revealService.navigateToSlide("BacklogContentSlide");
                 return false;
@@ -29,16 +27,18 @@
             var selectedBacklog = backlogService.getSelectedBacklog();
             
             vm.survey = SurveyService.create({
+                Name: "SurveyName is not defined yet....",
                 CreationDate: new Date(),
-                StartDate: new Date(),
                 Options: surveyService.getOptions()
             }, function (data) {
                 createQrCodeText();
+            }, function () {
+                toaster.pop('error', "", "Error creating the survey!", 10000);
             });
         };
 
         var createQrCodeText = function () {
-            vm.qrCodeText = "'http://www.nba.com'"
+            vm.qrCodeText = "'http://" + $location.host() + ":" + $location.port() + "/survey/" + vm.survey.Id + "'";
         };
 
         $scope.$on("slidechanged:SurveyStartSlide", function (event, data) {
@@ -48,8 +48,10 @@
         });
 
         vm.startSurvey = function () {
-            vm.survey.State = 1; //Started
-            vm.survey.$save();
+            vm.survey.StartDate = new Date(); //Started
+            vm.survey.$save(function () { }, function () {
+                toaster.pop('error', "", "Error starting the survey!", 10000);
+            });
         };
     });
 })();
