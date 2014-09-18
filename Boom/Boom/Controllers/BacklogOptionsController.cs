@@ -7,7 +7,7 @@ using System.Net;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class BacklogOptionsController : Controller
+    public class BacklogOptionsController : BoomController
     {
         private BoomContext boomContext;
 
@@ -19,7 +19,7 @@ namespace Boom.Controllers
         // GET: /backlogs/{backlogId}/options
         public IActionResult Get(long backlogId)
         {
-            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId && o.BacklogId == backlogId).ToList();
+            var options = this.boomContext.BacklogOptions.Where(o => o.BacklogId == backlogId).ToList();
             return this.Json(options);
         }
 
@@ -51,7 +51,7 @@ namespace Boom.Controllers
             option.BacklogId = backlogId;
 
             boomContext.SaveChanges();
-            return this.Json(option);
+            return this.Json( new { option.Id, option.Description });
         }
 
         // PUT: /backlogs/{backlogId}/options/{id}

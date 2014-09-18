@@ -24,21 +24,27 @@ namespace Boom.Controllers
         }
 
         // POST:  /surveys/{surveyId}/votes
-        // BODY: {"Participant":{"Id":"6"}, "Options":[ {"Id":"3", "Description":"hello"}:"2", {"Id":"7", "Description":"world"}:"4"] }
+        // BODY: {"Participant":{"Id":"6"}, "Options":[ {"Option":{"Id":"3", "Description":"hello"}, "Weight":"2" }] }
         public IActionResult Post(long surveyId, [FromBody] Vote vote)
         {
-            var participant = boomContext.Participants.SingleOrDefault(p => p.Survey.Id == surveyId && p.Id == vote.Participant.Id);
+            var participant = boomContext.Participants.SingleOrDefault(p => p.SurveyId == surveyId && p.Id == vote.Participant.Id);
             if (participant == null)
             {
                 return HttpNotFound();
             }
-
-            boomContext.Add(vote);
-
             vote.Participant = participant;
 
-            // TODO add options or are they already added
+            foreach (SurveyOptionVote optionVote in vote.Options) {
+                var persistedOption = boomContext.SurveyOptions.SingleOrDefault(o => o.Id == optionVote.Option.Id);
+                if (persistedOption == null)
+                {
+                    return HttpNotFound();
+                }
+                optionVote.Option = persistedOption;
+                boomContext.Add(optionVote);
+            }
 
+            boomContext.Add(vote);
             boomContext.SaveChanges();
             return this.Json(vote);
         }

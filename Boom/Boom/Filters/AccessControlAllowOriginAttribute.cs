@@ -11,10 +11,10 @@ namespace Boom
     {
         private readonly string[] origin;
 
-	    public AccessControlAllowOriginAttribute(params string[] origin)
-	    {
+        public AccessControlAllowOriginAttribute(params string[] origin)
+        {
             this.origin = origin;
-	    }
+        }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {

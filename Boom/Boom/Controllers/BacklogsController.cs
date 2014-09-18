@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
-    public class BacklogsController : Controller
+     [AccessControlAllowOrigin("*")]
+    public class BacklogsController : BoomController
     {
         private BoomContext boomContext;
 
@@ -22,7 +22,8 @@ namespace Boom.Controllers
         public IActionResult Get()
         {
             var backlogs = boomContext.Backlogs.ToList();
-            return this.Json(backlogs);
+
+            return this.JsonSerialized(backlogs);
         }
 
         // GET: /backlogs/{id}
@@ -31,7 +32,7 @@ namespace Boom.Controllers
             var backlog = boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
             if (backlog != null)
             {
-                return this.Json(backlog);
+                return this.JsonSerialized(backlog);
             }
             else
             {
@@ -46,7 +47,8 @@ namespace Boom.Controllers
             var persistedBacklog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
             persistedBacklog.Name = backlog.Name;
             this.boomContext.SaveChanges();
-            return this.Json(persistedBacklog);
+
+            return this.JsonSerialized(persistedBacklog);
         }
 
         // POST: /backlogs/{id}
@@ -58,7 +60,7 @@ namespace Boom.Controllers
             this.boomContext.Add(backlog);
             this.boomContext.SaveChanges();
 
-            return this.Json(backlog);
+            return this.JsonSerialized(backlog);
         }
 
         // DELETE: /backlogs/{id}

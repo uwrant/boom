@@ -7,7 +7,7 @@ using System.Net;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class SurveyOptionsController : Controller
+    public class SurveyOptionsController : BoomController
     {
         private BoomContext boomContext;
 

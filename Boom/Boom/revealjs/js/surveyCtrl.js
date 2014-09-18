@@ -1,13 +1,13 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyServiceMock, backlogService, surveyService, revealService, toaster) {
+    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, SurveyOptionsService, ParticipantsService, revealService, toaster, $location, $interval) {
         'use strict';
 
-        var SurveyService = SurveyServiceMock;
+        var vm = this,
+            participantsQueryIntervalPromise = undefined;
 
-        var vm = this;
-        vm.qrCodeText = "''";
+        vm.qrCodeText = "";
 
         var checkPreConditions = function () {
             if (typeof backlogService.getSelectedBacklog() === 'undefined') {
@@ -16,7 +16,7 @@
                 return false;
             }
 
-            if (surveyService.getOptions() == null || typeof surveyService.getOptions() === 'undefined') {
+            if (SurveyOptionsService.getOptions() == null || typeof SurveyOptionsService.getOptions() === 'undefined' || SurveyOptionsService.getOptions().length == 0) {
                 toaster.pop('error', "", "Please select at least one option for the survey!", 10000);
                 revealService.navigateToSlide("BacklogContentSlide");
                 return false;
@@ -29,16 +29,25 @@
             var selectedBacklog = backlogService.getSelectedBacklog();
             
             vm.survey = SurveyService.create({
+                Name: "SurveyName is not defined yet....",
                 CreationDate: new Date(),
-                StartDate: new Date(),
-                Options: surveyService.getOptions()
+                Options: SurveyOptionsService.getOptions()
             }, function (data) {
                 createQrCodeText();
+                participantsQueryIntervalPromise = $interval(getParticipants, 3000);
+            }, function () {
+                toaster.pop('error', "", "Error creating the survey!", 10000);
             });
         };
 
         var createQrCodeText = function () {
-            vm.qrCodeText = "'http://www.nba.com'"
+            vm.qrCodeText = "http://" + $location.host() + ":" + $location.port() + "/surveys/" + vm.survey.Id;
+        };
+
+        var getParticipants = function () {
+            if (typeof vm.survey !== 'undefined') {
+                vm.participants = ParticipantsService.query({ surveyId: vm.survey.Id });
+            }
         };
 
         $scope.$on("slidechanged:SurveyStartSlide", function (event, data) {
@@ -47,9 +56,19 @@
             }
         });
 
+        $scope.$on("slidechanged", function (event, data) {
+            if (typeof participantsQueryIntervalPromise !== 'undefined') {
+                $interval.cancel(participantsQueryIntervalPromise);
+            }
+        });
+
         vm.startSurvey = function () {
-            vm.survey.State = 1; //Started
-            vm.survey.$save();
+            $interval.cancel(participantsQueryIntervalPromise);
+
+            vm.survey.StartDate = new Date(); //Started
+            vm.survey.$save(function () { }, function () {
+                toaster.pop('error', "", "Error starting the survey!", 10000);
+            });
         };
     });
 })();
