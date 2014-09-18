@@ -5,17 +5,21 @@
     // choose one of the following:
     // -Mac
     // -Windows
+    // -Azure
     var backend = 'Windows';
 
-    switch (backend) {
+    switch(backend) {
         case 'Mac':
-            // ----- Spring Backend Config
+            // ----- Mac Backend Config
             AppConstants.constant('REST_API_URL', 'http://localhost:5004');
             break;
         case 'Windows':
             // ----- .NET Backend Config
             AppConstants.constant('REST_API_URL', 'http://localhost:5001');
-
+            break;
+        case 'Azure':
+            // ----- Azures Backend Config
+            AppConstants.constant('REST_API_URL', 'http://boom-test.azurewebsites.net/');
             break;
     }
 
@@ -23,3 +27,4 @@
     AppConstants.constant('AZURE_API_KEY', 'gDabIJgwJZhPFohnwPlsiWvCnQeXgF73');
     AppConstants.constant('GOOGLE_SENDER_ID', '429951346691');
 })();
+

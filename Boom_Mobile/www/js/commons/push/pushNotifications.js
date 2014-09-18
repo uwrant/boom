@@ -6,7 +6,7 @@ var app = app || {};
   var rootScope = null;
 
   angular.module('jet.commons.push')
-    .factory('pushNotifications', function ($window, $ionicPlatform, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID) {
+    .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID) {
       rootScope = $rootScope;
       var mobileClient;
       var hub;
@@ -17,36 +17,34 @@ var app = app || {};
       };
 
       function init() {
-        $ionicPlatform.ready(function () {
-          alert("Test!");
+        alert("Test!");
 
-          if (!$window.cordova) {
-            return;
-          }
+        if (!$window.cordova) {
+          return;
+        }
 
-          mobileClient = new WindowsAzure.MobileServiceClient(AZURE_API_URL, AZURE_API_KEY);
-          hub = new NotificationHub(mobileClient);
+        mobileClient = new WindowsAzure.MobileServiceClient(AZURE_API_URL, AZURE_API_KEY);
+        hub = new NotificationHub(mobileClient);
 
-          var androidConfig = {
-            "senderID": GOOGLE_SENDER_ID,
-            "ecb": "app.onNotificationGCM"
-          };
+        var androidConfig = {
+          "senderID": GOOGLE_SENDER_ID,
+          "ecb": "app.onNotificationGCM"
+        };
 
-          $cordovaPush.register(androidConfig).then(function (result) {
-            alert(result);
-          }, function (err) {
-            alert(err);
-          });
+        $cordovaPush.register(androidConfig).then(function (result) {
+          alert(result);
+        }, function (err) {
+          alert(err);
         });
       }
 
       function subscribe(tag) {
-        if (!app.gcmId){
+        if (!app.gcmId) {
           alert("Device registration token unknown.");
           return;
         }
 
-        if (!hub){
+        if (!hub) {
           alert("Push notifications not initialized.");
         }
 

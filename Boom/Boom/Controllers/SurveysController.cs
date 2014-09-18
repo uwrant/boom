@@ -47,5 +47,22 @@ namespace Boom.Controllers
 
             return this.Json(survey);
         }
+
+        // POST: /surveys/
+        public IActionResult Post([FromBody] Survey survey)
+        {
+            this.boomContext.Add(survey);
+
+            foreach (var option in survey.Options)
+            {
+                option.Survey = survey;
+                option.SurveyId = survey.Id;
+                this.boomContext.Add(option);
+            }
+
+            this.boomContext.SaveChanges();
+
+            return this.Json(survey);
+        }
     }
 }
