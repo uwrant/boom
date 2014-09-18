@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Boom.Controllers
 {
-     [AccessControlAllowOrigin("*")]
+    [AccessControlAllowOrigin("*")]
+    [ApplicationJsonHeader]
     public class BacklogsController : BoomController
     {
         private BoomContext boomContext;

@@ -7,6 +7,7 @@ using System.Net;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
+    [ApplicationJsonHeader]
     public class SurveyOptionsController : BoomController
     {
         private BoomContext boomContext;
@@ -20,7 +21,7 @@ namespace Boom.Controllers
         public IActionResult Get(long surveyId)
         {
             var options = this.boomContext.SurveyOptions.Where(o => o.SurveyId == surveyId).ToList();
-            return this.Json(options);
+            return this.JsonSerialized(options);
         }
 
         // GET: /surveys/{surveyId}/options/{id}
@@ -31,7 +32,7 @@ namespace Boom.Controllers
             {
                 return this.HttpNotFound();
             }
-            return this.Json(option);
+            return this.JsonSerialized(option);
         }
 
         // POST:  /surveys/{surveyId}/options/{id}
@@ -51,7 +52,7 @@ namespace Boom.Controllers
             option.SurveyId = surveyId;
 
             boomContext.SaveChanges();
-            return this.Json(option);
+            return this.JsonSerialized(option);
         }
 
         // PUT: /surveys/{surveyId}/options/{id}
@@ -67,7 +68,7 @@ namespace Boom.Controllers
             persistedOption.Description = option.Description;
 
             this.boomContext.SaveChanges();
-            return this.Json(option);
+            return this.JsonSerialized(option);
         }
 
         // DELETE: /surveys/{surveyId}/options/{id}

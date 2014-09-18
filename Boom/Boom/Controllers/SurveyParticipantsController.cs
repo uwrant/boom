@@ -7,7 +7,8 @@ using System.Net;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class SurveyParticipantsController : Controller
+    [ApplicationJsonHeader]
+    public class SurveyParticipantsController : BoomController
     {
         private BoomContext boomContext;
 
@@ -20,7 +21,7 @@ namespace Boom.Controllers
         public IActionResult Get(long surveyId)
         {
             var participants = this.boomContext.Participants.Where(p => p.SurveyId == surveyId).ToList();
-            return this.Json(participants);
+            return this.JsonSerialized(participants);
         }
 
         // POST:  /surveys/{surveyId}/participants
@@ -42,7 +43,7 @@ namespace Boom.Controllers
             participant.SurveyId = surveyId;
 
             boomContext.SaveChanges();
-            return this.Json(participant);
+            return this.JsonSerialized(participant);
         }
     }
 }
