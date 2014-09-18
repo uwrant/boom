@@ -115,7 +115,7 @@
                     <thead>
                         <tr>
                             <th>Description</th>
-                            <th style="width: 10px;">&nbsp;</th>
+                            <th style="width: 70px;">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,7 +131,7 @@
                         </tr>
                         <tr>
                             <td><input type="text" placeholder="Description" ng-model="ctrl.newOption.Description" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false">Hinzufügen</button></td>
+                            <td><button type="button" class="btn pull-right" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false"><span class="fa fa-plus"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
