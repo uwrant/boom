@@ -29,6 +29,17 @@ angular.module('surveyResults')
                 //but we won't need that this time
                 var chart = d3.select(element[0]);
 
+                var maxCount = JSLINQ(scope.data)
+                    .Select(function(item) { return item.count; })
+                    .OrderByDescending(function(item) { return item; })
+                    .First();
+
+                JSLINQ(scope.data).Select(function(item) {
+                    item.width = ((item.count / maxCount) * 100) - 2 + '%';
+
+                    return item.width;
+                })
+
                 //to our original directive markup bars-chart
                 //we add a div with out chart stling and bind each
                 //data entry to the chart
@@ -36,7 +47,7 @@ angular.module('surveyResults')
                     .selectAll('div')
                     .data(scope.data).enter().append("div")
                     .transition().ease("elastic")
-                    .style("width", function(d) { return d.count + "%"; })
+                    .style("width", function(d) { return d.width; })
                     .text(function(d) { return d.label + ': ' + d.count; });
                 //a little of magic: setting it's width based
                 //on the data value (d)
