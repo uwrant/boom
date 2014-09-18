@@ -24,7 +24,8 @@ namespace Boom
         public DbSet<SurveyOption> SurveyOptions { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Participant> Participants { get; set; }
-
+        public DbSet<SurveyOptionVote> SurveyOptionVotes { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Backlog -> BacklogOption
@@ -66,10 +67,26 @@ namespace Boom
                     p.ForeignKey<Survey>(s => s.SurveyId);
                 });
 
-            var surveyParticipant = builder.Model.GetEntityType(typeof(Participant));
-            var surveyParticipantFk = surveyParticipant.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
+            var participant = builder.Model.GetEntityType(typeof(Participant));
+            var surveyParticipantFk = participant.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
             survey.AddNavigation(new Navigation(surveyParticipantFk, "Participants", pointsToPrincipal: false));
-            surveyParticipant.AddNavigation(new Navigation(surveyParticipantFk, "Survey", pointsToPrincipal: true));
+            participant.AddNavigation(new Navigation(surveyParticipantFk, "Survey", pointsToPrincipal: true));
+
+            // Vote -> Participant
+
+            builder.Entity<Vote>()
+                .ForeignKeys(p =>
+                {
+                    p.ForeignKey<Participant>(v => v.ParticipantId);
+                });
+
+            var vote = builder.Model.GetEntityType(typeof(Vote));
+            var voteParticipantFk = vote.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "ParticipantId"));
+            vote.AddNavigation(new Navigation(voteParticipantFk, "Participant", pointsToPrincipal: true));
+
+            // Vote -> SurveyOption
+
+            // SurveyOption -> SurveyOptionVote
         }
     }
 
