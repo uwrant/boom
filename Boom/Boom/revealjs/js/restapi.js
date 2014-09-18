@@ -23,7 +23,8 @@
     app.factory("SurveyService", function ($resource) {
         return $resource("/surveys/:id", {}, {
             save: { method: 'PUT' },
-            create: { method: 'POST' }
+            create: { method: 'POST' },
+            start: { method: 'PATCH' }
         });
     });
 
