@@ -23,6 +23,23 @@ html.zuehlke-bg-parallax body {
     background-image: url("../images/presentation/sidney_night.jpg");
 }
 
+.no-text-selection {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.table.boom-table.boom-table-hover tr:hover {
+    background-color: rgba(238, 238, 238, 0.47);
+}
+
 /* Style for print parallax */
 body.print-pdf section.zuehlke-bg-parallax{
     /*Make sure paralax background is visible when print mode is active*/
@@ -41,14 +58,6 @@ table.boom-table thead tr th {
     font-size: 110%;
 }
 
-table.boom-table td.voting-table-title {
-    width: 520px;
-}
-
-table.boom-table td.voting-table-vote {
-    text-align: right;
-}
-
 table.boom-table td {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -56,7 +65,7 @@ table.boom-table td {
 }
 table.boom-table td input, 
 table.boom-table td textarea{
-    height: 50px;
+    height: 31px;
     width: 100%;
     font-size: 100%;
     vertical-align: middle;
@@ -67,12 +76,12 @@ table.boom-table td input.votes {
     text-align: right;
 }
 
-table.boom-table tr.disabled span {
+table.boom-table span.disabled {
     text-decoration: line-through;
     color: #ddd;
 }
 table.boom-table tr button {
-    margin: 5px;
+    margin: 1px;
 }
 
 table.boom-table tr.selected {

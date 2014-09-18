@@ -26,6 +26,10 @@
 
             BacklogsService.create(newBacklog, function (data) {
                 vm.backlogs.push(data);
+
+                if (vm.backlogs.length == 1) {
+                    selectFirstBacklog();
+                }
             }, function () {
                 toaster.pop('error', "", "Error creating a new backlog entry!", 10000);
             });

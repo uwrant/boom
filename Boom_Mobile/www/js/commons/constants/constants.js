@@ -22,5 +22,10 @@
             AppConstants.constant('REST_API_URL', 'http://boom-test.cloudapp.net:80');
             break;
     }
+
+    AppConstants.constant('AZURE_API_URL', 'https://arts-push.azure-mobile.net/');
+    AppConstants.constant('AZURE_API_KEY', 'gDabIJgwJZhPFohnwPlsiWvCnQeXgF73');
+    AppConstants.constant('GOOGLE_SENDER_ID', '429951346691');
+    AppConstants.constant('PUSH_NOTIFICATION_EVENT', 'pushNotificationEvent');
 })();
 

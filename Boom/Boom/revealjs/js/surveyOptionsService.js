@@ -2,7 +2,7 @@
     'use strict';
     var app = angular.module('boom');
 
-    app.factory("surveyService", function () {
+    app.factory("SurveyOptionsService", function () {
        
         var options = undefined;
 
