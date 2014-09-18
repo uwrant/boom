@@ -56,7 +56,7 @@ table.boom-table td {
 }
 table.boom-table td input, 
 table.boom-table td textarea{
-    height: 50px;
+    height: 31px;
     width: 100%;
     font-size: 100%;
     vertical-align: middle;
@@ -67,7 +67,7 @@ table.boom-table td input.votes {
     text-align: right;
 }
 
-table.boom-table tr.disabled span {
+table.boom-table span.disabled {
     text-decoration: line-through;
     color: #ddd;
 }
