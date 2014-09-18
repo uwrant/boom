@@ -11,9 +11,9 @@
 }
 
 .chart div {
-    font: 10px sans-serif;
+    font-size: 150%;
     background-color: steelblue;
-    text-align: right;
+    text-align: left;
     padding: 3px;
     margin: 5px;
     color: white;
