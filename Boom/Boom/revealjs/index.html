@@ -120,7 +120,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="option in ctrl.options" ng-class="{disabled: option.disabled}">
-                            <td class="voting-table-title"><span>{{option.Name}}</span></td>
+                            <td class="voting-table-title"><span>{{option.Description}}</span></td>
                             <td>
                                 <a ng-click="ctrl.removeOption(option)">Löschen</a> /
                                 <a ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
@@ -128,7 +128,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Name" /></td>
+                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Description" /></td>
                             <td><button type="button" class="btn" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false">Hinzufügen</button></td>
                         </tr>
                     </tbody>
