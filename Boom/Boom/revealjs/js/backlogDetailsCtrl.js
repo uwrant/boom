@@ -2,7 +2,7 @@
     'use strict';
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService, backlogService, surveyService, toaster) {
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService, backlogService, SurveyOptionsService, toaster) {
 
         var vm = this;
         vm.options = {}; 
@@ -17,7 +17,7 @@
         });
 
         $scope.$watch("ctrl.options", function () {
-            surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
+            SurveyOptionsService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
         }, true);
 
         vm.newOption = { Description: '', disabled: false };

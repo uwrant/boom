@@ -63,7 +63,7 @@
     <script src="js/backlogCtrl.js"></script>
     <script src="js/backlogDetailsCtrl.js"></script>
     <script src="js/surveyCtrl.js"></script>
-    <script src="js/surveyService.js"></script>
+    <script src="js/surveyOptionsService.js"></script>
     <script src="js/revealService.js"></script>
 
 </head>
@@ -153,36 +153,22 @@
                         <div class="row">
                             <h2>Teilnehmer</h2>
                         </div>
-                        
 
-                        <!--<ul ng-repeat="participant in ctrl.participants">
-                            <li>{{participant.Name}}</li>
-                        </ul>-->
+                        <div class="row" ng-repeat="participant in ctrl.participants">
+                            <div class="col-md-6">
+                                {{participant.Name}}
+                            </div>
+                        </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-6">
                                 ozu
                             </div>
                             <div class="col-md-6">
                                 iszu
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                sdf
-                            </div>
-                            <div class="col-md-6">
-                                ssdf
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                hsf
-                            </div>
-                            <div class="col-md-6">
-                                drfh
-                            </div>
-                        </div>
+                        </div>-->
+                        
                     </div>
 
                     <div class="col-md-6">
