@@ -16,6 +16,11 @@
             },
             create: {
                 method: 'POST'
+            },
+            delete: {
+                url: "/options/:Id",
+                method: 'DELETE',
+                params: { Id: '@Id' }
             }
         });
     });
