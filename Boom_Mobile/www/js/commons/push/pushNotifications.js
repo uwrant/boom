@@ -7,7 +7,7 @@ var app = app || {};
   var notificationEventName;
 
   angular.module('jet.commons.push')
-    .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID, PUSH_NOTIFICATION_EVENT) {
+    .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID, PUSH_NOTIFICATION_EVENT, $cordovaDevice) {
       rootScope = $rootScope;
       notificationEventName = PUSH_NOTIFICATION_EVENT;
 
@@ -27,16 +27,11 @@ var app = app || {};
         mobileClient = new WindowsAzure.MobileServiceClient(AZURE_API_URL, AZURE_API_KEY);
         hub = new NotificationHub(mobileClient);
 
-        var androidConfig = {
-          "senderID": GOOGLE_SENDER_ID,
-          "ecb": "app.onNotificationGCM"
-        };
+        var device = $cordovaDevice.getDevice();
 
-        $cordovaPush.register(androidConfig).then(function (result) {
-          console.log("$cordovaPush.register: " + result);
-        }, function (err) {
-          alert(err);
-        });
+        if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos"){
+          initAndroid();
+        }
       }
 
       function subscribe(tag) {
@@ -56,6 +51,19 @@ var app = app || {};
           alert("Registered with hub!");
         }).fail(function (error) {
           alert("Failed registering with hub: " + error);
+        });
+      }
+
+      function initAndroid(){
+        var androidConfig = {
+          "senderID": GOOGLE_SENDER_ID,
+          "ecb": "app.onNotificationGCM"
+        };
+
+        $cordovaPush.register(androidConfig).then(function (result) {
+          console.log("$cordovaPush.register: " + result);
+        }, function (err) {
+          alert(err);
         });
       }
     });
