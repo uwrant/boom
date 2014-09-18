@@ -3,11 +3,14 @@ var app = app || {};
 (function () {
   'use strict';
 
-  var rootScope = null;
+  var rootScope;
+  var notificationEventName;
 
   angular.module('jet.commons.push')
-    .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID) {
+    .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID, PUSH_NOTIFICATION_EVENT) {
       rootScope = $rootScope;
+      notificationEventName = PUSH_NOTIFICATION_EVENT;
+
       var mobileClient;
       var hub;
 
@@ -17,8 +20,6 @@ var app = app || {};
       };
 
       function init() {
-        alert("Test!");
-
         if (!$window.cordova) {
           return;
         }
@@ -32,7 +33,7 @@ var app = app || {};
         };
 
         $cordovaPush.register(androidConfig).then(function (result) {
-          alert(result);
+          console.log("$cordovaPush.register: " + result);
         }, function (err) {
           alert(err);
         });
@@ -74,6 +75,7 @@ var app = app || {};
         // Handle the received notification when the app is running
         // and display the alert message.
         alert(e.payload.message);
+        rootScope.$broadcast(notificationEventName, e.payload.message);
         break;
 
       case 'error':
