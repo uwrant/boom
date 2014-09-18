@@ -6,7 +6,7 @@
     // -Mac
     // -Windows
     // -Azure
-    var backend = 'Windows';
+    var backend = 'Azure';
 
     switch(backend) {
         case 'Mac':
