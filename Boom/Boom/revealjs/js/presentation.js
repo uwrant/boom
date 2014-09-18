@@ -11,6 +11,7 @@
         var name = event.currentSlide.getAttribute("data-slide-name");
 
         if (typeof $rootScope !== 'undefined') {
+            $rootScope.$broadcast("slidechanged", name);
             $rootScope.$broadcast("slidechanged:" + name, name);
         }
     });

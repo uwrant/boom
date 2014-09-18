@@ -4,8 +4,10 @@
     app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, SurveyOptionsService, ParticipantsService, revealService, toaster, $location, $interval) {
         'use strict';
 
-        var vm = this;
-        vm.qrCodeText = "''";
+        var vm = this,
+            participantsQueryIntervalPromise = undefined;
+
+        vm.qrCodeText = "";
 
         var checkPreConditions = function () {
             if (typeof backlogService.getSelectedBacklog() === 'undefined') {
@@ -32,7 +34,7 @@
                 Options: SurveyOptionsService.getOptions()
             }, function (data) {
                 createQrCodeText();
-                $interval(getParticipants, 3000);
+                participantsQueryIntervalPromise = $interval(getParticipants, 3000);
             }, function () {
                 toaster.pop('error', "", "Error creating the survey!", 10000);
             });
@@ -54,7 +56,15 @@
             }
         });
 
+        $scope.$on("slidechanged", function (event, data) {
+            if (typeof participantsQueryIntervalPromise !== 'undefined') {
+                $interval.cancel(participantsQueryIntervalPromise);
+            }
+        });
+
         vm.startSurvey = function () {
+            $interval.cancel(participantsQueryIntervalPromise);
+
             vm.survey.StartDate = new Date(); //Started
             vm.survey.$save(function () { }, function () {
                 toaster.pop('error', "", "Error starting the survey!", 10000);
