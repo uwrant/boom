@@ -67,9 +67,9 @@ namespace Boom
                 });
 
             var surveyParticipant = builder.Model.GetEntityType(typeof(Participant));
-            var surveyParticipantFk = surveyOption.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
+            var surveyParticipantFk = surveyParticipant.ForeignKeys.Single(f => f.Properties.Any(p => p.Name == "SurveyId"));
             survey.AddNavigation(new Navigation(surveyParticipantFk, "Participants", pointsToPrincipal: false));
-            surveyOption.AddNavigation(new Navigation(surveyParticipantFk, "Participant", pointsToPrincipal: true));
+            surveyParticipant.AddNavigation(new Navigation(surveyParticipantFk, "Survey", pointsToPrincipal: true));
         }
     }
 

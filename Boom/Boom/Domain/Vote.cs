@@ -5,7 +5,7 @@ namespace Boom.Domain
 {
     public class Vote : EntityBase
     {
-        public IList<SurveyOption> Options { get; set; }
+        public IDictionary<SurveyOption, int> Options { get; set; }
 
         public Participant Participant { get; set; }
     }

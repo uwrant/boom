@@ -120,7 +120,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="option in ctrl.options track by $index" ng-class="{disabled: option.disabled}">
+                        <tr ng-repeat="option in ctrl.options" ng-class="{disabled: option.disabled}">
                             <td class="voting-table-title"><span>{{option.Name}}</span></td>
                             <td>
                                 <a ng-click="ctrl.removeOption(option)">Löschen</a> /
@@ -208,6 +208,7 @@
             progress: true,
             history: true,
             center: true,
+            overview: false,
 
             theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
             transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
