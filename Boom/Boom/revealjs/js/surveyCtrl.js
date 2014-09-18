@@ -1,13 +1,14 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, SurveyOptionsService, ParticipantsService, revealService, toaster, $location, $interval) {
+    app.controller("SurveyCtrl", function SurveyCtrl($scope, SurveyService, backlogService, SurveyOptionsService, ParticipantsService, revealService, toaster, $location, $interval) {
         'use strict';
 
         var vm = this,
             participantsQueryIntervalPromise = undefined;
 
         vm.qrCodeText = "";
+        vm.participants = [];
 
         var checkPreConditions = function () {
             if (typeof backlogService.getSelectedBacklog() === 'undefined') {
@@ -28,16 +29,27 @@
         var createNewSurveyFromSelectedBacklog = function () {
             var selectedBacklog = backlogService.getSelectedBacklog();
             
-            vm.survey = SurveyService.create({
-                Name: "SurveyName is not defined yet....",
-                CreationDate: new Date(),
-                Options: SurveyOptionsService.getOptions()
-            }, function (data) {
-                createQrCodeText();
-                participantsQueryIntervalPromise = $interval(getParticipants, 3000);
-            }, function () {
-                toaster.pop('error', "", "Error creating the survey!", 10000);
-            });
+            vm.survey = SurveyOptionsService.getCurrentSurvey();
+
+            if (typeof vm.survey === 'undefined') {
+                vm.survey = SurveyService.create({
+                    Name: "SurveyName is not defined yet....",
+                    CreationDate: new Date(),
+                    Options: SurveyOptionsService.getOptions()
+                }, function (data) {
+                    SurveyOptionsService.setCurrentSurvey(vm.survey);
+                    createQrCodeText();
+                    participantsQueryIntervalPromise = $interval(getParticipants, 3000);
+                }, function () {
+                    toaster.pop('error', "", "Error creating the survey!", 10000);
+                });
+            } else {
+                // Survey exists but not started already
+                if (vm.survey.StartDate === null) {
+                    createQrCodeText();
+                    participantsQueryIntervalPromise = $interval(getParticipants, 3000);
+                }
+            }
         };
 
         var createQrCodeText = function () {

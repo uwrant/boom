@@ -24,13 +24,16 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- plugins -->
+    <script src="plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js"></script>
+    <script src="plugins/org.apache.cordova.device/www/device.js"></script>
+
     <!-- your app's js -->
     <script src="js/commons/constants/module.js"></script>
     <script src="js/commons/constants/constants.js"></script>
     <script src="js/commons/restUtils/module.js"></script>
     <script src="js/commons/restUtils/smartresource.js"></script>
     <script src="js/commons/push/module.js"></script>
-    <script src="js/commons/push/PushNotification.js"></script>
     <script src="js/commons/push/MobileServices.Web-1.1.2.min.js"></script>
     <script src="js/commons/push/NotificationHub.js"></script>
     <script src="js/commons/push/pushNotifications.js"></script>
@@ -42,7 +45,7 @@
 
     <script src="js/surveyResults/module.js"></script>
     <script src="js/surveyResults/barsChart.js"></script>
-    <script src="js/surveyResults/surveyResultsService.js"></script>
+    <script src="js/surveyResults/SurveyResultsService.js"></script>
     <script src="js/surveyResults/surveyResultsCtrl.js"></script>
     <script src="js/surveyResults/surveyResultCtrl.js"></script>
 </head>

@@ -57,6 +57,8 @@
             if (index > -1) {
                 vm.options.splice(index, 1);
             }
+
+            option.$delete();
         }
 
         vm.toggleOption = function (option) {
