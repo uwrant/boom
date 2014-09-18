@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, surveyService, revealService, toaster, $location) {
+    app.controller("SurveyCtrl", function BacklogCtrl($scope, SurveyService, backlogService, SurveyOptionsService, ParticipantsService, revealService, toaster, $location, $interval) {
         'use strict';
 
         var vm = this;
@@ -14,7 +14,7 @@
                 return false;
             }
 
-            if (surveyService.getOptions() == null || typeof surveyService.getOptions() === 'undefined' || surveyService.getOptions().length == 0) {
+            if (SurveyOptionsService.getOptions() == null || typeof SurveyOptionsService.getOptions() === 'undefined' || SurveyOptionsService.getOptions().length == 0) {
                 toaster.pop('error', "", "Please select at least one option for the survey!", 10000);
                 revealService.navigateToSlide("BacklogContentSlide");
                 return false;
@@ -29,9 +29,10 @@
             vm.survey = SurveyService.create({
                 Name: "SurveyName is not defined yet....",
                 CreationDate: new Date(),
-                Options: surveyService.getOptions()
+                Options: SurveyOptionsService.getOptions()
             }, function (data) {
                 createQrCodeText();
+                $interval(getParticipants, 3000);
             }, function () {
                 toaster.pop('error', "", "Error creating the survey!", 10000);
             });
@@ -39,6 +40,12 @@
 
         var createQrCodeText = function () {
             vm.qrCodeText = "http://" + $location.host() + ":" + $location.port() + "/surveys/" + vm.survey.Id;
+        };
+
+        var getParticipants = function () {
+            if (typeof vm.survey !== 'undefined') {
+                vm.participants = ParticipantsService.query({ surveyId: vm.survey.Id });
+            }
         };
 
         $scope.$on("slidechanged:SurveyStartSlide", function (event, data) {
