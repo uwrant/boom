@@ -1,12 +1,13 @@
 using Boom.Domain;
 using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class SurveysController : Controller
+    public class SurveysController : BoomController
     {
         private BoomContext boomContext;
 
@@ -19,20 +20,35 @@ namespace Boom.Controllers
         public IActionResult Get()
         {
             var surveys = this.boomContext.Surveys.ToList();
-            return this.Json(surveys);
+
+            foreach (var survey in surveys)
+            {
+                survey.Options = this.boomContext.SurveyOptions.Where(so => so.SurveyId == survey.Id).ToList();
+                survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
+            }
+
+            return this.JsonSerialized(surveys);
         }
 
         // GET: /surveys/?open=true
         public IActionResult Get(bool open)
         {
-            var surveys = this.boomContext.Surveys.AsQueryable();
+            var surveysQuery = this.boomContext.Surveys.AsQueryable();
 
             if (open)
             {
-                surveys = surveys.Where(s => s.EndDate < DateTime.Now && s.EndDate > s.StartDate);
+                surveysQuery = surveysQuery.Where(s => s.EndDate == null);
             }
 
-            return this.Json(surveys);
+            var surveys = surveysQuery.ToList();
+
+            foreach (var survey in surveys)
+            {
+                survey.Options = this.boomContext.SurveyOptions.Where(so => so.SurveyId == survey.Id).ToList();
+                survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
+            }
+
+            return this.JsonSerialized(surveys);
         }
 
         // GET: /surveys/{id}
@@ -45,7 +61,7 @@ namespace Boom.Controllers
                 return this.HttpNotFound();
             }
 
-            return this.Json(survey);
+            return this.JsonSerialized(survey);
         }
 
         // POST: /surveys/
@@ -62,7 +78,34 @@ namespace Boom.Controllers
 
             this.boomContext.SaveChanges();
 
-            return this.Json(survey);
+            return this.JsonSerialized(survey);
+        }
+
+        // POST: /surveys/id/participants
+        public IActionResult Post(long id, [FromBody] string name)
+        {
+            var survey = this.boomContext.Surveys.SingleOrDefault(s => s.Id == id);
+
+            if (survey == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            var participant = survey.Participants.SingleOrDefault(p => p.Name == name);
+
+            if (participant != null)
+            {
+                var participantContent = JsonConvert.SerializeObject(participant);
+                return this.Content(participantContent);
+            }
+
+            participant = new Participant { Name = name, Survey = survey, SurveyId = survey.Id };
+            survey.Participants.Add(participant);
+
+            this.boomContext.Add(participant);
+            this.boomContext.SaveChanges();
+
+            return this.JsonSerialized(participant);
         }
     }
 }

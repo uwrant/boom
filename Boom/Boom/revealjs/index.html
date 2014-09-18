@@ -59,12 +59,11 @@
 
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
-    <script src="js/factories.js"></script>
 	<script src="js/backlogService.js"></script>
     <script src="js/backlogCtrl.js"></script>
     <script src="js/backlogDetailsCtrl.js"></script>
     <script src="js/surveyCtrl.js"></script>
-    <script src="js/surveyService.js"></script>
+    <script src="js/surveyOptionsService.js"></script>
     <script src="js/revealService.js"></script>
 
 </head>
@@ -104,7 +103,7 @@
                         </tr>
                         <tr>
                             <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()"><span class="fa fa-plus"></span></button></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()" ng-disabled="ctrl.newBacklog.Name == false"><span class="fa fa-plus"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,16 +119,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="option in ctrl.options" ng-class="{disabled: option.disabled}">
-                            <td class="voting-table-title"><span>{{option.Name}}</span></td>
+                        <tr ng-repeat="option in ctrl.options">
+                            <td class="voting-table-title"><span ng-class="{disabled: option.disabled}">{{option.Description}}</span></td>
                             <td>
-                                <a ng-click="ctrl.removeOption(option)">Löschen</a> /
-                                <a ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
-                                <a ng-click="ctrl.nowOption(option)" ng-show="option.disabled">Jetzt</a>
+                                <span ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled" class="fa fa-toggle-on"></span>
+                                <span ng-click="ctrl.nowOption(option)" ng-show="option.disabled" class="fa fa-toggle-off"></span>
+                                <span ng-click="ctrl.removeOption(option)" class="fa fa-trash-o"></span>
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Name" /></td>
+                            <td><input type="text" placeholder="Description" ng-model="ctrl.newOption.Description" /></td>
                             <td><button type="button" class="btn" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false">Hinzufügen</button></td>
                         </tr>
                     </tbody>
@@ -154,36 +153,22 @@
                         <div class="row">
                             <h2>Teilnehmer</h2>
                         </div>
-                        
 
-                        <!--<ul ng-repeat="participant in ctrl.participants">
-                            <li>{{participant.Name}}</li>
-                        </ul>-->
+                        <div class="row" ng-repeat="participant in ctrl.participants">
+                            <div class="col-md-6">
+                                {{participant.Name}}
+                            </div>
+                        </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-6">
                                 ozu
                             </div>
                             <div class="col-md-6">
                                 iszu
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                sdf
-                            </div>
-                            <div class="col-md-6">
-                                ssdf
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                hsf
-                            </div>
-                            <div class="col-md-6">
-                                drfh
-                            </div>
-                        </div>
+                        </div>-->
+                        
                     </div>
 
                     <div class="col-md-6">
