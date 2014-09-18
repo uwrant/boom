@@ -2,17 +2,14 @@
     'use strict';
     var app = angular.module('boom');
 
-    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsServiceMock, backlogService, surveyService) {
+    app.controller("BacklogDetailCtrl", function BacklogDetailCtrl($scope, OptionsService, backlogService, surveyService, toaster) {
 
         var vm = this;
         vm.options = {}; 
 
-        var OptionsService = OptionsServiceMock
-
         $scope.$on("slidechanged:BacklogContentSlide", function () {
             // TODO: check preconditions
             var selectedBacklog = backlogService.getSelectedBacklog();
-            console.log('backlogid: ' + selectedBacklog.Id);
             vm.options = OptionsService.query({ backlogId: selectedBacklog.Id });
 
             // TODO ozu: check if digest call is necessarry when calling the real service
@@ -23,23 +20,28 @@
             surveyService.setOptions(Enumerable.From(vm.options).Where(function (p) { return p.disabled == undefined || p.disabled == false }).ToArray());
         }, true);
 
-        vm.newOption = { Name: '', disabled: false };
+        vm.newOption = { Description: '', disabled: false };
         vm.disabledFilter = { disabled: true };
 
         vm.addOption = function () {
+            var backlogId = backlogService.getSelectedBacklog().Id;
             var newOption = vm.newOption;
 
             if (vm.isNewOptionValid == false) {
                 return;
             }
 
-            vm.options.push(newOption);
+            OptionsService.create({ backlogId: backlogId }, { Description: newOption.Description }, function (data) {
+                    vm.options.push(data);
+                }, function () {
+                    toaster.pop('error', '', 'Error creating the entry!');
+                });
 
-            vm.newOption = { Name: "", disabled: false };
+            vm.newOption = { Description: "", disabled: false };
         }
 
         vm.isNewOptionValid = function () {
-            return vm.newOption.Name.length;
+            return vm.newOption.Description.length;
         }
 
         vm.removeOption = function (option) {
