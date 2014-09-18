@@ -119,12 +119,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="option in ctrl.options" ng-class="{disabled: option.disabled}">
-                            <td class="voting-table-title"><span>{{option.Description}}</span></td>
+                        <tr ng-repeat="option in ctrl.options">
+                            <td class="voting-table-title"><span ng-class="{disabled: option.disabled}">{{option.Description}}</span></td>
                             <td>
-                                <a ng-click="ctrl.removeOption(option)">Löschen</a> /
-                                <a ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
-                                <a ng-click="ctrl.nowOption(option)" ng-show="option.disabled">Jetzt</a>
+                                <span ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled" class="fa fa-toggle-on"></span>
+                                <span ng-click="ctrl.nowOption(option)" ng-show="option.disabled" class="fa fa-toggle-off"></span>
+                                <span ng-click="ctrl.removeOption(option)" class="fa fa-trash-o"></span>
                             </td>
                         </tr>
                         <tr>
