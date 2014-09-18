@@ -109,22 +109,24 @@
                 </table>
             </section>
 
-            <!-- Backlog Details Slide -->
+            <!-- Backlog Content Slide -->
             <section ng-cloak ng-controller="BacklogDetailCtrl as ctrl" class="scrollable" data-title="Backlog Content" data-slide-name="BacklogContentSlide">
-                <table class="table boom-table">
+                <table class="table boom-table boom-table-hover" style="width: 100%">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th width="120px">&nbsp;</th>
+                            <th>Description</th>
+                            <th style="width: 10px;">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="option in ctrl.options">
-                            <td class="voting-table-title"><span ng-class="{disabled: option.disabled}">{{option.Description}}</span></td>
+                        <tr ng-repeat="option in ctrl.options" ng-click="ctrl.toggleOption(option)" class="pointer no-text-selection">
+                            <td><span ng-class="{disabled: option.disabled}">{{option.Description}}</span></td>
                             <td>
-                                <span ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled" class="fa fa-toggle-on"></span>
-                                <span ng-click="ctrl.nowOption(option)" ng-show="option.disabled" class="fa fa-toggle-off"></span>
-                                <span ng-click="ctrl.removeOption(option)" class="fa fa-trash-o"></span>
+                                <div class="pull-right">
+                                    <a><span ng-hide="option.disabled" class="fa fa-toggle-on"></span></a>
+                                    <a><span ng-show="option.disabled" class="fa fa-toggle-off"></span></a>
+                                    <a ng-click="ctrl.removeOption(option)"><span class="fa fa-trash-o"></span></a>
+                                </div>
                             </td>
                         </tr>
                         <tr>

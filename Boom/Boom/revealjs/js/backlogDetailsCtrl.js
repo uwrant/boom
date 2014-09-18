@@ -51,12 +51,8 @@
             }
         }
 
-        vm.notNowOption = function (option) {
-            option.disabled = true;
-        }
-
-        vm.nowOption = function (option) {
-            option.disabled = false;
+        vm.toggleOption = function (option) {
+            option.disabled = !option.disabled;
         }
     });
 })();
