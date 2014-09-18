@@ -1,5 +1,5 @@
 (function(angular){
-    angular.module('starter.services')
+    angular.module('surveyResults')
 
         /**
          * A simple example service that returns some data.

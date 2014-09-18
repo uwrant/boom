@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('surveyResults')
 
 .controller('SurveyResultsCtrl', function($scope, SurveyResults) {
     $scope.friends = SurveyResults.all();
