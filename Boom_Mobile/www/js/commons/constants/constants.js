@@ -19,7 +19,7 @@
             break;
         case 'Azure':
             // ----- Azures Backend Config
-            AppConstants.constant('REST_API_URL', 'http://boom-test.azurewebsites.net/');
+            AppConstants.constant('REST_API_URL', 'http://boom-test.cloudapp.net:80');
             break;
     }
 })();
