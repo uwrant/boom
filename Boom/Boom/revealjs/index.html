@@ -103,7 +103,7 @@
                         </tr>
                         <tr>
                             <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()"><span class="fa fa-plus"></span></button></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()" ng-disabled="ctrl.newBacklog.Name == false"><span class="fa fa-plus"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
