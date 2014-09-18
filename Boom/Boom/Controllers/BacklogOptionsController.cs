@@ -51,7 +51,7 @@ namespace Boom.Controllers
             option.BacklogId = backlogId;
 
             boomContext.SaveChanges();
-            return this.Json(option);
+            return this.Json( new { option.Id, option.Description });
         }
 
         // PUT: /backlogs/{backlogId}/options/{id}
