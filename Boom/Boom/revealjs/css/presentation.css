@@ -67,7 +67,7 @@ table.boom-table td input.votes {
     text-align: right;
 }
 
-table.boom-table tr.disabled span {
+table.boom-table span.disabled {
     text-decoration: line-through;
     color: #ddd;
 }
