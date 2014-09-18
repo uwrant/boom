@@ -22,7 +22,9 @@ namespace Boom.Controllers
         public IActionResult Get()
         {
             var backlogs = boomContext.Backlogs.ToList();
-            return this.Json(backlogs);
+
+            var content = JsonConvert.SerializeObject(backlogs);
+            return this.Content(content);
         }
 
         // GET: /backlogs/{id}
