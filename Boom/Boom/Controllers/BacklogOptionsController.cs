@@ -19,7 +19,7 @@ namespace Boom.Controllers
         // GET: /backlogs/{backlogId}/options
         public IActionResult Get(long backlogId)
         {
-            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId && o.BacklogId == backlogId).ToList();
+            var options = this.boomContext.BacklogOptions.Where(o => o.BacklogId == backlogId).ToList();
             return this.Json(options);
         }
 
