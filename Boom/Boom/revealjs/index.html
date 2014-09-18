@@ -65,6 +65,7 @@
     <script src="js/surveyCtrl.js"></script>
     <script src="js/surveyOptionsService.js"></script>
     <script src="js/revealService.js"></script>
+    <script src="js/surveyProgressCtrl.js"></script>
 
 </head>
 
@@ -137,15 +138,13 @@
                 </table>
             </section>
             
-            <section>
-                <section data-title="Regeln" class='left'>
-                    <h2>Die Regeln</h2>
-                    <ol>
-                        <li>Jeder bekommt <span class="highlight">zwei Stimmen</span></li>
-                        <li>Die beiden Stimmen müssen <span class="highlight">auf verschiedene Vorträge aufgeteilt</span> werden</li>
-                        <li>Stimmenthaltung gibt es im Team Web nicht</li>
-                    </ol>
-                </section>
+            <section data-title="Regeln" class='left'>
+                <h2>Die Regeln</h2>
+                <ol>
+                    <li>Jeder bekommt <span class="highlight">zwei Stimmen</span></li>
+                    <li>Die beiden Stimmen müssen <span class="highlight">auf verschiedene Vorträge aufgeteilt</span> werden</li>
+                    <li>Stimmenthaltung gibt es im Team Web nicht</li>
+                </ol>
             </section>
 
             <!-- Survey Start Slide -->
@@ -156,29 +155,49 @@
                         <div class="row">
                             <h2>Teilnehmer</h2>
                         </div>
-
+                        <div class="row">
+                            <span class="highlight">Anzahl Teilnehmer: {{ctrl.participants.length}}</span>
+                        </div>
                         <div class="row" ng-repeat="participant in ctrl.participants">
-                            <div class="col-md-6">
+                            <div class="col-sm-6">
                                 {{participant.Name}}
                             </div>
                         </div>
 
                         <!--<div class="row">
-                            <div class="col-md-6">
-                                ozu
-                            </div>
-                            <div class="col-md-6">
-                                iszu
-                            </div>
-                        </div>-->
-                        
+                    <div class="col-md-6">
+                        ozu
+                    </div>
+                    <div class="col-md-6">
+                        iszu
+                    </div>
+                </div>-->
+
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <qr text="ctrl.qrCodeText"></qr>
                         <br />
-                        <button type="button" class="punch" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
+                        <button type="button" class="punch" ng-click="ctrl.startSurvey()" ng-disabled="ctrl.survey.StartDate !== null">Abstimmung starten</button>
                     </div>
+                </div>
+            </section>
+
+            <!-- Survey Prograss Slide -->
+            <section ng-cloak ng-controller="SurveyProgressCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyProgressSlide">
+                <div class="row">
+                    <h2>Votes</h2>
+                </div>
+
+                <div class="row" ng-repeat="vote in ctrl.votes">
+                    <div class="col-sm-6">
+                        {{vote.Participant.Name}}
+                    </div>
+                </div>
+                Anzahl Votes: {{ctrl.votes.length}}
+
+                <div class="row">
+                    <button type="button" class="punch" ng-click="ctrl.stopSurvey()" ng-show="ctrl.survey.EndDate === null">Abstimmung stoppen</button>
                 </div>
             </section>
         </div>
