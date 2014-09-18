@@ -7,7 +7,7 @@ using System.Net;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class BacklogOptionsController : Controller
+    public class BacklogOptionsController : BoomController
     {
         private BoomContext boomContext;
 

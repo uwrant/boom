@@ -7,7 +7,7 @@ using System.Linq;
 namespace Boom.Controllers
 {
     [AccessControlAllowOrigin("*")]
-    public class SurveysController : Controller
+    public class SurveysController : BoomController
     {
         private BoomContext boomContext;
 
@@ -27,9 +27,7 @@ namespace Boom.Controllers
                 survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
             }
 
-            var content = JsonConvert.SerializeObject(surveys);
-
-            return this.Content(content);
+            return this.JsonSerialized(surveys);
         }
 
         // GET: /surveys/?open=true
@@ -50,8 +48,7 @@ namespace Boom.Controllers
                 survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
             }
 
-            var content = JsonConvert.SerializeObject(surveys);
-            return this.Content(content);
+            return this.JsonSerialized(surveys);
         }
 
         // GET: /surveys/{id}
@@ -64,8 +61,7 @@ namespace Boom.Controllers
                 return this.HttpNotFound();
             }
 
-            var content = JsonConvert.SerializeObject(survey);
-            return this.Content(content);
+            return this.JsonSerialized(survey);
         }
 
         // POST: /surveys/
@@ -82,8 +78,7 @@ namespace Boom.Controllers
 
             this.boomContext.SaveChanges();
 
-            var content = JsonConvert.SerializeObject(survey);
-            return this.Content(content);
+            return this.JsonSerialized(survey);
         }
 
         // POST: /surveys/id/participants
@@ -110,8 +105,7 @@ namespace Boom.Controllers
             this.boomContext.Add(participant);
             this.boomContext.SaveChanges();
 
-            var content = JsonConvert.SerializeObject(participant);
-            return this.Content(content);
+            return this.JsonSerialized(participant);
         }
     }
 }

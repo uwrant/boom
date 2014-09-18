@@ -4,7 +4,6 @@ namespace Boom.Domain
 {
     public class Backlog : EntityBase
     {
-
         public Backlog()
         {
             Options = new List<BacklogOption>();
