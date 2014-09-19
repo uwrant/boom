@@ -71,7 +71,7 @@
                         }
                     }})
 
-                .state('tab.friends', {
+                .state('tab.results', {
                     url: '/results',
                     views: {
                         'tab-results': {
@@ -80,7 +80,7 @@
                         }
                     }
                 })
-                .state('tab.friend-detail', {
+                .state('tab.result-detail', {
                     url: '/results/:surveyId',
                     views: {
                         'tab-results': {
