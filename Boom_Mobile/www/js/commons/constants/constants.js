@@ -6,6 +6,7 @@
     // -Mac
     // -Windows
     // -Azure
+    // -WindowsDebug
     var backend = 'Azure';
 
     switch(backend) {
@@ -20,6 +21,10 @@
         case 'Azure':
             // ----- Azures Backend Config
             AppConstants.constant('REST_API_URL', 'http://boom-test.cloudapp.net:80');
+            break;
+        case 'WindowsDebug':
+            // ----- .NET Backend Config
+            AppConstants.constant('REST_API_URL', 'http://localhost:52524');
             break;
     }
 
