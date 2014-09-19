@@ -11,8 +11,6 @@ namespace Boom
     {
         public void Configure(IBuilder app)
         {
-            var runningOnMono = Type.GetType("Mono.Runtime") != null;
-
             var configuration = new Configuration();
             configuration.AddJsonFile("config.json");
             configuration.AddEnvironmentVariables();
@@ -22,41 +20,15 @@ namespace Boom
             app.UseServices(services =>
             {
                 services.AddMvc();
-
-                if (runningOnMono)
-                {
-                    // services.AddEntityFramework().AddInMemoryStore();
-                }
-                else
-                {
-                    // services.AddEntityFramework().AddSqlServer();
-                }
-
                 services.AddScoped<BoomContext>();
                 services.AddInstance(configuration);
-
-                //    services.SetupOptions<DbContextOptions>(options =>
-                //   {
-                //      if (runningOnMono)
-                //     {
-                //       options.UseInMemoryStore();
-                //        }
-                //      else
-                //    {
-                //      options.UseSqlServer(configuration.Get("Data:DefaultConnection:ConnectionString"));
-                //}
-                // }
-                //     );
-                //  });
             });
 
             app.Use((context, next) =>
                 {
                     context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
                     context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Origin", "X-Requested-With", "Content-Type", "Accept" });
-
                     return next();
-
                 });
 
             app.UseMvc(routes =>
@@ -98,12 +70,6 @@ namespace Boom
 
             Database.SetInitializer<BoomContext>(new DropCreateDatabaseIfModelChanges<BoomContext>());
 			DbHelper.InitDatabase(app);
-
-            //    if (!runningOnMono)
-            //{
-            //    DbHelper.DropDatabase("BoomDb");
-            //    DbHelper.EnsureDbCreated(app);
-            //}
         }
     }
 }

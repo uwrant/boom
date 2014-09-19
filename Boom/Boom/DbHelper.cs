@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.Builder;
-using Microsoft.Data.Entity.SqlServer;
 using Microsoft.Framework.DependencyInjection;
-using System.Data.SqlClient;
 using Boom.Domain;
 using System.Linq;
 
