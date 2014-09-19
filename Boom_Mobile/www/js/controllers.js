@@ -23,7 +23,9 @@ angular.module('starter.controllers', [])
             ParticipantsRest.create({
                 surveyId: $scope.survey.Id,
                 participant: $scope.participant
-            });
+            }).$promise.then(function(participant) {
+                    $scope.participant = participant;
+                });
         };
 
         $scope.hasJoined = function(){
