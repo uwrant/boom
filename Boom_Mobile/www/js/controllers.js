@@ -21,18 +21,23 @@ angular.module('starter.controllers', [])
         };
 
         $scope.vote = function(){
+            var options = selectedOptions($scope.survey.Options);
             VotesRest.create({
                 surveyId: $scope.survey.Id,
                 Participant:{
                     Id: $scope.participant.Id
                 },
-                Options: selectedOptions()
+                Options: options
             })
         };
 
-        var selectedOptions = function() {
-            Enumerable.From($scope.survey.Options)
-                .Where(option.selected);
+        var selectedOptions = function(options) {
+            return Enumerable.From(options)
+                .Where(function(option){
+                        return option.selected;
+                    })
+                //.Select(function(item){ return item; })
+                .ToArray();
         };
 
         $scope.hasJoined = function(){
