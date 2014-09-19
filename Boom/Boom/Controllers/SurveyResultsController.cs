@@ -21,41 +21,41 @@ namespace Boom.Controllers
         // GET: /surveys/{surveyId}/result
         public IActionResult Get(long surveyId)
         {
-            var options = this.boomContext.SurveyOptions
-                .Where(o => o.Survey.Id == surveyId)
-                .ToList();
+            var survey = this.boomContext.Surveys.Include(t => t.Participants).Include(t => t.Options).SingleOrDefault(t => t.Id == surveyId);
+
+            if (survey == null)
+            {
+                return this.HttpNotFound();
+            }
 
             Dictionary<string, int> result = new Dictionary<string, int>();
 
-            foreach (SurveyOption option in options)
+            foreach (SurveyOption option in survey.Options)
             {
                 result.Add(option.Description, 0);
             }
 
-            var votes = this.boomContext.Votes
-                .Where(v => v.Participant.Survey.Id == surveyId)
-                .Include(v => v.Options)
-                .Include(v => v.Participant)
-                .ToList();
+            List<Vote> votes = new List<Vote>();
+
+            foreach (var participant in survey.Participants)
+            {
+                votes.AddRange(this.boomContext.Votes.Where(p => p.Participant.Id == participant.Id));
+            }
 
             foreach (Vote vote in votes)
             {
                 foreach (SurveyOption option in vote.Options)
                 {
-                    int count;
-                    result.TryGetValue(option.Description, out count);
-                    count++;
-                    result.Remove(option.Description);
-                    result.Add(option.Description, count);
+                    if (!result.ContainsKey(option.Description))
+                    {
+                        result.Add(option.Description, 0);
+                    }
+
+                    result[option.Description] = result[option.Description] + 1;
                 }
             }
 
-        //     [
-        //    {"Description":"value", "Count":1},
-        //{"Description":"value", "Count":1}
-        //    ]
-
-            return this.JsonSerialized(result);
+            return this.JsonSerialized(result.Select(r => new { Description = r.Key, Count = r.Value }));
         }
     }
 }

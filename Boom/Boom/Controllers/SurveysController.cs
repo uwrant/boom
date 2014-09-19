@@ -103,6 +103,7 @@ namespace Boom.Controllers
 
             foreach (var option in survey.Options)
             {
+                option.Id = 0;
                 option.Survey = survey;
                 this.boomContext.SurveyOptions.Add(option);
             }
