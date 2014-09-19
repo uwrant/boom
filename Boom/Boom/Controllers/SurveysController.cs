@@ -59,7 +59,7 @@ namespace Boom.Controllers
                     .Include(p => p.Survey)
                     .ToList();
             }
-            surveys.ToList();
+
             return this.JsonSerialized(surveys);
         }
 

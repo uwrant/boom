@@ -6,11 +6,18 @@ var app = app || {};
   var rootScope;
   var notificationEventName;
 
+  var platformTypes = {
+    unknown: 0,
+    android: 1,
+    ios: 2
+  };
+
   angular.module('jet.commons.push')
     .factory('pushNotifications', function ($window, $cordovaPush, $rootScope, AZURE_API_URL, AZURE_API_KEY, GOOGLE_SENDER_ID, PUSH_NOTIFICATION_EVENT, $cordovaDevice) {
       rootScope = $rootScope;
       notificationEventName = PUSH_NOTIFICATION_EVENT;
 
+      var platformType;
       var mobileClient;
       var hub;
 
@@ -24,13 +31,13 @@ var app = app || {};
           return;
         }
 
+        platformType = detectPlatformType();
+
         mobileClient = new WindowsAzure.MobileServiceClient(AZURE_API_URL, AZURE_API_KEY);
         hub = new NotificationHub(mobileClient);
 
-        var device = $cordovaDevice.getDevice();
-
-        if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos"){
-          initAndroid();
+        if (platformType === platformTypes.android){
+          initGCMPush();
         }
       }
 
@@ -54,7 +61,20 @@ var app = app || {};
         });
       }
 
-      function initAndroid(){
+      function detectPlatformType(){
+        var device = $cordovaDevice.getDevice();
+        if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos"){
+          return platformTypes.android;
+        }
+
+        if (device.platform === 'iOS'){
+          return platformTypes.ios;
+        }
+
+        return platformTypes.unknown;
+      }
+
+      function initGCMPush(){
         var androidConfig = {
           "senderID": GOOGLE_SENDER_ID,
           "ecb": "app.onNotificationGCM"

@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
             $scope.participant = participant;
             ParticipantsRest.create({
                 surveyId: $scope.survey.Id,
-                participant: $scope.participant
+                Name: $scope.participant.Name
             }).$promise.then(function(participant) {
                     $scope.participant = participant;
                     pushNotifications.subscribe($scope.survey.Id);
