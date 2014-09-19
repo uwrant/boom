@@ -22,6 +22,7 @@ namespace Boom
                 services.AddMvc();
                 services.AddScoped<BoomContext>();
                 services.AddInstance(configuration);
+                services.AddSingleton<PushNotificationSender>();
             });
 
             app.Use((context, next) =>
