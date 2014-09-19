@@ -1,8 +1,16 @@
 (function () {
     angular.module('boom')
 
-    .controller('SurveyResultCtrl', function ($scope, VotesService, SurveyOptionsService, toaster, revealService) {
+    .controller('SurveyResultCtrl', function ($scope, ResultsService, SurveyOptionsService, toaster, revealService) {
         var vm = this;
+
+        vm.results = Enumerable.From([
+            { label: 'Kart fahren', count: 12 },
+            { label: 'Klettern', count: 4 },
+            { label: 'Eis essen', count: 7 },
+            { label: 'Grillen', count: 2 },
+            { label: 'Lasertag', count: 19 }]).OrderByDescending(function (e) { return e.count; }).ToArray();
+
 
         var checkPreConditions = function () {
             var survey = SurveyOptionsService.getCurrentSurvey();
@@ -23,22 +31,10 @@
             if (checkPreConditions()) {
                 var survey = SurveyOptionsService.getCurrentSurvey();
 
-                VotesService.query({ surveyId: survey.Id }, function (data) {
-                    var blub = [];
-
-                    data.forEach(function (vote) {
-
-                    });
-
+                ResultsService.query({ surveyId: survey.Id }, function (data) {
+                    vm.results = Enumerable.From(data).OrderByDescending(function (o) { return o.Count; }).Select(function (e) { return { label: e.Description, count: e.Count }; }).ToArray();
                 });
             }
         });
-
-        vm.results = Enumerable.From([
-            { label: 'Kart fahren', count: 12 },
-            { label: 'Klettern', count: 4 },
-            { label: 'Eis essen', count: 7 },
-            { label: 'Grillen', count: 2 },
-            { label: 'Lasertag', count: 19 }]).OrderByDescending(function (e) { return e.count; }).ToArray();
     })
 })();

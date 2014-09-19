@@ -40,4 +40,8 @@
     app.factory("VotesService", function ($resource) {
         return $resource("/surveys/:surveyId/votes", {}, {});
     });
+
+    app.factory("ResultsService", function ($resource) {
+        return $resource("/surveys/:surveyId/results", {}, {});
+    });
 })();

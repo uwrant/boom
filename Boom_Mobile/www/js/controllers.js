@@ -5,8 +5,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, $state, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
-        $scope.survey = SurveyRest.get({ id: $stateParams.surveyId });
-
+        $scope.survey = SurveyRest.get({ surveyId: $stateParams.surveyId });
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
 
