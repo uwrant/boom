@@ -1,0 +1,21 @@
+.chart {
+    background: #eee;
+    padding: 3px;
+}
+
+.chart div {
+    width: 0;
+    transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out;
+}
+
+.chart div {
+    font-size: 150%;
+    background-color: steelblue;
+    text-align: left;
+    padding: 3px;
+    margin: 5px;
+    color: white;
+    box-shadow: 2px 2px 2px #666;
+}

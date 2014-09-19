@@ -8,9 +8,9 @@
     // the 2nd parameter is an array of 'requires'
     // 'starter.services' is found in services.js
     // 'starter.controllers' is found in controllers.js
-    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults'])
 
-        .run(function($ionicPlatform) {
+        .run(function($ionicPlatform, pushNotifications) {
             $ionicPlatform.ready(function() {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -21,6 +21,8 @@
                     // org.apache.cordova.statusbar required
                     window.StatusBar.styleDefault();
                 }
+
+                pushNotifications.init();
             });
         })
 
@@ -58,16 +60,6 @@
                         }
                     }})
 
-                .state('tab.dash', {
-                    url: '/dash',
-                    views: {
-                        'tab-dash': {
-                            templateUrl: 'templates/tab-dash.html',
-                            controller: 'DashCtrl'
-                        }
-                    }
-                })
-
                 .state('tab.friends', {
                     url: '/results',
                     views: {
@@ -85,20 +77,9 @@
                             controller: 'SurveyResultCtrl'
                         }
                     }
-                })
-
-                .state('tab.account', {
-                    url: '/account',
-                    views: {
-                        'tab-account': {
-                            templateUrl: 'templates/tab-account.html',
-                            controller: 'AccountCtrl'
-                        }
-                    }
                 });
 
             // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/tab/surveys');
         });
-
 })(window, angular);

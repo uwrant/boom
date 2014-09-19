@@ -6,7 +6,8 @@ using System.Net;
 
 namespace Boom.Controllers
 {
-    public class BacklogOptionsController : Controller
+    [ApplicationJsonHeader]
+    public class BacklogOptionsController : BoomController
     {
         private BoomContext boomContext;
 
@@ -18,8 +19,8 @@ namespace Boom.Controllers
         // GET: /backlogs/{backlogId}/options
         public IActionResult Get(long backlogId)
         {
-            var options = this.boomContext.BacklogOptions.Where(o => o.Backlog.Id == backlogId && o.BacklogId == backlogId).ToList();
-            return this.Json(options);
+            var options = this.boomContext.BacklogOptions.Where(o => o.BacklogId == backlogId).ToList();
+            return this.JsonSerialized(options);
         }
 
         // GET: /backlogs/{backlogId}/options/{id}
@@ -30,7 +31,7 @@ namespace Boom.Controllers
             {
                 return this.HttpNotFound();
             }
-            return this.Json(option);
+            return this.JsonSerialized(option);
         }
 
         // POST:  /backlogs/{backlogId}/options/{id}
@@ -50,7 +51,7 @@ namespace Boom.Controllers
             option.BacklogId = backlogId;
 
             boomContext.SaveChanges();
-            return this.Json(option);
+            return this.JsonSerialized(new { option.Id, option.Description });
         }
 
         // PUT: /backlogs/{backlogId}/options/{id}
@@ -66,7 +67,7 @@ namespace Boom.Controllers
             persistedOption.Description = option.Description;
 
             this.boomContext.SaveChanges();
-            return this.Json(option);
+            return this.JsonSerialized(option);
         }
 
         // DELETE: /backlogs/{backlogId}/options/{id}

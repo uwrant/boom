@@ -59,13 +59,13 @@
 
     <script src="js/app.js"></script>
     <script src="js/restapi.js"></script>
-    <script src="js/factories.js"></script>
 	<script src="js/backlogService.js"></script>
     <script src="js/backlogCtrl.js"></script>
     <script src="js/backlogDetailsCtrl.js"></script>
     <script src="js/surveyCtrl.js"></script>
-    <script src="js/surveyService.js"></script>
+    <script src="js/surveyOptionsService.js"></script>
     <script src="js/revealService.js"></script>
+    <script src="js/surveyProgressCtrl.js"></script>
 
 </head>
 
@@ -104,49 +104,50 @@
                         </tr>
                         <tr>
                             <td><input type="text" placeholder="Name" ng-model="ctrl.newBacklog.Name" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()"><span class="fa fa-plus"></span></button></td>
+                            <td><button type="button" class="btn" ng-click="ctrl.addBacklog()" ng-disabled="ctrl.newBacklog.Name == false"><span class="fa fa-plus"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
-            <!-- Backlog Details Slide -->
+            <!-- Backlog Content Slide -->
             <section ng-cloak ng-controller="BacklogDetailCtrl as ctrl" class="scrollable" data-title="Backlog Content" data-slide-name="BacklogContentSlide">
-                <table class="table boom-table">
+                <table class="table boom-table boom-table-hover" style="width: 100%">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th width="120px">&nbsp;</th>
+                            <th>Description</th>
+                            <th style="width: 70px;">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="option in ctrl.options" ng-class="{disabled: option.disabled}">
-                            <td class="voting-table-title"><span>{{option.Name}}</span></td>
+                        <tr ng-repeat="option in ctrl.options" ng-click="ctrl.toggleOption(option)" class="pointer no-text-selection">
+                            <td><span ng-class="{disabled: option.disabled}">{{option.Description}}</span></td>
                             <td>
-                                <a ng-click="ctrl.removeOption(option)">Löschen</a> /
-                                <a ng-click="ctrl.notNowOption(option)" ng-hide="option.disabled">Nicht jetzt</a>
-                                <a ng-click="ctrl.nowOption(option)" ng-show="option.disabled">Jetzt</a>
+                                <div class="pull-right">
+                                    <a><span ng-hide="option.disabled" class="fa fa-toggle-on"></span></a>
+                                    <a><span ng-show="option.disabled" class="fa fa-toggle-off"></span></a>
+                                    <a ng-click="ctrl.removeOption(option)"><span class="fa fa-trash-o"></span></a>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="text" placeholder="Name" ng-model="ctrl.newOption.Name" /></td>
-                            <td><button type="button" class="btn" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false">Hinzufügen</button></td>
+                            <td><input type="text" placeholder="Description" ng-model="ctrl.newOption.Description" /></td>
+                            <td><button type="button" class="btn pull-right" ng-click="ctrl.addOption()" ng-disabled="ctrl.isNewOptionValid() == false"><span class="fa fa-plus"></span></button></td>
                         </tr>
                     </tbody>
                 </table>
             </section>
             
-            <section>
-                <section data-title="Regeln" class='left'>
-                    <h2>Die Regeln</h2>
-                    <ol>
-                        <li>Jeder bekommt <span class="highlight">zwei Stimmen</span></li>
-                        <li>Die beiden Stimmen müssen <span class="highlight">auf verschiedene Vorträge aufgeteilt</span> werden</li>
-                        <li>Stimmenthaltung gibt es im Team Web nicht</li>
-                    </ol>
-                </section>
+            <section data-title="Regeln" class='left'>
+                <h2>Die Regeln</h2>
+                <ol>
+                    <li>Jeder bekommt <span class="highlight">zwei Stimmen</span></li>
+                    <li>Die beiden Stimmen müssen <span class="highlight">auf verschiedene Vorträge aufgeteilt</span> werden</li>
+                    <li>Stimmenthaltung gibt es im Team Web nicht</li>
+                </ol>
             </section>
 
+            <!-- Survey Start Slide -->
             <section ng-cloak ng-controller="SurveyCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyStartSlide">
                 <div class="row">
                     <div class="col-md-6">
@@ -154,43 +155,49 @@
                         <div class="row">
                             <h2>Teilnehmer</h2>
                         </div>
-                        
+                        <div class="row">
+                            <span class="highlight">Anzahl Teilnehmer: {{ctrl.participants.length}}</span>
+                        </div>
+                        <div class="row" ng-repeat="participant in ctrl.participants">
+                            <div class="col-sm-6">
+                                {{participant.Name}}
+                            </div>
+                        </div>
 
-                        <!--<ul ng-repeat="participant in ctrl.participants">
-                            <li>{{participant.Name}}</li>
-                        </ul>-->
+                        <!--<div class="row">
+                    <div class="col-md-6">
+                        ozu
+                    </div>
+                    <div class="col-md-6">
+                        iszu
+                    </div>
+                </div>-->
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                ozu
-                            </div>
-                            <div class="col-md-6">
-                                iszu
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                sdf
-                            </div>
-                            <div class="col-md-6">
-                                ssdf
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                hsf
-                            </div>
-                            <div class="col-md-6">
-                                drfh
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <qr text="ctrl.qrCodeText"></qr>
                         <br />
-                        <button type="button" class="punch" ng-click="ctrl.startSurvey()">Abstimmung starten</button>
+                        <button type="button" class="punch" ng-click="ctrl.startSurvey()" ng-disabled="ctrl.survey.StartDate !== null">Abstimmung starten</button>
                     </div>
+                </div>
+            </section>
+
+            <!-- Survey Prograss Slide -->
+            <section ng-cloak ng-controller="SurveyProgressCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyProgressSlide">
+                <div class="row">
+                    <h2>Votes</h2>
+                </div>
+
+                <div class="row" ng-repeat="vote in ctrl.votes">
+                    <div class="col-sm-6">
+                        {{vote.Participant.Name}}
+                    </div>
+                </div>
+                Anzahl Votes: {{ctrl.votes.length}}
+
+                <div class="row">
+                    <button type="button" class="punch" ng-click="ctrl.stopSurvey()" ng-show="ctrl.survey.EndDate === null">Abstimmung stoppen</button>
                 </div>
             </section>
         </div>

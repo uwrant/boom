@@ -12,6 +12,8 @@ namespace Boom
     {
         public void Configure(IBuilder app)
         {
+            var runningOnMono = Type.GetType("Mono.Runtime") != null;
+
             var configuration = new Configuration();
             configuration.AddJsonFile("config.json");
             configuration.AddEnvironmentVariables();
@@ -22,7 +24,6 @@ namespace Boom
             {
                 services.AddMvc();
 
-                var runningOnMono = Type.GetType("Mono.Runtime") != null;
                 if (runningOnMono)
                 {
                     services.AddEntityFramework().AddInMemoryStore();
@@ -71,22 +72,35 @@ namespace Boom
 
                 routes.MapRoute(
                   name: "SurveyOptionsRoute",
-                  template: "survey/{surveyId}/options/{id?}",
+                  template: "surveys/{surveyId}/options/{id?}",
                   defaults: new { controller = "SurveyOptions" });
 
                 routes.MapRoute(
                   name: "SurveyParticipantsRoute",
-                  template: "survey/{surveyId}/participants",
+                  template: "surveys/{surveyId}/participants",
                   defaults: new { controller = "SurveyParticipants" });
 
                 routes.MapRoute(
-                    name:  "ApiRoute", 
-                    template:  "{controller}/{id?}");
+                  name: "SurveyVotesRoute",
+                  template: "surveys/{surveyId}/votes",
+                  defaults: new { controller = "SurveyVotes" });
+
+                routes.MapRoute(
+                    name: "OptionsRoute",
+                    template: "options/{optionId}",
+                    defaults: new { controller = "Options" });
+
+                routes.MapRoute(
+                    name: "ApiRoute",
+                    template: "{controller}/{id?}");
             });
 
-            DbHelper.DropDatabase("BoomDb");
-            DbHelper.EnsureDbCreated(app);
-            DbHelper.InitDatabase(app);
+            if (!runningOnMono)
+            {
+                DbHelper.DropDatabase("BoomDb");
+                DbHelper.EnsureDbCreated(app);
+                DbHelper.InitDatabase(app);
+            }
         }
     }
 }

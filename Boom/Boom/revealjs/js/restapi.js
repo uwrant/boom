@@ -13,35 +13,31 @@
         return $resource("/backlogs/:backlogId/options/:optionId", {}, {
             update: {
                 method: 'PUT'
+            },
+            create: {
+                method: 'POST'
+            },
+            delete: {
+                url: "/options/:Id",
+                method: 'DELETE',
+                params: { Id: '@Id' }
             }
         });
     });
-
-    app.factory("OptionsServiceMock", function () {
-        return {
-            query: function () {
-                return [
-                    { Id: 1, Name: "Option 1" },
-                    { Id: 2, Name: "Option 2" },
-                    { Id: 3, Name: "Option 3" },
-                ];
-            }
-        }
-    })
 
     app.factory("SurveyService", function ($resource) {
         return $resource("/surveys/:id", {}, {
             save: { method: 'PUT' },
-            create: { method: 'POST' }
+            create: { method: 'POST' },
+            patch: { method: 'PATCH' }
         });
     });
 
-    app.factory("SurveyServiceMock", function ($resource) {
-        return {
-            create: function (data, successCallback) {
-                successCallback();
-            }
-        }
+    app.factory("ParticipantsService", function ($resource) {
+        return $resource("/surveys/:surveyId/participants", {}, {});
     });
-
+    
+    app.factory("VotesSerivce", function ($resource) {
+        return $resource("/surveys/:surveyId/votes", {}, {});
+    });
 })();

@@ -3,6 +3,12 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0-beta.12",
-    "angular-resource": "~1.2"
+    "angular-resource": "~1.2",
+    "d3": "~3.4.11",
+    "jQuery": "~2.1.1",
+    "ngCordova": "~0.1.4-alpha"
+  },
+  "resolutions": {
+    "angular": "1.2.25"
   }
 }
