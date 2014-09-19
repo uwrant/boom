@@ -33,7 +33,7 @@
 
             if (typeof vm.survey === 'undefined') {
                 vm.survey = SurveyService.create({
-                    Name: "SurveyName is not defined yet....",
+                    Name: selectedBacklog.Name,
                     CreationDate: new Date(),
                     Options: SurveyOptionsService.getOptions()
                 }, function (data) {
