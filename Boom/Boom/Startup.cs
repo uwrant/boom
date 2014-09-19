@@ -3,8 +3,7 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.SqlServer;
+using System.Data.Entity;
 
 namespace Boom
 {
@@ -26,28 +25,29 @@ namespace Boom
 
                 if (runningOnMono)
                 {
-                    services.AddEntityFramework().AddInMemoryStore();
+                    // services.AddEntityFramework().AddInMemoryStore();
                 }
                 else
                 {
-                    // Microsoft.Framework.DependencyInjection.SqlSer
-                    services.AddEntityFramework().AddSqlServer();
+                    // services.AddEntityFramework().AddSqlServer();
                 }
 
                 services.AddScoped<BoomContext>();
+                services.AddInstance(configuration);
 
-                services.SetupOptions<DbContextOptions>(options =>
-                {
-                    if (runningOnMono)
-                    {
-                        options.UseInMemoryStore();
-                    }
-                    else
-                    {
-                        options.UseSqlServer(configuration.Get("Data:DefaultConnection:ConnectionString"));
-                    }
-                }
-                );
+                //    services.SetupOptions<DbContextOptions>(options =>
+                //   {
+                //      if (runningOnMono)
+                //     {
+                //       options.UseInMemoryStore();
+                //        }
+                //      else
+                //    {
+                //      options.UseSqlServer(configuration.Get("Data:DefaultConnection:ConnectionString"));
+                //}
+                // }
+                //     );
+                //  });
             });
 
             app.UseMvc(routes =>
@@ -86,11 +86,14 @@ namespace Boom
                     template: "{controller}/{id?}");
             });
 
-            if (!runningOnMono)
-            {
-                DbHelper.DropDatabase("BoomDb");
-                DbHelper.EnsureDbCreated(app);
-            }
+            Database.SetInitializer<BoomContext>(new DropCreateDatabaseIfModelChanges<BoomContext>());
+
+            //    if (!runningOnMono)
+            //{
+            //    DbHelper.DropDatabase("BoomDb");
+            //    DbHelper.EnsureDbCreated(app);
+            //}
+
         }
     }
 }

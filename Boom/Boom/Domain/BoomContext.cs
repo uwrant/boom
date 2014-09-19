@@ -1,10 +1,6 @@
-﻿using System;
-using Microsoft.Data.Entity;
+﻿using System.Data.Entity;
 using Boom.Domain;
-using Microsoft.Framework.OptionsModel;
-using JetBrains.Annotations;
-using Microsoft.Data.Entity.Metadata;
-using System.Linq;
+using Microsoft.Framework.ConfigurationModel;
 
 namespace Boom
 {
@@ -13,9 +9,9 @@ namespace Boom
     /// </summary>
     public class BoomContext : DbContext
     {
-        public BoomContext(IServiceProvider serviceProvider, IOptionsAccessor<DbContextOptions> optionsAccessor)
-            : base(serviceProvider, optionsAccessor.Options)
+        public BoomContext(Configuration configuration) : base(configuration.Get("Data:DefaultConnection:ConnectionString"))
         {
+
         }
 
         public DbSet<Backlog> Backlogs { get; set; }
@@ -26,6 +22,7 @@ namespace Boom
         public DbSet<Participant> Participants { get; set; }
         public DbSet<SurveyOptionVote> SurveyOptionVotes { get; set; }
         
+        /*
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Backlog -> BacklogOption
@@ -88,6 +85,7 @@ namespace Boom
 
             // SurveyOption -> SurveyOptionVote
         }
+        */
     }
 
 }
