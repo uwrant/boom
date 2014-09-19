@@ -3,7 +3,7 @@
         <div ng-hide="hasJoined()">
             <form role="form">
                 <label class="item item-input">
-                    <input type="text" required placeholder="Nickname" ng-model="participant.Nickname"/>
+                    <input type="text" required placeholder="Name" ng-model="participant.Name"/>
                 </label>
                 <button type="submit" class="button button-block button-positive" ng-click="participate(participant)">
                     Participate
@@ -11,6 +11,7 @@
             </form>
         </div>
         <div ng-show="hasJoined()">
+            {{participant}}
             <ion-list>
                 <ion-item ng-repeat="option in survey.Options" type="item-text-wrap">
                     <label class="checkbox">

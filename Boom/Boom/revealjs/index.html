@@ -153,26 +153,17 @@
                     <div class="col-md-6">
 
                         <div class="row">
-                            <h2>Teilnehmer</h2>
+                            <h2 class="pull-left">Teilnehmer</h2>
                         </div>
                         <div class="row">
-                            <span class="highlight">Anzahl Teilnehmer: {{ctrl.participants.length}}</span>
+                            <span class="highlight pull-left">Anzahl Teilnehmer: {{ctrl.participants.length}}</span>
                         </div>
-                        <div class="row" ng-repeat="participant in ctrl.participants">
-                            <div class="col-sm-6">
+
+                        <div class="wrappanel row">
+                            <div ng-repeat="participant in ctrl.participants">
                                 {{participant.Name}}
                             </div>
                         </div>
-
-                        <!--<div class="row">
-                    <div class="col-md-6">
-                        ozu
-                    </div>
-                    <div class="col-md-6">
-                        iszu
-                    </div>
-                </div>-->
-
                     </div>
 
                     <div class="col-sm-6">
@@ -186,18 +177,21 @@
             <!-- Survey Prograss Slide -->
             <section ng-cloak ng-controller="SurveyProgressCtrl as ctrl" class="scrollable" data-title="Abstimmung" data-slide-name="SurveyProgressSlide">
                 <div class="row">
-                    <h2>Votes</h2>
+                    <h2 class="pull-left">Votes</h2>
                 </div>
 
-                <div class="row" ng-repeat="vote in ctrl.votes">
-                    <div class="col-sm-6">
+                <div class="row">
+                    <span class="highlight pull-left">Anzahl Votes: {{ctrl.votes.length}}</span>
+                </div>
+
+                <div class="wrappanel row">
+                    <div ng-repeat="vote in ctrl.votes">                       
                         {{vote.Participant.Name}}
                     </div>
                 </div>
-                Anzahl Votes: {{ctrl.votes.length}}
 
                 <div class="row">
-                    <button type="button" class="punch" ng-click="ctrl.stopSurvey()" ng-show="ctrl.survey.EndDate === null">Abstimmung stoppen</button>
+                    <button type="button" class="punch" ng-click="ctrl.stopSurvey()" ng-disabled="ctrl.survey.EndDate !== null">Abstimmung stoppen</button>
                 </div>
             </section>
         </div>

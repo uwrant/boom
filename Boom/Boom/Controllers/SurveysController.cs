@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     [ApplicationJsonHeader]
     public class SurveysController : BoomController
     {
@@ -48,7 +47,7 @@ namespace Boom.Controllers
                 survey.Options = this.boomContext.SurveyOptions.Where(so => so.SurveyId == survey.Id).ToList();
                 survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
             }
-
+            surveys.ToList();
             return this.JsonSerialized(surveys);
         }
 
