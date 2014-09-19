@@ -19,7 +19,11 @@ namespace Boom
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
-            context.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", origin);
+
+            if (context.HttpContext.Response.Headers.Keys.Contains("Access-Control-Allow-Origin") == false)
+            {
+                context.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", origin);
+            }
         }
     }
 }

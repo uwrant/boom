@@ -11,13 +11,12 @@
             </form>
         </div>
         <div ng-show="hasJoined()">
-            {{participant}}
             <ion-list>
                 <ion-item ng-repeat="option in survey.Options" type="item-text-wrap">
                     <label class="checkbox">
                         <input type="checkbox" ng-model="option.selected">
                     </label>
-                    {{option.Name}}
+                    {{option.Description}}
                 </ion-item>
             </ion-list>
             <div ng-show="hasOptionsSelected()">
