@@ -32,6 +32,23 @@ namespace Boom.Controllers
             return this.JsonSerialized(surveys);
         }
 
+        public IActionResult Get(string participant)
+        {
+            var surveys = this.boomContext.Surveys
+                .Include(s => s.Participants)
+                .Include(s => s.Options)
+                .Where(s => s.Participants.Any(p => p.Name == participant))
+                .ToList();
+
+            //foreach (var survey in surveys)
+            //{
+            //    survey.Options = this.boomContext.SurveyOptions.Where(so => so.Survey.Id == survey.Id).ToList();
+            //    survey.Participants = this.boomContext.Participants.Where(p => p.Survey.Id == survey.Id).ToList();
+            //}
+
+            return this.JsonSerialized(surveys);
+        }
+
         // GET: /surveys/?open=true
         public IActionResult Get(bool open)
         {

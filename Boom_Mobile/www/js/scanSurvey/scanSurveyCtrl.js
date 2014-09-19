@@ -1,6 +1,6 @@
 angular.module('scanSurvey')
 
-    .controller('ScanSurveyCtrl', function ($cordovaBarcodeScanner, $state, $ionicPopup, SurveyRest) {
+    .controller('ScanSurveyCtrl', function ($cordovaBarcodeScanner, $state, $ionicPopup, SurveyRest, ParticipantsRest, pushNotifications) {
         var vm = this;
 
         vm.title = "Scan a QR Code for adding a survey";
@@ -25,6 +25,7 @@ angular.module('scanSurvey')
 
                 SurveyRest.get({surveyId: id})
                     .$promise.then(function (survey) {
+                        participate(id);
                         $state.go('tab.survey-detail', {surveyId: id});
                     }, function (error) {
                         $ionicPopup.alert({
@@ -41,6 +42,17 @@ angular.module('scanSurvey')
                     template: 'Too bad, something went wrong.'
                 });
             });
+        };
+
+        function participate(surveyId) {
+
+            var participant = $localstorage.get('userName', 'your name here');
+            ParticipantsRest.create({
+                surveyId: surveyId,
+                Name: participant
+            }).$promise.then(function (participant) {
+                    pushNotifications.subscribe(surveyId);
+                });
         };
 
         vm.scanBarcode();
