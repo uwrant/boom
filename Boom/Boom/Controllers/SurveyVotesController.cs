@@ -1,6 +1,7 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,7 @@ namespace Boom.Controllers
         }
 
         // POST:  /surveys/{surveyId}/votes
-        // BODY: {"Participant":{"Id":"6"}, "Options":[ {"Option":{"Id":"3", "Description":"hello"}, "Weight":"2" }] }
+        // BODY: {"Participant":{"Id":"6"}, "Options":[ {"Id":"3"}, {"Id":"4"}] }
         public IActionResult Post(long surveyId, [FromBody] Vote vote)
         {
             var participant = boomContext.Participants.SingleOrDefault(p => p.Survey.Id == surveyId && p.Id == vote.Participant.Id);
@@ -41,15 +42,16 @@ namespace Boom.Controllers
             }
             vote.Participant = participant;
 
-            foreach (SurveyOptionVote optionVote in vote.Options) {
-                var persistedOption = boomContext.SurveyOptions.SingleOrDefault(o => o.Id == optionVote.Option.Id);
+            var options = new List<SurveyOption>();
+            foreach (SurveyOption optionVote in vote.Options) {
+                var persistedOption = boomContext.SurveyOptions.SingleOrDefault(o => o.Id == optionVote.Id);
                 if (persistedOption == null)
                 {
                     return HttpNotFound();
                 }
-                optionVote.Option = persistedOption;
-                boomContext.SurveyOptionVotes.Add(optionVote);
+                options.Add(persistedOption);
             }
+            vote.Options = options;
 
             boomContext.Votes.Add(vote);
             boomContext.SaveChanges();

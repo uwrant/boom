@@ -47,7 +47,7 @@
             $interval.cancel(votesQueryIntervalPromise);
 
             vm.survey.EndDate = new Date(); //Ended
-            SurveyService.patch({ id: vm.survey.Id }, { EndDate: vm.survey.EndDate }, function () { }, function () {
+            SurveyService.patch({ id: vm.survey.Id }, { EndDate: vm.survey.EndDate }, function () { revealService.nextSlide(); }, function () {
                 toaster.pop('error', "", "Error stopping the survey!", 10000);
             });
         };
