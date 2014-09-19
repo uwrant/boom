@@ -8,7 +8,10 @@ angular.module('scanSurvey')
         vm.scanBarcode = function() {
             $cordovaBarcodeScanner.scan().then(function(imageData) {
                 // Success! Barcode data is here
-                $state.go('tab.survey-detail',{surveyId: imageData});
+                var backendUrl = imageData.text;
+                var idStartIndex = backendUrl.lastIndexOf("/") + 1;
+                var id = backendUrl.substr(idStartIndex);
+                $state.go('tab.survey-detail',{surveyId: id});
             }, function(err) {
                 // An error occured. Show a message to the user
                 
