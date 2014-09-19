@@ -1,17 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('SurveysCtrl', function($scope, SurveyRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+.controller('SurveysCtrl', function($scope, SurveyRest) {
     $scope.surveys = SurveyRest.allOpen();
-
-    $scope.testPush = function (){
-      pushNotifications.subscribe("testTag");
-    }
-
-    $scope.$on(PUSH_NOTIFICATION_EVENT, function(event, message){
-      $scope.$apply(function(){
-        $scope.pushMessage = message;
-      });
-    });
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest) {
