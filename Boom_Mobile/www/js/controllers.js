@@ -27,7 +27,9 @@ angular.module('starter.controllers', [])
                     Id: $scope.participant.Id
                 },
                 Options: options
-            })
+            }).$promise.then(function(){
+                    $scope.navigateToResults();
+                })
         };
 
         var selectedOptions = function(options) {
