@@ -8,8 +8,6 @@ namespace Boom.Domain
         [JsonIgnore]
         public Survey Survey { get; set; }
 
-        public long SurveyId { get; set; }
-
         public string Name { get; set; }
     }
 }

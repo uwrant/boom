@@ -1,8 +1,7 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
-using Newtonsoft.Json;
+using System.Data.Entity;
 using System.Linq;
-using System.Net;
 
 namespace Boom.Controllers
 {
@@ -19,7 +18,10 @@ namespace Boom.Controllers
         // GET: /surveys/{surveyId}/participants
         public IActionResult Get(long surveyId)
         {
-            var participants = this.boomContext.Participants.Where(p => p.SurveyId == surveyId).ToList();
+            var participants = this.boomContext.Participants
+                .Where(p => p.Survey.Id == surveyId)
+                .Include(p => p.Survey)
+                .ToList();
             return this.JsonSerialized(participants);
         }
 
@@ -35,11 +37,10 @@ namespace Boom.Controllers
                 return HttpNotFound();
             }
 
-            boomContext.Add(participant);
+            boomContext.Participants.Add(participant);
 
             survey.Participants.Add(participant);
             participant.Survey = survey;
-            participant.SurveyId = surveyId;
 
             boomContext.SaveChanges();
             return this.JsonSerialized(participant);

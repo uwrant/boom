@@ -8,7 +8,7 @@
     // the 2nd parameter is an array of 'requires'
     // 'starter.services' is found in services.js
     // 'starter.controllers' is found in controllers.js
-    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults'])
+    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults', 'scanSurvey'])
 
         .run(function($ionicPlatform, pushNotifications) {
             $ionicPlatform.ready(function() {
@@ -51,6 +51,17 @@
                         }
                     }
                 })
+
+                // Scanning barcode
+                .state('tab.scanSurvey', {
+                    url: '/scanSurvey',
+                    views: {
+                        'tab-scan': {
+                            templateUrl: 'js/scanSurvey/scanSurvey.html',
+                            controller: 'ScanSurveyCtrl as scan'
+                        }
+                    }
+                })
                 .state('tab.survey-detail', {
                     url: '/survey/:surveyId',
                     views: {
@@ -70,7 +81,7 @@
                     }
                 })
                 .state('tab.friend-detail', {
-                    url: '/results/:friendId',
+                    url: '/results/:surveyId',
                     views: {
                         'tab-results': {
                             templateUrl: 'js/surveyResults/surveyResult.html',

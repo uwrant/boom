@@ -1,8 +1,8 @@
 <ion-view title="Survey Results">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/results/{{friend.id}}">
-                {{friend.name}}
+            <ion-item ng-repeat="survey in surveys" type="item-text-wrap" href="#/tab/results/{{survey.Id}}">
+                {{survey.Name}}
             </ion-item>
         </ion-list>
     </ion-content>

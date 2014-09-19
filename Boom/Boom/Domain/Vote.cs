@@ -8,7 +8,5 @@ namespace Boom.Domain
         public IList<SurveyOptionVote> Options { get; set; }
 
         public Participant Participant { get; set; }
-
-        public long ParticipantId { get; set; }
     }
 }

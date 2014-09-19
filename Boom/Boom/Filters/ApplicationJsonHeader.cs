@@ -12,7 +12,11 @@ namespace Boom
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
-            context.HttpContext.Response.Headers.Add("Content-Type", new string[] { "application/json" });
+            var headers = context.HttpContext.Response.Headers;
+            if (!headers.ContainsKey("Content-Type"))
+            {
+                headers.Add("Content-Type", new string[] { "application/json" });
+            }
         }
     }
 }

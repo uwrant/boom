@@ -1,12 +1,12 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     [ApplicationJsonHeader]
     public class SurveyVotesController : BoomController
     {
@@ -20,7 +20,11 @@ namespace Boom.Controllers
         // GET: /surveys/{surveyId}/votes
         public IActionResult Get(long surveyId)
         {
-            var options = this.boomContext.Votes.Where(v => v.Participant.SurveyId == surveyId).ToList();
+            var options = this.boomContext.Votes
+                .Where(v => v.Participant.Survey.Id == surveyId)
+                .Include(v => v.Options)
+                .Include(v => v.Participant)
+                .ToList();
             return this.JsonSerialized(options);
         }
 
@@ -28,7 +32,8 @@ namespace Boom.Controllers
         // BODY: {"Participant":{"Id":"6"}, "Options":[ {"Option":{"Id":"3", "Description":"hello"}, "Weight":"2" }] }
         public IActionResult Post(long surveyId, [FromBody] Vote vote)
         {
-            var participant = boomContext.Participants.SingleOrDefault(p => p.SurveyId == surveyId && p.Id == vote.Participant.Id);
+            var participant = boomContext.Participants.SingleOrDefault(p => p.Survey.Id == surveyId && p.Id == vote.Participant.Id);
+
             if (participant == null)
             {
                 return HttpNotFound();
@@ -42,10 +47,10 @@ namespace Boom.Controllers
                     return HttpNotFound();
                 }
                 optionVote.Option = persistedOption;
-                boomContext.Add(optionVote);
+                boomContext.SurveyOptionVotes.Add(optionVote);
             }
 
-            boomContext.Add(vote);
+            boomContext.Votes.Add(vote);
             boomContext.SaveChanges();
             return this.JsonSerialized(vote);
         }
