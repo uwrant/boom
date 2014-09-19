@@ -6,7 +6,6 @@ using System.Net;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     public class SurveyParticipantsController : Controller
     {
         private BoomContext boomContext;

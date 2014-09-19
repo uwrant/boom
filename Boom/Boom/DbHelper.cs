@@ -3,6 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.Data.Entity.SqlServer;
 using Microsoft.Framework.DependencyInjection;
 using System.Data.SqlClient;
+using Boom.Domain;
 
 namespace Boom
 {
@@ -17,6 +18,24 @@ namespace Boom
                 {
                     db.Database.EnsureCreated();
                 }
+            }
+        }
+
+        public static void InitDatabase(IBuilder app)
+        {
+            using (var db = app.ApplicationServices.GetService<BoomContext>())
+            {
+                var TeamPresentationSurvey = new Survey()
+                {
+                    Name = "TeamPressentation",
+                    CreationDate = DateTime.Now,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(1)
+                };
+
+                db.Add(TeamPresentationSurvey);
+
+                db.SaveChanges();
             }
         }
 

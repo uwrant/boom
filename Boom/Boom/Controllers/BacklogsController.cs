@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     public class BacklogsController : Controller
     {
         private BoomContext boomContext;

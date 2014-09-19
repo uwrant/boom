@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     public class SurveysController : Controller
     {
         private BoomContext boomContext;
@@ -29,9 +28,9 @@ namespace Boom.Controllers
 
             if (open)
             {
-                surveys = surveys.Where(s => s.EndDate < DateTime.Now && s.EndDate > s.StartDate);
+                surveys = surveys.Where(s => s.EndDate > DateTime.Now && s.EndDate > s.StartDate);
             }
-
+            surveys.ToList();
             return this.Json(surveys);
         }
 

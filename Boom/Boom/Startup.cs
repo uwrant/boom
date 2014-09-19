@@ -49,6 +49,15 @@ namespace Boom
                 );
             });
 
+            app.Use((context, next) =>
+                {
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+                    context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Origin", "X-Requested-With", "Content-Type", "Accept" });
+
+                    return next();
+
+                });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -73,12 +82,11 @@ namespace Boom
                 routes.MapRoute(
                     name:  "ApiRoute", 
                     template:  "{controller}/{id?}");
-
-
             });
 
             DbHelper.DropDatabase("BoomDb");
             DbHelper.EnsureDbCreated(app);
+            DbHelper.InitDatabase(app);
         }
     }
 }
