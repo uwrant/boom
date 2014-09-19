@@ -29,11 +29,19 @@ namespace Boom
                 {
                     Name = "TeamPressentation",
                     CreationDate = DateTime.Now,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(1)
+                    StartDate = DateTime.Now
                 };
 
+                var option1 = new SurveyOption() { Description = "AngularJs", Survey = TeamPresentationSurvey };
+                var option2 = new SurveyOption() { Description = "ASP vNext", Survey = TeamPresentationSurvey };
+                var option3 = new SurveyOption() { Description = "Entity Framework", Survey = TeamPresentationSurvey };
+                var option4 = new SurveyOption() { Description = "Ionic", Survey = TeamPresentationSurvey };
+
                 db.Add(TeamPresentationSurvey);
+                db.Add(option1);
+                db.Add(option2);
+                db.Add(option3);
+                db.Add(option4);
 
                 db.SaveChanges();
             }
