@@ -1,7 +1,6 @@
 using Boom.Domain;
 using Microsoft.AspNet.Mvc;
-using Newtonsoft.Json;
-using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Boom.Controllers
@@ -19,12 +18,15 @@ namespace Boom.Controllers
         // GET: /surveys/
         public IActionResult Get()
         {
-            var surveys = this.boomContext.Surveys.ToList();
+            var surveys = this.boomContext.Surveys
+                .Include(s => s.Participants)
+                .Include(s => s.Options)
+                .ToList();
 
             foreach (var survey in surveys)
             {
-                survey.Options = this.boomContext.SurveyOptions.Where(so => so.SurveyId == survey.Id).ToList();
-                survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
+                survey.Options = this.boomContext.SurveyOptions.Where(so => so.Survey.Id == survey.Id).ToList();
+                survey.Participants = this.boomContext.Participants.Where(p => p.Survey.Id == survey.Id).ToList();
             }
 
             return this.JsonSerialized(surveys);
@@ -37,15 +39,25 @@ namespace Boom.Controllers
 
             if (open)
             {
-                surveysQuery = surveysQuery.Where(s => s.EndDate == null);
+                surveysQuery = surveysQuery
+                    .Where(s => s.EndDate == null)
+                    .Include(s => s.Participants)
+                    .Include(s => s.Options);
             }
 
             var surveys = surveysQuery.ToList();
 
             foreach (var survey in surveys)
             {
-                survey.Options = this.boomContext.SurveyOptions.Where(so => so.SurveyId == survey.Id).ToList();
-                survey.Participants = this.boomContext.Participants.Where(p => p.SurveyId == survey.Id).ToList();
+                survey.Options = this.boomContext.SurveyOptions
+                    .Where(so => so.Survey.Id == survey.Id)
+                    .Include(s => s.Survey)
+                    .ToList();
+
+                survey.Participants = this.boomContext.Participants
+                    .Where(p => p.Survey.Id == survey.Id)
+                    .Include(p => p.Survey)
+                    .ToList();
             }
             surveys.ToList();
             return this.JsonSerialized(surveys);
@@ -67,13 +79,12 @@ namespace Boom.Controllers
         // POST: /surveys/
         public IActionResult Post([FromBody] Survey survey)
         {
-            this.boomContext.Add(survey);
+            this.boomContext.Surveys.Add(survey);
 
             foreach (var option in survey.Options)
             {
                 option.Survey = survey;
-                option.SurveyId = survey.Id;
-                this.boomContext.Add(option);
+                this.boomContext.SurveyOptions.Add(option);
             }
 
             this.boomContext.SaveChanges();
@@ -93,7 +104,7 @@ namespace Boom.Controllers
             {
                 surveyEntity.StartDate = startDate;
             }
-            else if(endDate != null)
+            else if (endDate != null)
             {
                 surveyEntity.EndDate = endDate;
             }
@@ -117,14 +128,13 @@ namespace Boom.Controllers
 
             if (participant != null)
             {
-                var participantContent = JsonConvert.SerializeObject(participant);
-                return this.Content(participantContent);
+                return this.JsonSerialized(participant);
             }
 
-            participant = new Participant { Name = name, Survey = survey, SurveyId = survey.Id };
+            participant = new Participant { Name = name, Survey = survey };
             survey.Participants.Add(participant);
 
-            this.boomContext.Add(participant);
+            this.boomContext.Participants.Add(participant);
             this.boomContext.SaveChanges();
 
             return this.JsonSerialized(participant);

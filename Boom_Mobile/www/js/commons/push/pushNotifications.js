@@ -48,7 +48,7 @@ var app = app || {};
         var template = "{ \"data\" : {\"message\":\"$(message)\"}}";
 
         hub.gcm.register(app.gcmId, [tag], "myTemplate", template).done(function () {
-          alert("Registered with hub!");
+          console.log("Registered with hub!");
         }).fail(function (error) {
           alert("Failed registering with hub: " + error);
         });

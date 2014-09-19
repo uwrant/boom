@@ -1,10 +1,8 @@
 ﻿using Boom.Domain;
 using Microsoft.AspNet.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Boom.Controllers
 {
@@ -21,7 +19,9 @@ namespace Boom.Controllers
         // GET: /backlogs/
         public IActionResult Get()
         {
-            var backlogs = boomContext.Backlogs.ToList();
+            var backlogs = boomContext.Backlogs
+                .Include(b => b.Options)
+                .ToList();
 
             return this.JsonSerialized(backlogs);
         }
@@ -29,7 +29,10 @@ namespace Boom.Controllers
         // GET: /backlogs/{id}
         public IActionResult Get(long id)
         {
-            var backlog = boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
+            var backlog = boomContext.Backlogs
+                .Include(b => b.Options)
+                .SingleOrDefault(b => b.Id == id);
+
             if (backlog != null)
             {
                 return this.JsonSerialized(backlog);
@@ -44,7 +47,10 @@ namespace Boom.Controllers
         // BODY: {"Name":"backlogName"}
         public IActionResult Put(long id, [FromBody] Backlog backlog)
         {
-            var persistedBacklog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
+            var persistedBacklog = this.boomContext.Backlogs
+                .Include(b => b.Options)
+                .SingleOrDefault(b => b.Id == id);
+
             persistedBacklog.Name = backlog.Name;
             this.boomContext.SaveChanges();
 
@@ -57,7 +63,7 @@ namespace Boom.Controllers
         {
             // TODO: unique name
 
-            this.boomContext.Add(backlog);
+            this.boomContext.Backlogs.Add(backlog);
             this.boomContext.SaveChanges();
 
             return this.JsonSerialized(backlog);
@@ -66,8 +72,11 @@ namespace Boom.Controllers
         // DELETE: /backlogs/{id}
         public IActionResult Delete(long id)
         {
-            var backlog = this.boomContext.Backlogs.SingleOrDefault(b => b.Id == id);
-            this.boomContext.Delete(backlog);
+            var backlog = this.boomContext.Backlogs
+                .Include(b => b.Options)
+                .SingleOrDefault(b => b.Id == id);
+
+            this.boomContext.Backlogs.Remove(backlog);
             this.boomContext.SaveChanges();
             return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
         }

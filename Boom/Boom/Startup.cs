@@ -3,8 +3,7 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.SqlServer;
+using System.Data.Entity;
 
 namespace Boom
 {
@@ -12,8 +11,6 @@ namespace Boom
     {
         public void Configure(IBuilder app)
         {
-            var runningOnMono = Type.GetType("Mono.Runtime") != null;
-
             var configuration = new Configuration();
             configuration.AddJsonFile("config.json");
             configuration.AddEnvironmentVariables();
@@ -23,40 +20,15 @@ namespace Boom
             app.UseServices(services =>
             {
                 services.AddMvc();
-
-                if (runningOnMono)
-                {
-                    services.AddEntityFramework().AddInMemoryStore();
-                }
-                else
-                {
-                    // Microsoft.Framework.DependencyInjection.SqlSer
-                    services.AddEntityFramework().AddSqlServer();
-                }
-
                 services.AddScoped<BoomContext>();
-
-                services.SetupOptions<DbContextOptions>(options =>
-                {
-                    if (runningOnMono)
-                    {
-                        options.UseInMemoryStore();
-                    }
-                    else
-                    {
-                        options.UseSqlServer(configuration.Get("Data:DefaultConnection:ConnectionString"));
-                    }
-                }
-                );
+                services.AddInstance(configuration);
             });
 
             app.Use((context, next) =>
                 {
                     context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
                     context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Origin", "X-Requested-With", "Content-Type", "Accept" });
-
                     return next();
-
                 });
 
             app.UseMvc(routes =>
@@ -95,12 +67,9 @@ namespace Boom
                     template: "{controller}/{id?}");
             });
 
-            if (!runningOnMono)
-            {
-                DbHelper.DropDatabase("BoomDb");
-                DbHelper.EnsureDbCreated(app);
-                DbHelper.InitDatabase(app);
-            }
+
+            Database.SetInitializer<BoomContext>(new DropCreateDatabaseIfModelChanges<BoomContext>());
+			DbHelper.InitDatabase(app);
         }
     }
 }

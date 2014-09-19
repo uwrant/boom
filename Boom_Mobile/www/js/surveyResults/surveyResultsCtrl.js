@@ -1,5 +1,5 @@
 angular.module('surveyResults')
 
-.controller('SurveyResultsCtrl', function($scope, SurveyResults) {
-    $scope.friends = SurveyResults.all();
+.controller('SurveyResultsCtrl', function($scope, SurveyRest) {
+    $scope.surveys = SurveyRest.all();
 })
