@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
     $scope.surveys = SurveyRest.allOpen();
 })
 
-.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+.controller('SurveyDetailCtrl', function($scope, $stateParams, $state, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
         $scope.survey = SurveyRest.get({ surveyId: $stateParams.surveyId });
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
@@ -17,6 +17,21 @@ angular.module('starter.controllers', [])
                     $scope.participant = participant;
                     pushNotifications.subscribe($scope.survey.Id);
                 });
+        };
+
+        $scope.vote = function(){
+            VotesRest.create({
+                surveyId: $scope.survey.Id,
+                Participant:{
+                    Id: $scope.participant.Id
+                },
+                Options: selectedOptions()
+            })
+        };
+
+        var selectedOptions = function() {
+            Enumerable.From($scope.survey.Options)
+                .Where(option.selected);
         };
 
         $scope.hasJoined = function(){
