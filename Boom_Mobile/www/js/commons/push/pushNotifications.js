@@ -17,7 +17,7 @@ var app = app || {};
       rootScope = $rootScope;
       notificationEventName = PUSH_NOTIFICATION_EVENT;
 
-      var platformType;
+      var platformType = platformTypes.unknown;
       var mobileClient;
       var hub;
 
@@ -38,23 +38,50 @@ var app = app || {};
 
         if (platformType === platformTypes.android){
           initGCMPush();
+        } else if (platformType === platformTypes.ios) {
+          initAPN();
         }
       }
 
       function subscribe(tag) {
+        switch (platformType) {
+          case platformTypes.android:
+            subscribeAndroid(tag);
+            break;
+          case platformTypes.ios:
+            subscribeIOS(tag);
+            break;
+          default:
+            console.log("Push notifications not supported.");
+        }
+      }
+
+      function subscribeAndroid(tag){
         if (!app.gcmId) {
           alert("Device registration token unknown.");
           return;
-        }
-
-        if (!hub) {
-          alert("Push notifications not initialized.");
         }
 
         // Template registration.
         var template = "{ \"data\" : {\"message\":\"$(message)\"}}";
 
         hub.gcm.register(app.gcmId, [tag], "myTemplate", template).done(function () {
+          console.log("Registered with hub!");
+        }).fail(function (error) {
+          alert("Failed registering with hub: " + error);
+        });
+      }
+
+      function subscribeIOS(tag){
+        if (!app.apnToken) {
+          alert("Device registration token unknown.");
+          return;
+        }
+
+        // Template registration.
+        var template = "{ \"data\" : {\"message\":\"$(message)\"}}";
+
+        hub.apns.register(app.apnToken, [tag], "myTemplate", template).done(function () {
           console.log("Registered with hub!");
         }).fail(function (error) {
           alert("Failed registering with hub: " + error);
@@ -82,6 +109,20 @@ var app = app || {};
 
         $cordovaPush.register(androidConfig).then(function (result) {
           console.log("$cordovaPush.register: " + result);
+        }, function (err) {
+          alert(err);
+        });
+      }
+
+      function initAPN(){
+        var iosConfig = {
+          "badge": "true",
+          "ecb": "app.onNotificationAPN"
+        }
+
+        $cordovaPush.register(iosConfig).then(function (result) {
+          console.log("$cordovaPush.register - device token: " + result);
+          app.apnToken = result;
         }, function (err) {
           alert(err);
         });
@@ -115,5 +156,23 @@ var app = app || {};
         break;
     }
   };
+
+  app.onNotificationAPN = function (event){
+    if (event.message){
+      // Display the alert message in an alert.
+      alert(event);
+    }
+
+    // // Other possible notification stuff we don't use in this sample.
+    // if (event.sound){
+    // var snd = new Media(event.sound);
+    // snd.play();
+    // }
+
+    // if (event.badge){
+
+    // pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+    // }
+  }
 })();
 
