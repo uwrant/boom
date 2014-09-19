@@ -8,7 +8,7 @@
     // the 2nd parameter is an array of 'requires'
     // 'starter.services' is found in services.js
     // 'starter.controllers' is found in controllers.js
-    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults', 'scanSurvey'])
+    angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'surveyResults', 'scanSurvey', 'settings'])
 
         .run(function($ionicPlatform, pushNotifications) {
             $ionicPlatform.ready(function() {
@@ -62,6 +62,18 @@
                         }
                     }
                 })
+
+                // Adjust Username
+                .state('tab.settings', {
+                    url: '/settings',
+                    views: {
+                        'tab-settings': {
+                            templateUrl: 'js/settings/settings.html',
+                            controller: 'SettingsCtrl as settings'
+                        }
+                    }
+                })
+
                 .state('tab.survey-detail', {
                     url: '/survey/:surveyId',
                     views: {
@@ -71,7 +83,7 @@
                         }
                     }})
 
-                .state('tab.friends', {
+                .state('tab.results', {
                     url: '/results',
                     views: {
                         'tab-results': {
@@ -80,7 +92,7 @@
                         }
                     }
                 })
-                .state('tab.friend-detail', {
+                .state('tab.result-detail', {
                     url: '/results/:surveyId',
                     views: {
                         'tab-results': {
