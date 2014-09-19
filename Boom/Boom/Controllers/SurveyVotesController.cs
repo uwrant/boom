@@ -23,6 +23,7 @@ namespace Boom.Controllers
             var options = this.boomContext.Votes
                 .Where(v => v.Participant.Survey.Id == surveyId)
                 .Include(v => v.Options)
+                .Include(v => v.Options.Select(o => o.Option))
                 .Include(v => v.Participant)
                 .ToList();
             return this.JsonSerialized(options);
