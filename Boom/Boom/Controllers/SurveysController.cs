@@ -66,7 +66,10 @@ namespace Boom.Controllers
         // GET: /surveys/{id}
         public IActionResult Get(long id)
         {
-            var survey = this.boomContext.Surveys.SingleOrDefault(s => s.Id == id);
+            var survey = this.boomContext.Surveys
+                .Include(s => s.Options)
+                .Include(s => s.Participants)
+                .SingleOrDefault(s => s.Id == id);
 
             if (survey == null)
             {
