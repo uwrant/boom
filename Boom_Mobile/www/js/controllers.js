@@ -6,28 +6,15 @@ angular.module('starter.controllers', [])
         $scope.surveys = SurveyRest.allByParticipant({participant: participant});
     })
 
-    .controller('SurveyDetailCtrl', function ($scope, $stateParams, $state, $localstorage, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+    .controller('SurveyDetailCtrl', function ($scope, $stateParams, $state, $localstorage, SurveyRest, VotesRest) {
         $scope.survey = SurveyRest.get({id: $stateParams.surveyId});
-        $scope.participant = {Id: undefined};
-
-        $scope.participate = function (participant) {
-
-            $scope.participant = participant;
-            ParticipantsRest.create({
-                surveyId: $scope.survey.Id,
-                Name: $scope.participant.Name
-            }).$promise.then(function (participant) {
-                    $scope.participant = participant;
-                    pushNotifications.subscribe($scope.survey.Id);
-                });
-        };
 
         $scope.vote = function () {
             var options = selectedOptions($scope.survey.Options);
             VotesRest.create({
                 surveyId: $scope.survey.Id,
                 Participant: {
-                    Id: $scope.participant.Id
+                    Id: $localstorage.get('userId')
                 },
                 Options: options
             }).$promise.then(function () {
@@ -40,12 +27,7 @@ angular.module('starter.controllers', [])
                 .Where(function (option) {
                     return option.selected;
                 })
-                //.Select(function(item){ return item; })
                 .ToArray();
-        };
-
-        $scope.hasJoined = function () {
-            return $scope.participant.Id !== undefined;
         };
 
         $scope.hasOptionsSelected = function () {
@@ -61,6 +43,4 @@ angular.module('starter.controllers', [])
         $scope.navigateToResults = function () {
             $state.go('tab.result-detail', {surveyId: $stateParams.surveyId});
         };
-
-        $scope.participate($localstorage.get('userName'))
     });

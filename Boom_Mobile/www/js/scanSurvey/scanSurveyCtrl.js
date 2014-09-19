@@ -51,6 +51,7 @@ angular.module('scanSurvey')
                 surveyId: surveyId,
                 Name: participant
             }).$promise.then(function (participant) {
+                    $localstorage.set('userId', participant.Id)
                     pushNotifications.subscribe(surveyId);
                 });
         };

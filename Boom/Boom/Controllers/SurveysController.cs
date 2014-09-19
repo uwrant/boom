@@ -9,10 +9,12 @@ namespace Boom.Controllers
     public class SurveysController : BoomController
     {
         private BoomContext boomContext;
+        private PushNotificationSender pushNotificationSender;
 
-        public SurveysController(BoomContext boomContext)
+        public SurveysController(BoomContext boomContext, PushNotificationSender pushNotificationSender)
         {
             this.boomContext = boomContext;
+            this.pushNotificationSender = pushNotificationSender;
         }
 
         // GET: /surveys/
@@ -124,6 +126,7 @@ namespace Boom.Controllers
             if (startDate != null)
             {
                 surveyEntity.StartDate = startDate;
+                pushNotificationSender.Send(new PushNotification() { Text = id.ToString(), Tag = id.ToString() });
             }
             else if (endDate != null)
             {
