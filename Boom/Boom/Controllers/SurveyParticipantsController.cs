@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     [ApplicationJsonHeader]
     public class SurveyParticipantsController : BoomController
     {

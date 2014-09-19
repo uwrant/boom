@@ -50,6 +50,15 @@ namespace Boom
                 //  });
             });
 
+            app.Use((context, next) =>
+                {
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+                    context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Origin", "X-Requested-With", "Content-Type", "Accept" });
+
+                    return next();
+
+                });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -86,14 +95,15 @@ namespace Boom
                     template: "{controller}/{id?}");
             });
 
+
             Database.SetInitializer<BoomContext>(new DropCreateDatabaseIfModelChanges<BoomContext>());
+			DbHelper.InitDatabase(app);
 
             //    if (!runningOnMono)
             //{
             //    DbHelper.DropDatabase("BoomDb");
             //    DbHelper.EnsureDbCreated(app);
             //}
-
         }
     }
 }

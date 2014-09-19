@@ -1,17 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('SurveysCtrl', function($scope, SurveyRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+.controller('SurveysCtrl', function($scope, SurveyRest) {
     $scope.surveys = SurveyRest.allOpen();
-
-    $scope.testPush = function (){
-      pushNotifications.subscribe("testTag");
-    }
-
-    $scope.$on(PUSH_NOTIFICATION_EVENT, function(event, message){
-      $scope.$apply(function(){
-        $scope.pushMessage = message;
-      });
-    });
 })
 
 .controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest) {
@@ -23,7 +13,9 @@ angular.module('starter.controllers', [])
             ParticipantsRest.create({
                 surveyId: $scope.survey.Id,
                 participant: $scope.participant
-            });
+            }).$promise.then(function(participant) {
+                    $scope.participant = participant;
+                });
         };
 
         $scope.hasJoined = function(){

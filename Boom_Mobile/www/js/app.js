@@ -70,7 +70,7 @@
                     }
                 })
                 .state('tab.friend-detail', {
-                    url: '/results/:friendId',
+                    url: '/results/:surveyId',
                     views: {
                         'tab-results': {
                             templateUrl: 'js/surveyResults/surveyResult.html',

@@ -29,12 +29,11 @@ angular.module('surveyResults')
                 //but we won't need that this time
                 var chart = d3.select(element[0]);
 
-                var maxCount = JSLINQ(scope.data)
+                var maxCount = Enumerable.From(scope.data)
                     .Select(function(item) { return item.count; })
-                    .OrderByDescending(function(item) { return item; })
-                    .First();
+                    .Max();
 
-                JSLINQ(scope.data).Select(function(item) {
+                Enumerable.From(scope.data).ForEach(function(item) {
                     item.width = ((item.count / maxCount) * 100) - 2 + '%';
 
                     return item.width;

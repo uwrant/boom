@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     [ApplicationJsonHeader]
     public class SurveysController : BoomController
     {
@@ -60,7 +59,7 @@ namespace Boom.Controllers
                     .Include(p => p.Survey)
                     .ToList();
             }
-
+            surveys.ToList();
             return this.JsonSerialized(surveys);
         }
 

@@ -8,6 +8,10 @@ angular.module('starter.services', ['jet.commons'])
                 method: 'GET',
                 isArray: true,
                 params: { open: true }
+            },
+            all: {
+                method: 'GET',
+                isArray: true
             }
         });
     })

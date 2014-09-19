@@ -6,7 +6,6 @@ using System.Net;
 
 namespace Boom.Controllers
 {
-    [AccessControlAllowOrigin("*")]
     [ApplicationJsonHeader]
     public class BacklogsController : BoomController
     {

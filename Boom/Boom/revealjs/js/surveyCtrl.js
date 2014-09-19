@@ -33,7 +33,7 @@
 
             if (typeof vm.survey === 'undefined') {
                 vm.survey = SurveyService.create({
-                    Name: "SurveyName is not defined yet....",
+                    Name: selectedBacklog.Name,
                     CreationDate: new Date(),
                     Options: SurveyOptionsService.getOptions()
                 }, function (data) {
@@ -78,7 +78,7 @@
             $interval.cancel(participantsQueryIntervalPromise);
 
             vm.survey.StartDate = new Date(); //Started
-            SurveyService.patch({ id: vm.survey.Id }, { StartDate: vm.survey.StartDate }, function () { }, function () {
+            SurveyService.patch({ id: vm.survey.Id }, { StartDate: vm.survey.StartDate }, function () { revealService.nextSlide(); }, function () {
                 toaster.pop('error', "", "Error starting the survey!", 10000);
             });
         };
