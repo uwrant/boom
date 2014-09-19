@@ -1,13 +1,15 @@
 angular.module('starter.services', ['jet.commons'])
     .factory('SurveyRest', function (smartResource) {
-        return smartResource('/surveys/:surveyId', {surveyId: '@id'}, {
-            get: {
-                method: 'GET'
-            },
+        return smartResource('/surveys/:id', {id: '@id'}, {
             allOpen: {
                 method: 'GET',
                 isArray: true,
                 params: {open: true}
+            },
+            allByParticipant: {
+                method: 'GET',
+                isArray: true,
+                params: {participant: '@id'}
             },
             all: {
                 method: 'GET',
