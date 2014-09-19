@@ -26,6 +26,7 @@ namespace Boom.Controllers
                 .Include(v => v.Options.Select(o => o.Option))
                 .Include(v => v.Participant)
                 .ToList();
+
             return this.JsonSerialized(options);
         }
 

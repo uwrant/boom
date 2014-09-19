@@ -37,7 +37,7 @@
         return $resource("/surveys/:surveyId/participants", {}, {});
     });
     
-    app.factory("VotesSerivce", function ($resource) {
+    app.factory("VotesService", function ($resource) {
         return $resource("/surveys/:surveyId/votes", {}, {});
     });
 })();
