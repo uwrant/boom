@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
     $scope.surveys = SurveyRest.allOpen();
 })
 
-.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest) {
+.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
         $scope.survey = SurveyRest.get({ id: $stateParams.surveyId });
 
         $scope.participant = {Id: undefined};
@@ -15,6 +15,7 @@ angular.module('starter.controllers', [])
                 participant: $scope.participant
             }).$promise.then(function(participant) {
                     $scope.participant = participant;
+                    pushNotifications.subscribe($scope.survey.Id);
                 });
         };
 
