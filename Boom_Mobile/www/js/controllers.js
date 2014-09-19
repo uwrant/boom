@@ -6,9 +6,10 @@ angular.module('starter.controllers', [])
         $scope.surveys = SurveyRest.allByParticipant({participant: participant});
     })
 
-    .controller('SurveyDetailCtrl', function ($scope, $stateParams, $state, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+    .controller('SurveyDetailCtrl', function ($scope, $stateParams, $state, $localstorage, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
         $scope.survey = SurveyRest.get({id: $stateParams.surveyId});
         $scope.participant = {Id: undefined};
+
         $scope.participate = function (participant) {
 
             $scope.participant = participant;
@@ -60,4 +61,6 @@ angular.module('starter.controllers', [])
         $scope.navigateToResults = function () {
             $state.go('tab.result-detail', {surveyId: $stateParams.surveyId});
         };
+
+        $scope.participate($localstorage.get('userName'))
     });
