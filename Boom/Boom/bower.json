@@ -13,7 +13,8 @@
     "angular-resource": "~1.2.13",
     "font-awesome": "~4.2.0",
     "angular-qr": "~0.2.0",
-    "AngularJS-Toaster": "~0.4.7"
+    "AngularJS-Toaster": "~0.4.7",
+    "d3": "~3.4.11"
   },
   "resolutions": {
     "angular": "1.2.25"
