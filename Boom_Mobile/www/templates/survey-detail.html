@@ -20,8 +20,8 @@
                 </ion-item>
             </ion-list>
             <div ng-show="hasOptionsSelected()">
-                <button class="button button-block button-positive">
-                    Vote
+                <button class="button button-block button-positive" ng-click="vote()">
+                    Vote {{survey.Options}}
                 </button>
             </div>
         </div>
