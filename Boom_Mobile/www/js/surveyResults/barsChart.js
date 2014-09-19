@@ -24,10 +24,17 @@ angular.module('surveyResults')
             scope: {data: '=chartData'},
             link: function (scope, element, attrs) {
 
+            scope.$watch('data', function(newValue, oldValue) {
+                if (newValue === oldValue){
+                    return;
+                }
+
                 //in D3, any selection[0] contains the group
                 //selection[0][0] is the DOM node
                 //but we won't need that this time
                 var chart = d3.select(element[0]);
+
+                // todo: catch empty array
 
                 var maxCount = Enumerable.From(scope.data)
                     .Select(function(item) { return item.count; })
@@ -35,8 +42,6 @@ angular.module('surveyResults')
 
                 Enumerable.From(scope.data).ForEach(function(item) {
                     item.width = ((item.count / maxCount) * 100) - 2 + '%';
-
-                    return item.width;
                 })
 
                 //to our original directive markup bars-chart
@@ -51,6 +56,7 @@ angular.module('surveyResults')
                 //a little of magic: setting it's width based
                 //on the data value (d)
                 //and text all with a smooth transition
+            });
             }
         };
 
