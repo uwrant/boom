@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('boom');
 
-    app.controller("SurveyProgressCtrl", function SurveyProgressCtrl($scope, SurveyService, SurveyOptionsService, VotesSerivce, revealService, toaster, $interval) {
+    app.controller("SurveyProgressCtrl", function SurveyProgressCtrl($scope, SurveyService, SurveyOptionsService, VotesService, revealService, toaster, $interval) {
         'use strict';
 
         var vm = this,
@@ -26,7 +26,7 @@
 
         var getVotes = function () {
             if (typeof vm.survey !== 'undefined') {
-                vm.votes = VotesSerivce.query({ surveyId: vm.survey.Id });
+                vm.votes = VotesService.query({ surveyId: vm.survey.Id });
             }
         };
 
