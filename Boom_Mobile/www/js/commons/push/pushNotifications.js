@@ -134,7 +134,7 @@ var app = app || {};
       case 'registered':
         // Handle the registration.
         if (e.regid.length > 0) {
-          alert("gcm id " + e.regid);
+          console.log("gcmid: " + e.regid);
           app.gcmId = e.regid;
         }
         break;
