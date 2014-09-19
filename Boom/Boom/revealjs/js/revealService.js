@@ -26,6 +26,10 @@
 
     app.factory("revealService", function () {        
         return {
+            nextSlide: function () {
+                Reveal.next();
+            },
+
             navigateToSlide: function (name) {
                 var slide,
                     slides,
