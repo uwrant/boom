@@ -36,6 +36,18 @@ namespace Boom
                     db.SurveyOptions.Add(option3);
                     db.SurveyOptions.Add(option4);
 
+                    var participant1 = new Participant { Name = "Andreas", Survey = TeamPresentationSurvey };
+                    var participant2 = new Participant { Name = "Mathias", Survey = TeamPresentationSurvey };
+                    var participant3 = new Participant { Name = "Christian", Survey = TeamPresentationSurvey };
+                    var participant4 = new Participant { Name = "Stefan", Survey = TeamPresentationSurvey };
+
+                    var vote1 = new Vote { Participant = participant1, Options = (new[] { option1 }).ToList() };
+                    var vote2 = new Vote { Participant = participant1, Options = (new[] { option1, option2 }).ToList() };
+                    var vote3 = new Vote { Participant = participant1, Options = (new[] { option1, option3 }).ToList() };
+                    var vote4 = new Vote { Participant = participant1, Options = (new[] { option1, option4 }).ToList() };
+
+                    db.Votes.AddRange(new[] { vote1, vote2, vote3, vote4 });
+
                     db.SaveChanges();
                 }
             }

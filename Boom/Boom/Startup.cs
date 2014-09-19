@@ -58,6 +58,11 @@ namespace Boom
                   defaults: new { controller = "SurveyVotes" });
 
                 routes.MapRoute(
+                    name: "SurveyResultsRoute",
+                    template: "surveys/{surveyId}/result",
+                    defaults: new { controller = "SurveyResults" });
+
+                routes.MapRoute(
                     name: "OptionsRoute",
                     template: "options/{optionId}",
                     defaults: new { controller = "Options" });
@@ -69,7 +74,7 @@ namespace Boom
 
 
             Database.SetInitializer<BoomContext>(new DropCreateDatabaseIfModelChanges<BoomContext>());
-			DbHelper.InitDatabase(app);
+            DbHelper.InitDatabase(app);
         }
     }
 }

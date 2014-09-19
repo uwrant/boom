@@ -4,11 +4,12 @@ angular.module('starter.controllers', [])
     $scope.surveys = SurveyRest.allOpen();
 })
 
-.controller('SurveyDetailCtrl', function($scope, $stateParams, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
+.controller('SurveyDetailCtrl', function($scope, $stateParams, $state, SurveyRest, ParticipantsRest, VotesRest, pushNotifications, PUSH_NOTIFICATION_EVENT) {
         $scope.survey = SurveyRest.get({ id: $stateParams.surveyId });
 
         $scope.participant = {Id: undefined};
         $scope.participate = function (participant) {
+
             $scope.participant = participant;
             ParticipantsRest.create({
                 surveyId: $scope.survey.Id,
@@ -46,5 +47,9 @@ angular.module('starter.controllers', [])
                 }
             });
             return optSelected;
+        };
+
+        $scope.navigateToResults = function() {
+            $state.go('tab.result-detail', { surveyId: $stateParams.surveyId });
         };
 });

@@ -19,6 +19,5 @@ namespace Boom
         public DbSet<SurveyOption> SurveyOptions { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Participant> Participants { get; set; }
-        public DbSet<SurveyOptionVote> SurveyOptionVotes { get; set; }
     }
 }
