@@ -22,4 +22,13 @@ angular.module('starter.services', ['jet.commons'])
             }
         })
     }
+)
+
+.factory('VotesRest', function(smartResource) {
+    return smartResource('/surveys/:surveyId/votes', { surveyId:'@surveyId' }, {
+        create:{
+            method: 'POST'
+        }
+    })
+}
 );
