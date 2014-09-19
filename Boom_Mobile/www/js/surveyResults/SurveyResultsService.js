@@ -1,7 +1,7 @@
 (function(angular){
     angular.module('surveyResults')
         .factory('VotesRest', function(smartResource) {
-            return smartResource('/surveys/:id/result', {}, {
+            return smartResource('/surveys/:id/results', {}, {
             });
         });
 })(angular);

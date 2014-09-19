@@ -7,7 +7,7 @@
     // -Windows
     // -Azure
     // -WindowsDebug
-    var backend = 'Azure';
+    var backend = 'Windows';
 
     switch(backend) {
         case 'Mac':

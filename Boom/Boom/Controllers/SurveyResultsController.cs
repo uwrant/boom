@@ -21,41 +21,52 @@ namespace Boom.Controllers
         // GET: /surveys/{surveyId}/result
         public IActionResult Get(long surveyId)
         {
-            var survey = this.boomContext.Surveys.Include(t => t.Participants).Include(t => t.Options).SingleOrDefault(t => t.Id == surveyId);
-
-            if (survey == null)
+            var options = new[]
             {
-                return this.HttpNotFound();
-            }
+                new { Description = "Kart fahren", Count = 12 },
+                new { Description = "Eis essenn", Count = 7 },
+                new { Description = "Grillebn", Count = 2 },
+                new { Description = "Lasertag", Count = 19 },
+                new { Description = "Klettern", Count = 13 }
+            };
 
-            Dictionary<string, int> result = new Dictionary<string, int>();
+            return this.JsonSerialized(options);
 
-            foreach (SurveyOption option in survey.Options)
-            {
-                result.Add(option.Description, 0);
-            }
+            // var survey = this.boomContext.Surveys.Include(t => t.Participants).Include(t => t.Options).SingleOrDefault(t => t.Id == surveyId);
 
-            List<Vote> votes = new List<Vote>();
+            // if (survey == null)
+            // {
+            //     return this.HttpNotFound();
+            // }
 
-            foreach (var participant in survey.Participants)
-            {
-                votes.AddRange(this.boomContext.Votes.Where(p => p.Participant.Id == participant.Id));
-            }
+            // Dictionary<string, int> result = new Dictionary<string, int>();
 
-            foreach (Vote vote in votes)
-            {
-                foreach (SurveyOption option in vote.Options)
-                {
-                    if (!result.ContainsKey(option.Description))
-                    {
-                        result.Add(option.Description, 0);
-                    }
+            // foreach (SurveyOption option in survey.Options)
+            // {
+            //     result.Add(option.Description, 0);
+            // }
 
-                    result[option.Description] = result[option.Description] + 1;
-                }
-            }
+            // List<Vote> votes = new List<Vote>();
 
-            return this.JsonSerialized(result.Select(r => new { Description = r.Key, Count = r.Value }));
+            // foreach (var participant in survey.Participants)
+            // {
+            //     votes.AddRange(this.boomContext.Votes.Where(p => p.Participant.Id == participant.Id));
+            // }
+
+            // foreach (Vote vote in votes)
+            // {
+            //     foreach (SurveyOption option in vote.Options)
+            //     {
+            //         if (!result.ContainsKey(option.Description))
+            //         {
+            //             result.Add(option.Description, 0);
+            //         }
+
+            //         result[option.Description] = result[option.Description] + 1;
+            //     }
+            // }
+
+            // return this.JsonSerialized(result.Select(r => new { Description = r.Key, Count = r.Value }));
         }
     }
 }
