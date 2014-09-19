@@ -121,6 +121,7 @@ var app = app || {};
         }
 
         $cordovaPush.register(iosConfig).then(function (result) {
+          alert("$cordovaPush.register - device token: " + result);
           console.log("$cordovaPush.register - device token: " + result);
           app.apnToken = result;
         }, function (err) {
@@ -158,9 +159,11 @@ var app = app || {};
   };
 
   app.onNotificationAPN = function (event){
+    alert(event);
+
     if (event.message){
       // Display the alert message in an alert.
-      alert(event);
+      alert(event.message);
     }
 
     // // Other possible notification stuff we don't use in this sample.
