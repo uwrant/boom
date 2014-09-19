@@ -1,7 +1,7 @@
 (function () {
     angular.module('boom')
 
-    .controller('SurveyResultCtrl', function ($scope, VotesService, SurveyOptionsService, toaster, revealService) {
+    .controller('SurveyResultCtrl', function ($scope, ResultsService, SurveyOptionsService, toaster, revealService) {
         var vm = this;
 
         vm.results = Enumerable.From([
@@ -31,21 +31,8 @@
             if (checkPreConditions()) {
                 var survey = SurveyOptionsService.getCurrentSurvey();
 
-                VotesService.query({ surveyId: survey.Id }, function (data) {
-                    var votes = Enumerable.From(data).SelectMany(function (s) { return s.Options; }).ToArray();
-                    var results = [];
-
-                    votes.forEach(function (vote) {
-                        if (Enumerable.From(results).Any(function (p) { return p.Id == vote.Option.Id }) == false) {
-                            results.Add({ Id: vote.Option.Id, label: vote.Option.Description, count: vote.Weight });
-                        } else {
-                            var result = Enumerable.From(results).First(function (p) { return p.Id == vote.Option.Id });
-                            result.Weight += vote.Weight;
-                        }
-                    });
-
-                    vm.results = Enumerable.From(results).OrderByDescending(function (e) { return e.count; }).ToArray();
-
+                ResultsService.query({ surveyId: survey.Id }, function (data) {
+                    vm.results = Enumerable.From(data).OrderByDescending(function (o) { return o.Count; }).Select(function (e) { return { label: e.Description, count: e.Count }; }).ToArray();
                 });
             }
         });
