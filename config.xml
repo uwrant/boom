@@ -1,25 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.boom911134" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
-  <name>Boom</name>
-  <description>
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.ionicframework.boom911134" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Boom</name>
+    <description>
         An Ionic Framework and Cordova project.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
+    <author email="hi@ionicframework" href="http://ionicframework.com/">
       Ionic Framework Team
     </author>
-  <feature name="http://api.phonegap.com/1.0/device" />
-  <content src="index.html"/>
-  <access origin="*"/>
-  <preference name="webviewbounce" value="false"/>
-  <preference name="UIWebViewBounce" value="false"/>
-  <preference name="DisallowOverscroll" value="true"/>
-  <preference name="BackupWebStorage" value="none"/>
-  <feature name="StatusBar">
-    <param name="ios-package" value="CDVStatusBar" onload="true"/>
-  </feature>
-  <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
-  <gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.0.0" />
-  <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
-  <gap:plugin name="org.apache.cordova.console" version="0.2.11" />
-  <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackupWebStorage" value="none" />
+    <feature name="StatusBar">
+        <param name="ios-package" onload="true" value="CDVStatusBar" />
+    </feature>
+    <feature name="Keyboard">
+        <param name="id" value="com.ionic.keyboard" />
+    </feature>
+    <feature name="BarcodeScanner">
+        <param name="id" value="com.phonegap.plugins.barcodescanner" />
+    </feature>
+    <feature name="PushPlugin">
+        <param name="id" value="com.phonegap.plugins.PushPlugin" />
+    </feature>
+    <feature name="Console">
+        <param name="id" value="org.apache.cordova.console" />
+    </feature>
+    <feature name="Device">
+        <param name="id" value="org.apache.cordova.device" />
+    </feature>
 </widget>
