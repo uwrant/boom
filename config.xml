@@ -16,4 +16,9 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
+  <gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.0.0" />
+  <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
+  <gap:plugin name="org.apache.cordova.console" version="0.2.11" />
+  <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
 </widget>
